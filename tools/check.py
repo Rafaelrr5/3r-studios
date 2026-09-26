@@ -4,8 +4,10 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 ROOT = Path(r"C:\Users\faelr\Downloads\reps\3r-studios")
-OUT = ROOT / "shots"; OUT.mkdir(exist_ok=True)
-URL = (ROOT / "index.html").as_uri()
+OUT = ROOT / ("shots/live" if len(__import__("sys").argv) > 1 else "shots"); OUT.mkdir(parents=True, exist_ok=True)
+import sys
+URL = sys.argv[1] if len(sys.argv) > 1 else (ROOT / "index.html").as_uri()
+print("checking", URL)
 
 CLIP = """(() => [...document.querySelectorAll('h1,h2,.ln,.bd,.go,.more,.say,.chips')]
   .filter(e => e.scrollWidth > e.clientWidth + 1).map(e => e.className || e.tagName))()"""
