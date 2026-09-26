@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-p="cobalt">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3R Studios — C · Track</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="../shared.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--fg)}
+body{font-family:"Bricolage Grotesque",sans-serif;-webkit-font-smoothing:antialiased}
+.m{font-family:"DM Mono",monospace;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+a{color:inherit;text-decoration:none}
+header{position:fixed;inset:0 0 auto;display:flex;justify-content:space-between;padding:22px 32px;z-index:10;mix-blend-mode:difference;color:#fff}
+.prog{position:fixed;left:32px;right:32px;bottom:26px;height:2px;background:var(--line);z-index:10}
+.prog i{position:absolute;inset:0;background:var(--acc);transform-origin:left;transform:scaleX(0)}
+.count{position:fixed;right:32px;bottom:40px;z-index:10;font-variant-numeric:tabular-nums}
+.pin{height:600vh}
+.sticky{position:sticky;top:0;height:100vh;overflow:hidden}
+.track{display:flex;height:100%;will-change:transform}
+.intro{flex:0 0 100vw;display:flex;flex-direction:column;justify-content:center;padding:0 32px}
+.intro h1{font-weight:800;font-size:clamp(80px,17vw,300px);letter-spacing:-.06em;line-height:.8}
+.intro h1 .r{display:inline-block;color:var(--acc);transform-origin:50% 60%;animation:spin 6s cubic-bezier(.7,0,.2,1) infinite}
+@keyframes spin{0%,70%{transform:none}85%,100%{transform:rotate(360deg)}}
+.intro .row{display:flex;justify-content:space-between;align-items:end;margin-top:40px}
+.intro p{font-size:24px;max-width:28ch;line-height:1.25;font-weight:400}
+.plate{flex:0 0 min(78vw,1100px);margin-right:4vw;height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:90px 0 80px}
+.plate .h{display:flex;justify-content:space-between;border-bottom:1px solid var(--fg);padding-bottom:12px}
+.card{margin:22px 0;background:var(--card);border-radius:18px;position:relative;overflow:hidden;display:grid;grid-template-columns:1.15fr 1fr}
+.art{position:relative;overflow:hidden;background:var(--fg)}
+.art .shape{position:absolute;background:var(--acc);will-change:transform}
+.txt{padding:40px;display:flex;flex-direction:column;justify-content:space-between}
+.txt h2{font-weight:700;font-size:clamp(40px,5vw,84px);letter-spacing:-.045em;line-height:.9}
+.txt .ln{font-size:22px;line-height:1.25;margin-top:18px}
+.txt .bd{color:var(--mute);font-size:16px;line-height:1.5;margin-top:14px;max-width:44ch}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips span{background:var(--bg);border-radius:99px;padding:6px 12px}
+.go{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:18px}
+.go b{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--acc);color:var(--bg);transition:transform .4s cubic-bezier(.2,.9,.1,1)}
+.go:hover b{transform:scale(1.18) rotate(-45deg)}
+.big{position:absolute;right:-10px;bottom:-40px;font-weight:800;font-size:260px;letter-spacing:-.08em;color:var(--bg);opacity:.08;line-height:1}
+.end{flex:0 0 70vw;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:clamp(40px,7vw,120px);letter-spacing:-.05em}
+.end a{border-bottom:.08em solid var(--acc)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="m"><span>3R Studios</span><span>Open source · 2026</span><span>GitHub ↗</span></header>
+<div class="pin" id="pin"><div class="sticky"><div class="track" id="track">
+  <section class="intro"><h1>3<span class="r">R</span> Studios</h1><div class="row"><p>Tools built for real work. The code ships with them.</p><span class="m">Scroll → to browse 5 projects</span></div></section>
+</div></div></div>
+<div class="count m" id="count">00 / 05</div>
+<div class="prog"><i id="bar"></i></div>
+<script>
+const T=document.getElementById('track');
+// per-project geometric mark, built from 3 shapes, animated by scroll velocity
+const marks=[
+  [[20,20,40,40,'50%'],[48,48,34,34,'50%'],[10,62,18,18,'0']],
+  [[12,12,56,20,'4px'],[12,40,36,20,'4px'],[12,68,70,20,'4px']],
+  [[30,15,40,70,'999px'],[10,40,80,20,'999px'],[45,45,10,10,'50%']],
+  [[10,60,14,30,'0'],[30,40,14,50,'0'],[50,20,14,70,'0']],
+  [[15,15,70,70,'0 0 100% 0'],[55,55,30,30,'50%'],[15,70,20,15,'0']]
+];
+PROJECTS.forEach((p,i)=>{T.insertAdjacentHTML('beforeend',`<section class="plate"><div class="h m"><span>${String(i+1).padStart(2,'0')} — ${p.lang}</span><span>${p.year} · ★ ${p.stars}</span></div><div class="card"><div class="art">${marks[i].map(([x,y,w,h,r],k)=>`<i class="shape" data-k="${k}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;border-radius:${r}"></i>`).join('')}<span class="big">${String(i+1).padStart(2,'0')}</span></div><div class="txt"><div><h2>${p.name}</h2><p class="ln">${p.line}</p><p class="bd">${p.body}</p></div><div><div class="chips m">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div><br><a class="go" href="${p.url}" target="_blank"><b>↗</b>View the source</a></div></div></div><div class="h m" style="border:0;border-top:1px solid var(--line);padding-top:12px"><span>Open source</span><span>Public on GitHub</span></div></section>`)});
+T.insertAdjacentHTML('beforeend',`<section class="end"><a href="https://github.com/Rafaelrr5" target="_blank">More on GitHub</a></section>`);
+const pin=document.getElementById('pin'),bar=document.getElementById('bar'),cnt=document.getElementById('count'),shapes=[...document.querySelectorAll('.shape')],plates=[...document.querySelectorAll('.plate')];
+let cur=0,tgt=0,last=0,vel=0;
+function measure(){pin.style.height=(T.scrollWidth-innerWidth+innerHeight)+'px'}
+measure();addEventListener('resize',measure);
+function tick(){const max=T.scrollWidth-innerWidth;tgt=Math.min(max,Math.max(0,scrollY));cur+=(tgt-cur)*.12;vel+=((cur-last)-vel)*.2;last=cur;T.style.transform=`translate3d(${-cur}px,0,0)`;bar.style.transform=`scaleX(${cur/max||0})`;
+  const v=Math.max(-40,Math.min(40,vel));shapes.forEach(s=>{const k=+s.dataset.k;s.style.transform=`translate3d(${v*(k-1)*.6}px,${v*(k%2?.4:-.4)}px,0) rotate(${v*(k+1)*.5}deg)`});
+  const n=plates.filter(p=>p.getBoundingClientRect().left<innerWidth*.5).length;cnt.textContent=String(n).padStart(2,'0')+' / 05';
+  if(Math.abs(tgt-cur)>.5||Math.abs(vel)>.05)requestAnimationFrame(tick);else running=false}
+let running=false;function kick(){if(!running){running=true;requestAnimationFrame(tick)}}
+addEventListener('scroll',kick,{passive:true});kick();
+</script>
+</body>
+</html>

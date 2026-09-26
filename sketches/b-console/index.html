@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-p="night">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3R Studios — B · Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="../shared.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--fg)}
+body{font-family:"Instrument Sans",sans-serif;-webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden}
+.m{font-family:"JetBrains Mono",monospace;font-size:12px}
+a{color:inherit;text-decoration:none}
+.bar{display:flex;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line);color:var(--mute)}
+.bar b{color:var(--fg);font-weight:700}
+.bar .acc{color:var(--acc)}
+main{display:grid;grid-template-columns:minmax(320px,38%) 1fr;min-height:0}
+aside{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.intro{padding:40px 28px 28px;border-bottom:1px solid var(--line)}
+.intro h1{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:clamp(40px,5vw,78px);letter-spacing:-.06em;line-height:.9}
+.intro h1 .c{display:inline-block;width:.55em;height:.8em;background:var(--acc);vertical-align:-.05em;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.intro p{margin-top:18px;color:var(--mute);font-size:16px;max-width:36ch;line-height:1.45}
+.intro p em{font-style:normal;color:var(--fg)}
+ol{list-style:none;overflow:auto}
+li{display:grid;grid-template-columns:34px 1fr auto;gap:12px;padding:18px 28px;border-bottom:1px solid var(--line);cursor:pointer;position:relative;transition:color .2s}
+li::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acc);transform:scaleY(0);transition:transform .35s cubic-bezier(.7,0,.2,1)}
+li.on::after{transform:scaleY(1)}
+li .n{color:var(--mute)}
+li .t{font-size:19px;font-weight:500;transition:transform .35s cubic-bezier(.2,.9,.1,1)}
+li:hover .t,li.on .t{transform:translateX(6px)}
+li.on .n{color:var(--acc)}
+li .lg{color:var(--mute)}
+section.stage{position:relative;overflow:hidden}
+.panel{position:absolute;inset:0;padding:48px 56px;display:flex;flex-direction:column;justify-content:space-between;clip-path:inset(0 0 100% 0);transition:clip-path .7s cubic-bezier(.7,0,.2,1)}
+.panel.on{clip-path:inset(0 0 0 0);z-index:2}
+.panel.out{clip-path:inset(100% 0 0 0);transition-duration:.7s}
+.panel .top{display:flex;justify-content:space-between;color:var(--mute)}
+.panel h2{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:clamp(48px,7.4vw,128px);letter-spacing:-.07em;line-height:.88}
+.panel .line{font-size:clamp(20px,2vw,28px);max-width:26ch;line-height:1.25;margin-top:22px}
+.panel .body{color:var(--mute);font-size:17px;max-width:52ch;line-height:1.5;margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.grid div{padding:16px 0;border-right:1px solid var(--line);padding-left:16px}
+.grid div:first-child{padding-left:0}
+.grid div:last-child{border:0}
+.grid span{display:block;color:var(--mute);margin-bottom:6px}
+.btn{display:inline-flex;gap:10px;align-items:center;margin-top:26px;padding:12px 18px;border:1px solid var(--fg);border-radius:2px;position:relative;overflow:hidden;width:max-content}
+.btn::before{content:"";position:absolute;inset:0;background:var(--acc);transform:translateY(101%);transition:transform .35s cubic-bezier(.7,0,.2,1)}
+.btn:hover::before{transform:none}
+.btn:hover{color:var(--bg);border-color:var(--acc)}
+.btn *{position:relative}
+.scr{display:inline-block}
+.foot{display:flex;justify-content:space-between;padding:10px 24px;border-top:1px solid var(--line);color:var(--mute)}
+kbd{border:1px solid var(--line);padding:1px 6px;border-radius:3px;color:var(--fg)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="bar m"><span><b>3R STUDIOS</b> / open-source</span><span class="acc">● building</span><span id="clk">--:--:-- BRT</span></div>
+<main>
+  <aside>
+    <div class="intro"><h1>3R<br>Studios<span class="c"></span></h1><p>Commercial tools, <em>released as open source</em>. Each one runs real work before it ships.</p></div>
+    <ol id="ol"></ol>
+  </aside>
+  <section class="stage" id="stage"></section>
+</main>
+<div class="foot m"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate · <kbd>↵</kbd> open repo</span><span>github.com/Rafaelrr5</span></div>
+<script>
+const ol=document.getElementById('ol'),st=document.getElementById('stage');
+PROJECTS.forEach((p,i)=>{
+  ol.insertAdjacentHTML('beforeend',`<li data-i="${i}"><span class="n m">${String(i+1).padStart(2,'0')}</span><span class="t">${p.name}</span><span class="lg m">${p.lang}</span></li>`);
+  st.insertAdjacentHTML('beforeend',`<article class="panel"><div class="top m"><span>${String(i+1).padStart(2,'0')} / ${String(PROJECTS.length).padStart(2,'0')}</span><span>${p.year}</span></div><div><h2 class="scr" data-t="${p.name}">${p.name}</h2><p class="line">${p.line}</p><p class="body">${p.body}</p><a class="btn m" href="${p.url}" target="_blank"><span>view source</span><span>↗</span></a></div><div class="grid m"><div><span>language</span>${p.lang}</div><div><span>stars</span>${p.stars}</div><div><span>status</span>public</div><div><span>focus</span>${p.tags[0]}</div></div></article>`);
+});
+const lis=[...ol.children],pans=[...st.children];let cur=-1;
+const G='!<>-_\\/[]{}—=+*^?#01';
+function scramble(el){const t=el.dataset.t;let f=0;const tot=18;(function s(){el.textContent=[...t].map((c,i)=>c===' '?' ':(f/tot>i/t.length?c:G[Math.random()*G.length|0])).join('');if(++f<=tot)requestAnimationFrame(s);else el.textContent=t})()}
+function go(i){if(i===cur)return;i=(i+PROJECTS.length)%PROJECTS.length;if(cur>=0){lis[cur].classList.remove('on');const o=pans[cur];o.classList.remove('on');o.classList.add('out');setTimeout(()=>o.classList.remove('out'),700)}cur=i;lis[i].classList.add('on');pans[i].classList.add('on');scramble(pans[i].querySelector('h2'))}
+ol.addEventListener('pointerover',e=>{const l=e.target.closest('li');if(l)go(+l.dataset.i)});
+addEventListener('keydown',e=>{if(e.key==='ArrowDown')go(cur+1);if(e.key==='ArrowUp')go(cur-1);if(e.key==='Enter')open(PROJECTS[cur].url)});
+go(0);
+const clk=document.getElementById('clk');setInterval(()=>clk.textContent=new Date().toLocaleTimeString('pt-BR',{timeZone:'America/Sao_Paulo'})+' BRT',1000);
+</script>
+</body>
+</html>
