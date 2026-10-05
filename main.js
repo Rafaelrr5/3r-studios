@@ -42,7 +42,7 @@
     prefs.contrast ? (root.dataset.contrast = "high") : delete root.dataset.contrast;
     prefs.underline ? (root.dataset.underline = "on") : delete root.dataset.underline;
     const dark = prefs.theme === "dark" || (prefs.theme === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
-    document.querySelector('meta[name="theme-color"]').content = getComputedStyle(root).getPropertyValue("--bg").trim() || (dark ? "#070A1C" : "#EDEEF2");
+    document.querySelector('meta[name="theme-color"]').content = getComputedStyle(root).getPropertyValue("--bg").trim() || (dark ? "#0B0A0F" : "#F5F2FA");
     if (root.lang !== prefs.lang) applyLang(prefs.lang); else measure();
   }
   function syncForm() {
