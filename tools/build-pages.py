@@ -23,7 +23,7 @@ def build(source, output):
     files = [source / name for name in STATIC]
     game = source / 'jogar' / 'arrumadinho'
     files += [game / 'index.html']
-    for folder, extensions in [('assets', {'.png'}), ('src', {'.cjs'})]:
+    for folder, extensions in [('assets', {'.png'}), ('src', {'.js'})]:
         files += [p for p in (game / folder).rglob('*') if p.is_file() and p.suffix in extensions]
     for p in files:
         if not p.is_file() or not p.resolve().is_relative_to(source) or p.is_symlink():

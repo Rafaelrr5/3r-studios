@@ -14,7 +14,7 @@ class PagesBuildTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             source, output = Path(tmp) / 'source', Path(tmp) / 'upload'
             for name in (*MODULE.STATIC, 'jogar/arrumadinho/index.html',
-                         'jogar/arrumadinho/assets/player.png', 'jogar/arrumadinho/src/game.cjs',
+                         'jogar/arrumadinho/assets/player.png', 'jogar/arrumadinho/src/game.js',
                          '.env', 'README.md', 'painel/dados.json', 'downloads/private.zip',
                          'jogar/arrumadinho/assets/secret.json', 'jogar/arrumadinho/src/secret.py'):
                 p = source / name
@@ -25,7 +25,7 @@ class PagesBuildTests(unittest.TestCase):
             self.assertEqual(count, len(actual))
             self.assertEqual(actual, set(MODULE.STATIC) | {
                 'jogar/arrumadinho/index.html', 'jogar/arrumadinho/assets/player.png',
-                'jogar/arrumadinho/src/game.cjs'})
+                'jogar/arrumadinho/src/game.js'})
             with self.assertRaises(ValueError):
                 MODULE.build(source, output)
             with self.assertRaises(ValueError):

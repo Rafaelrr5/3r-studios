@@ -124,4 +124,11 @@ t("published download buttons match the release manifest and ZIPs stay out of Gi
   assert.match(fs.readFileSync(path.join(root, ".gitignore"), "utf8"), /downloads\/\*\.zip/);
 });
 
+t("browser game uses executable .js assets instead of server-only .cjs MIME types", () => {
+  const html = fs.readFileSync(path.join(root, "jogar/arrumadinho/index.html"), "utf8");
+  const scripts = [...html.matchAll(/<script\s+src="([^"]+)"/g)].map(m => m[1]);
+  assert.deepEqual(scripts, ["src/progression.js", "src/game-state.js"]);
+  for (const script of scripts) new vm.Script(fs.readFileSync(path.join(root, "jogar/arrumadinho", script), "utf8"));
+});
+
 console.log(`${n} tests passed`);
