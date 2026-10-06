@@ -3,3 +3,4 @@ sketches/shots/
 __pycache__/
 # Downloadable binaries are published as GitHub Release assets.
 downloads/*.zip
+.wrangler/
