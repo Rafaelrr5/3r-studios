@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "file": "ExtratoClaro-Windows-x64.zip",
+      "url": "https://github.com/Rafaelrr5/financas-br/releases/download/v0.1.0-windows-preview/ExtratoClaro-Windows-x64.zip",
+      "bytes": 14131289,
+      "sha256": "99d6f4108846cda44d8b44c9c3bd044756a84079275915266f81101098c6ecdf"
+    },
+    {
+      "file": "Claude-Autosend-Windows-x64.zip",
+      "url": "https://github.com/Rafaelrr5/claude-autosend/releases/download/v0.1.0-windows-preview/Claude-Autosend-Windows-x64.zip",
+      "bytes": 39487726,
+      "sha256": "2d636aecef6a6d46fb779cbe5dbfcc155c64305e1a1b46bc85cf80754b7c1f18"
+    }
+  ]
+}

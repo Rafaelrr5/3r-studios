@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Baixe os aplicativos da 3R Studios e comece sem usar o terminal.">
+  <title>Começar a usar · 3R Studios</title>
+  <link rel="stylesheet" href="use.css">
+  <script src="use.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main" data-copy="skip">Pular para as instruções</a>
+  <header>
+    <a class="brand" href="./">3R<span>STUDIOS</span></a>
+    <label><span data-copy="language">Idioma</span><select id="language"><option value="pt-BR">Português</option><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label>
+  </header>
+  <main id="main">
+    <p class="eyebrow" data-copy="eyebrow">PARA COMEÇAR</p>
+    <h1 data-copy="title">Baixe. Abra. Use.</h1>
+    <p class="intro" data-copy="intro">Aplicativos que rodam no seu computador. Você não precisa clonar um repositório nem abrir o terminal.</p>
+    <nav aria-label="Aplicativos" id="apps"><a href="#extrato-claro">Extrato Claro</a><a href="#claude-autosend">Claude Autosend</a></nav>
+    <section id="extrato-claro" class="app" aria-labelledby="finance-title">
+      <div class="heading"><span class="number" aria-hidden="true">01</span><div><p class="eyebrow">WINDOWS 10/11 · 64 BITS</p><h2 id="finance-title">Extrato Claro</h2></div></div>
+      <p data-copy="financeIntro">Veja e organize seus extratos do Inter e da B3. Os dados ficam no seu computador, sem conta na nuvem.</p>
+      <a class="download" href="https://github.com/Rafaelrr5/financas-br/releases/download/v0.1.0-windows-preview/ExtratoClaro-Windows-x64.zip" download data-copy="download">Baixar para Windows</a>
+      <p class="meta" id="finance-size"></p>
+      <ol><li data-copy="extract">Clique com o botão direito no ZIP e escolha “Extrair tudo”. Não abra o aplicativo de dentro do ZIP.</li><li data-copy="financeOpen">Na pasta ExtratoClaro, abra ExtratoClaro.exe. O painel aparece no navegador.</li><li data-copy="financeUse">No painel, abra “Importar PDF”, escolha seu extrato ou fatura e importe. Use “Triar” para organizar os gastos sem categoria.</li></ol>
+      <div class="note"><h3 data-copy="privacyTitle">Seus dados são seus</h3><p data-copy="privacy">Os extratos não saem do computador. Para encerrar, use “Fechar o aplicativo” na janela do Extrato Claro. Feche o app antes de copiar fin.db para fazer backup.</p><p data-copy="financeLimit">A conexão com Mercado Pago é opcional e não vem configurada. Esta versão não é uma conta bancária nem uma recomendação de investimento.</p></div>
+    </section>
+    <section id="claude-autosend" class="app" aria-labelledby="claude-title">
+      <div class="heading"><span class="number" aria-hidden="true">02</span><div><p class="eyebrow">WINDOWS 10/11 · 64 BITS</p><h2 id="claude-title">Claude Autosend</h2></div></div>
+      <p data-copy="claudeIntro">Escreva uma tarefa e escolha quando enviá-la ao Claude Code. Você configura o agendamento no navegador.</p>
+      <a class="download" href="https://github.com/Rafaelrr5/claude-autosend/releases/download/v0.1.0-windows-preview/Claude-Autosend-Windows-x64.zip" download data-copy="download">Baixar para Windows</a>
+      <p class="meta" id="claude-size"></p>
+      <ol><li data-copy="extract">Clique com o botão direito no ZIP e escolha “Extrair tudo”. Não abra o aplicativo de dentro do ZIP.</li><li data-copy="claudeOpen">Abra o arquivo Abrir-Claude-Autosend.vbs na pasta extraída. O Node já vem no pacote.</li><li data-copy="claudeUse">No painel, escolha o horário, adicione uma sessão e escreva a tarefa. Confira a pasta do projeto antes de agendar.</li></ol>
+      <div class="note"><h3 data-copy="claudeNeedTitle">Precisa do Claude Code</h3><p data-copy="claudeNeed">Você precisa instalar o Claude Code e conectar sua própria conta antes de enviar tarefas. O pacote não inclui uma assinatura nem acesso ao Claude.</p><a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener" data-copy="claudeDocs">Instalação oficial do Claude Code (nova aba)</a><p data-copy="claudeLimit">O computador deve ficar ligado e acordado. As permissões normais continuam ativas; uma tarefa pode esperar sua aprovação. O modo “janela existente” precisa da área de trabalho desbloqueada e pode mudar o foco.</p></div>
+    </section>
+    <aside class="warning"><h2 data-copy="warningTitle">Antes de abrir um programa</h2><p data-copy="warning">Estes pacotes ainda não têm assinatura digital. O Windows pode mostrar um alerta. Só execute se reconhecer a origem; não desligue seu antivírus. Confira o nome e o hash do arquivo abaixo.</p><details><summary data-copy="hashTitle">Identificação dos downloads</summary><div id="hashes"></div></details></aside>
+    <noscript><p>Os downloads e as instruções funcionam sem JavaScript. As verificações dos arquivos estão em <a href="downloads/releases.json">releases.json</a>.</p></noscript>
+  </main>
+  <footer><a href="./" data-copy="back">Voltar aos projetos</a><span>3R Studios · Juiz de Fora</span></footer>
+</body>
+</html>

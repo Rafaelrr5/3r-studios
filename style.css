@@ -79,6 +79,8 @@ html[data-contrast="high"] .chips li{border:1px solid var(--fg)}
 .go b{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--acc);color:var(--on-acc);transition:transform .4s var(--ease)}
 .go:hover b,.go:focus-visible b{transform:scale(1.15) rotate(-45deg)}
 
+.load-err{flex:0 0 min(70vw,700px);display:flex;align-items:center;padding:0 var(--pad);font-size:calc(1.25rem * var(--s))}
+.load-err p{border:2px solid var(--acc);border-radius:18px;padding:24px;max-width:36ch}
 .end{flex:0 0 min(70vw,900px);display:flex;flex-direction:column;justify-content:center;gap:22px;padding:0 var(--pad) 0 2vw}
 .say{font-size:calc(clamp(26px,3vw,44px) * var(--s));font-weight:500;letter-spacing:-.03em;line-height:1.12;max-width:22ch}
 .outs{display:flex;flex-direction:column;align-items:flex-start;gap:22px}

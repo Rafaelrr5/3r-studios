@@ -13,7 +13,9 @@ window.I18N = {
     desc: "3R Studios is a studio from Juiz de Fora, Brazil. It makes Resenhópolis, the map of what's on tonight, and DeejAI, AI music production.",
     skip: "Skip to projects", tag: "Product studio · Juiz de Fora", nav: "Main",
     intro: "We build for nights out, for music, and for people who build.",
-    hintD: "Scroll or use ← → to browse 7 projects", hintM: "Scroll to browse 7 projects",
+    hintD: "Scroll or use ← → to browse {n} projects", hintM: "Scroll to browse {n} projects",
+    hintD1: "Scroll or use ← → to see 1 project", hintM1: "Scroll to see 1 project", hint0: "No projects to show yet",
+    open: "Open the project", loadErr: "The project list could not be loaded. Please reload the page.",
     view: "View the source", newtab: "(opens in a new tab)", projects: "Projects",
     endLoc: "3R Studios · Juiz de Fora, Brazil",
     endSay: "3R Studios, by Rafael Rocha. Everything here gets real use before it is published.",
@@ -47,7 +49,9 @@ window.I18N = {
     desc: "3R Studios é um estúdio de Juiz de Fora. Faz o Resenhópolis, o mapa das resenhas, e o DeejAI, produção musical com IA.",
     skip: "Pular para os projetos", tag: "Estúdio de produtos · Juiz de Fora", nav: "Principal",
     intro: "A gente faz produto para o rolê, para a música e para quem constrói.",
-    hintD: "Role ou use ← → para ver 7 projetos", hintM: "Role para ver 7 projetos",
+    hintD: "Role ou use ← → para ver {n} projetos", hintM: "Role para ver {n} projetos",
+    hintD1: "Role ou use ← → para ver 1 projeto", hintM1: "Role para ver 1 projeto", hint0: "Nenhum projeto por enquanto",
+    open: "Abrir o projeto", loadErr: "Não foi possível carregar a lista de projetos. Recarregue a página.",
     view: "Ver o código", newtab: "(abre em nova aba)", projects: "Projetos",
     endLoc: "3R Studios · Juiz de Fora, Brasil",
     endSay: "3R Studios, de Rafael Rocha. Tudo aqui é usado de verdade antes de ser publicado.",
@@ -81,7 +85,9 @@ window.I18N = {
     desc: "3R Studios est un studio de Juiz de Fora, au Brésil. Il fait Resenhópolis, la carte des sorties du soir, et DeejAI, la production musicale avec l’IA.",
     skip: "Aller aux projets", tag: "Studio de produits · Juiz de Fora", nav: "Principale",
     intro: "Nous faisons des produits pour sortir, pour la musique et pour ceux qui construisent.",
-    hintD: "Faites défiler ou utilisez ← → pour parcourir 7 projets", hintM: "Faites défiler pour parcourir 7 projets",
+    hintD: "Faites défiler ou utilisez ← → pour parcourir {n} projets", hintM: "Faites défiler pour parcourir {n} projets",
+    hintD1: "Faites défiler ou utilisez ← → pour voir 1 projet", hintM1: "Faites défiler pour voir 1 projet", hint0: "Aucun projet pour l’instant",
+    open: "Ouvrir le projet", loadErr: "Impossible de charger la liste des projets. Rechargez la page.",
     view: "Voir le code", newtab: "(s’ouvre dans un nouvel onglet)", projects: "Projets",
     endLoc: "3R Studios · Juiz de Fora, Brésil",
     endSay: "3R Studios, par Rafael Rocha. Tout ici sert pour de vrai avant d’être publié.",
@@ -115,7 +121,9 @@ window.I18N = {
     desc: "3R Studios es un estudio de Juiz de Fora, Brasil. Hace Resenhópolis, el mapa de los planes de hoy, y DeejAI, producción musical con IA.",
     skip: "Saltar a los proyectos", tag: "Estudio de productos · Juiz de Fora", nav: "Principal",
     intro: "Hacemos productos para salir, para la música y para quien construye.",
-    hintD: "Desplázate o usa ← → para ver 7 proyectos", hintM: "Desplázate para ver 7 proyectos",
+    hintD: "Desplázate o usa ← → para ver {n} proyectos", hintM: "Desplázate para ver {n} proyectos",
+    hintD1: "Desplázate o usa ← → para ver 1 proyecto", hintM1: "Desplázate para ver 1 proyecto", hint0: "Todavía no hay proyectos",
+    open: "Abrir el proyecto", loadErr: "No se pudo cargar la lista de proyectos. Recarga la página.",
     view: "Ver el código", newtab: "(se abre en una pestaña nueva)", projects: "Proyectos",
     endLoc: "3R Studios · Juiz de Fora, Brasil",
     endSay: "3R Studios, de Rafael Rocha. Todo aquí se usa de verdad antes de publicarse.",
@@ -137,3 +145,53 @@ window.I18N = {
     p5bd: "Programa un prompt ahora y llega a la sesión abierta de la CLI a la hora exacta que definiste. Pequeño, solo Node, solo Windows."
   }
 };
+
+// Product copy stays translated; the catalog holds names, visibility and destinations.
+Object.assign(window.I18N.en, {
+  p4ln: "Your statements, explained on your own computer.",
+  p4bd: "Download Extrato Claro for Windows, extract the folder and open the app. Import Inter and B3 PDFs and organise expenses in your browser. Your data stays on your computer; no Python installation is needed. Mercado Pago connection is optional and needs your own token.",
+  p5ln: "Choose the task now. Claude Code starts at the time you set.",
+  p5bd: "Download, extract and open the Windows app. Set the time and write the task in your browser. Node is included; Claude Code must already be installed and signed in. Keep the computer awake. Normal approval prompts still apply.",
+  qmln: "Find your next film, or test what you know about cinema.",
+  qmbd: "Open Qual Mon Movie in your browser for film recommendations and a cinema quiz. You do not need to download a program.",
+  bnln: "Play BlinkNinja in your browser.",
+  bnbd: "Open the web game on your computer or phone. No installer or programming knowledge is needed.",
+  arln: "Clean, decorate and make a little house your own.",
+  arbd: "Play the Arrumadinho prototype right here in your browser. Use the arrow keys or WASD to walk, Space to clean and the mouse to decorate. Touch controls work on phones. Progress stays in this browser."
+});
+Object.assign(window.I18N["pt-BR"], {
+  p4ln: "Seus extratos, mais claros no seu computador.",
+  p4bd: "Baixe o Extrato Claro para Windows, extraia a pasta e abra o aplicativo. Importe PDFs do Inter e da B3 e organize os gastos no navegador. Seus dados ficam no computador; não precisa instalar Python. A conexão com Mercado Pago é opcional e exige seu próprio token.",
+  p5ln: "Escolha a tarefa agora. O Claude Code começa no horário marcado.",
+  p5bd: "Baixe, extraia e abra o aplicativo para Windows. Escolha o horário e escreva a tarefa no navegador. O Node já vem junto; você precisa ter o Claude Code instalado e conectado à sua conta. Mantenha o computador acordado. As permissões normais continuam valendo.",
+  qmln: "Encontre seu próximo filme ou teste o que sabe de cinema.",
+  qmbd: "Abra o Qual Mon Movie no navegador para ver recomendações de filmes e jogar o quiz de cinema. Não precisa baixar um programa.",
+  bnln: "Jogue BlinkNinja direto no navegador.",
+  bnbd: "Abra o jogo web no computador ou no celular. Não precisa instalar nem saber programar.",
+  arln: "Limpe, decore e deixe uma casinha com a sua cara.",
+  arbd: "Jogue o protótipo de Arrumadinho aqui mesmo no navegador. Ande com as setas ou WASD, limpe com Espaço e decore com o mouse. No celular, use os controles de toque. O progresso fica neste navegador."
+});
+Object.assign(window.I18N.es, {
+  p4ln: "Tus extractos, más claros en tu ordenador.",
+  p4bd: "Descarga Extrato Claro para Windows, extrae la carpeta y abre la aplicación. Importa PDF de Inter y B3 y organiza los gastos en el navegador. Los datos se quedan en tu ordenador; no necesitas instalar Python. Mercado Pago es opcional y requiere tu propio token.",
+  p5ln: "Elige la tarea ahora. Claude Code empieza a la hora que fijes.",
+  p5bd: "Descarga, extrae y abre la aplicación para Windows. Elige la hora y escribe la tarea en el navegador. Node viene incluido; necesitas Claude Code instalado y una sesión iniciada. Mantén el ordenador despierto. Los permisos normales siguen vigentes.",
+  qmln: "Encuentra tu próxima película o pon a prueba lo que sabes de cine.",
+  qmbd: "Abre Qual Mon Movie en el navegador para ver recomendaciones y jugar al quiz de cine. No necesitas descargar un programa.",
+  bnln: "Juega a BlinkNinja directamente en el navegador.",
+  bnbd: "Abre el juego web en tu ordenador o móvil. No necesitas instalarlo ni saber programar.",
+  arln: "Limpia, decora y haz tuya una casita.",
+  arbd: "Juega al prototipo de Arrumadinho aquí en el navegador. Camina con las flechas o WASD, limpia con Espacio y decora con el ratón. En el móvil usa los controles táctiles. El progreso se guarda en este navegador."
+});
+Object.assign(window.I18N.fr, {
+  p4ln: "Vos relevés, plus clairs sur votre ordinateur.",
+  p4bd: "Téléchargez Extrato Claro pour Windows, extrayez le dossier et ouvrez l’application. Importez les PDF d’Inter et de B3 et classez vos dépenses dans le navigateur. Les données restent sur votre ordinateur ; Python n’est pas nécessaire. Mercado Pago est facultatif et demande votre propre jeton.",
+  p5ln: "Choisissez la tâche maintenant. Claude Code démarre à l’heure prévue.",
+  p5bd: "Téléchargez, extrayez et ouvrez l’application Windows. Choisissez l’heure et écrivez la tâche dans le navigateur. Node est inclus ; Claude Code doit être installé et connecté à votre compte. Gardez l’ordinateur éveillé. Les autorisations normales restent actives.",
+  qmln: "Trouvez votre prochain film ou testez vos connaissances du cinéma.",
+  qmbd: "Ouvrez Qual Mon Movie dans le navigateur pour des recommandations de films et un quiz de cinéma. Aucun programme à télécharger.",
+  bnln: "Jouez à BlinkNinja dans le navigateur.",
+  bnbd: "Ouvrez le jeu web sur ordinateur ou téléphone. Vous n’avez rien à installer et pas besoin de savoir programmer.",
+  arln: "Nettoyez, décorez et faites d’une petite maison la vôtre.",
+  arbd: "Jouez au prototype d’Arrumadinho ici dans le navigateur. Marchez avec les flèches ou WASD, nettoyez avec Espace et décorez avec la souris. Sur téléphone, utilisez les commandes tactiles. La progression reste dans ce navigateur."
+});

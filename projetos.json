@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "id": "resenhopolis",
+      "template": "rp",
+      "name": "Resenhópolis",
+      "kind": "product",
+      "status": "live",
+      "platform": "Web · Android · iOS",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [],
+      "showCode": false,
+      "codeUrl": "",
+      "useProject": true,
+      "projectUrl": "https://resenhopolis-4dhbuxqtga-ue.a.run.app/"
+    },
+    {
+      "id": "deejai",
+      "template": "dj",
+      "name": "DeejAI",
+      "kind": "product",
+      "status": "dev",
+      "platform": "Web · IA",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [],
+      "showCode": false,
+      "codeUrl": "",
+      "useProject": false,
+      "projectUrl": ""
+    },
+    {
+      "id": "agent-cortex",
+      "template": "p1",
+      "name": "Agent Cortex",
+      "kind": "lab",
+      "status": "",
+      "platform": "Python",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [
+        "memory",
+        "rag",
+        "sqlite",
+        "claude-code"
+      ],
+      "showCode": true,
+      "codeUrl": "https://github.com/Rafaelrr5/agent-cortex",
+      "useProject": false,
+      "projectUrl": ""
+    },
+    {
+      "id": "modpack-assistant",
+      "template": "p2",
+      "name": "Modpack Assistant",
+      "kind": "lab",
+      "status": "",
+      "platform": "TypeScript",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [
+        "electron",
+        "cli",
+        "modrinth",
+        "neoforge"
+      ],
+      "showCode": true,
+      "codeUrl": "https://github.com/Rafaelrr5/Minecraft-Modpack-Assistant",
+      "useProject": false,
+      "projectUrl": ""
+    },
+    {
+      "id": "alexa-hermes",
+      "template": "p3",
+      "name": "Alexa Hermes",
+      "kind": "lab",
+      "status": "",
+      "platform": "Python",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [
+        "voice",
+        "alexa-skill",
+        "serverless",
+        "ntfy"
+      ],
+      "showCode": true,
+      "codeUrl": "https://github.com/Rafaelrr5/alexa-hermes",
+      "useProject": false,
+      "projectUrl": ""
+    },
+    {
+      "id": "financas-br",
+      "template": "p4",
+      "name": "Extrato Claro",
+      "kind": "product",
+      "status": "",
+      "platform": "Windows · offline",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [
+        "pdf-parser",
+        "sqlite",
+        "b3",
+        "dashboard"
+      ],
+      "showCode": true,
+      "codeUrl": "https://github.com/Rafaelrr5/financas-br",
+      "useProject": true,
+      "projectUrl": "./usar.html#extrato-claro"
+    },
+    {
+      "id": "claude-autosend",
+      "template": "p5",
+      "name": "Claude Autosend",
+      "kind": "lab",
+      "status": "",
+      "platform": "Windows · Claude Code",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [
+        "scheduler",
+        "claude-code",
+        "windows",
+        "node"
+      ],
+      "showCode": true,
+      "codeUrl": "https://github.com/Rafaelrr5/claude-autosend",
+      "useProject": true,
+      "projectUrl": "./usar.html#claude-autosend"
+    },
+    {
+      "id": "qual-mon-movie", "template": "qm", "name": "Qual Mon Movie",
+      "kind": "product", "status": "live", "platform": "Web · cinema", "year": "2026",
+      "tagline": "", "description": "", "topics": ["filmes", "quiz", "recomendações"],
+      "showCode": false, "codeUrl": "", "useProject": true,
+      "projectUrl": "https://qualmonmovie.netlify.app/"
+    },
+    {
+      "id": "blinkninja", "template": "bn", "name": "BlinkNinja",
+      "kind": "product", "status": "live", "platform": "Web · jogo", "year": "2026",
+      "tagline": "", "description": "", "topics": ["jogo", "navegador", "mobile"],
+      "showCode": false, "codeUrl": "", "useProject": true,
+      "projectUrl": "https://blinkninja05.netlify.app/"
+    },
+    {
+      "id": "arrumadinho", "template": "ar", "name": "Arrumadinho",
+      "kind": "product", "status": "dev", "platform": "Web · protótipo", "year": "2026",
+      "tagline": "", "description": "", "topics": ["jogo", "decoração", "progresso local"],
+      "showCode": false, "codeUrl": "", "useProject": true,
+      "projectUrl": "./jogar/arrumadinho/"
+    }
+  ]
+}

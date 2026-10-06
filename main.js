@@ -1,7 +1,9 @@
 // 3R Studios: vertical scroll drives a horizontal track on desktop, plus settings
 // (language, theme, motion, browsing mode, text size, contrast, link underline).
 // One rAF loop that runs only while something moves; only transforms are animated.
-(() => {
+// Waits for projects.js to build the cards from projetos.json before measuring anything.
+(async () => {
+  await window.PROJECTS_READY;
   const root = document.documentElement;
   const $ = (id) => document.getElementById(id);
   const pin = $("pin"), track = $("track"), bar = $("bar"), count = $("count");
@@ -30,6 +32,7 @@
     document.querySelector('meta[name="description"]').content = t.desc;
     document.querySelectorAll("[data-i18n]").forEach((el) => { const v = t[el.dataset.i18n]; if (v) el.textContent = v; });
     document.querySelectorAll("[data-i18n-label]").forEach((el) => { const v = t[el.dataset.i18nLabel]; if (v) el.setAttribute("aria-label", v); });
+    document.querySelectorAll("[data-hint]").forEach((el) => (el.textContent = PROJECTS.hintText(t, el.dataset.hint, plates.length)));
     measure();
   }
 
@@ -155,8 +158,9 @@
   // Skip link: land on the first project in either mode.
   document.querySelector(".skip").addEventListener("click", (e) => {
     e.preventDefault();
-    if (horiz) scrollTo({ top: pin.offsetTop + stopFor(plates[0]), behavior: "auto" });
-    plates[0].focus({ preventScroll: horiz });
+    const first = $("work");
+    if (horiz) scrollTo({ top: pin.offsetTop + (first.classList.contains("end") ? max : stopFor(first)), behavior: "auto" });
+    first.focus({ preventScroll: horiz });
   });
 
   // Vertical mode: reveal artwork as it enters.

@@ -2,9 +2,11 @@
 
 Rafael Rocha's studio site. It shows the open-source projects from [github.com/Rafaelrr5](https://github.com/Rafaelrr5).
 
-Live: https://rafaelrr5.github.io/3r-studios/
+Live: https://3r-studios.pages.dev/
 
-The site is one static page with no build step and no framework: `index.html`, `style.css`, `main.js` and `i18n.js`. You can host it on anything that serves files.
+GitHub Pages mirror: https://rafaelrr5.github.io/3r-studios/
+
+The site is one static page with no build step and no framework: `index.html`, `style.css`, `main.js`, `i18n.js`, `projects.js` and `projetos.json`. You can host it on anything that serves files (not `file://`: the project list is fetched).
 
 ## Motion
 - On desktop, scrolling down moves the projects sideways. The ← and → keys jump from one project to the next.
@@ -50,5 +52,36 @@ Needs playwright and Chrome. It saves screenshots to `shots/` and reports:
 - how long frames take during a fast scroll
 - an axe-core accessibility audit (WCAG 2.2 AA plus best practices) in light, dark, high contrast and on mobile
 
-## Adding a project
-Copy one `<article class="plate">` block in `index.html` and add its `pNln` and `pNbd` strings to each language in `i18n.js`. The counter and progress bar read the number of plates automatically.
+## Projects
+The cards come from `projetos.json`, the public project catalog. `projects.js` builds them and `main.js` waits for it before measuring the track, so the counter, hints, keys and progress bar follow however many projects there are (zero included).
+
+Each project has an `id`, `name`, `kind` (`product` or `lab`), `status` (`live`, `dev` or empty), `platform`, `year`, `topics`, and two independent switches: `showCode` + `codeUrl` and `useProject` + `projectUrl`. A link only appears when its switch is on and the address is a safe `http(s)` URL or site-relative path beginning with `./` (without parent-directory traversal).
+
+The seven original cards keep their artwork and four-language copy through `template` (`rp`, `dj`, `p1`…`p5`). Leave `tagline`/`description` empty to use that translated copy; text typed there replaces it in every language. New projects get generic artwork.
+
+Only public information goes in this file. The private dashboard (`3r-studios-interno`, `python3 servir.py`) edits it locally; publishing still means committing and pushing this repo.
+
+Tests: `node tools/test-projects.cjs`.
+
+## Downloads and browser projects
+
+`usar.html` provides download buttons and extraction/opening instructions in Portuguese, English, Spanish and French. Both Windows x64 ZIPs are hosted as public GitHub Release assets in their own repositories, tagged `v0.1.0-windows-preview`; `downloads/releases.json` records their URLs, byte sizes and SHA-256 hashes. Local ZIP copies are ignored by Git and excluded from the Pages upload. The page does not install software, disable antivirus or grant Claude permissions.
+
+- Extrato Claro: renamed display/app title for `financas-br`. The Windows executable includes Python and PDF parsing; users do not install Python. Data stays in `%LOCALAPPDATA%\\3R Studios\\Extrato Claro`.
+- Claude Autosend: includes Node and production dependencies. Users extract the ZIP and open `Abrir-Claude-Autosend.vbs`. Claude Code and the user's own account are separate prerequisites; the guide links to official installation instructions. If VBScript is unavailable, use `app/abrir-com-janela.cmd`.
+- Qual Mon Movie and BlinkNinja: browser links only. Their catalog entries have `showCode: false` and no code URL; their repositories are not copied into this site.
+- Arrumadinho: additional browser-playable prototype under `jogar/arrumadinho/`, copied from its existing static build. Its source repository stays in place. Game progress is local to the browser.
+
+The Windows packages are unsigned previews, not stable releases. Cloudflare Pages limits individual assets to 25 MiB (official documentation: https://developers.cloudflare.com/pages/platform/limits/); the ZIPs are therefore served from GitHub Releases rather than uploaded to Pages.
+
+## Cloudflare Pages deployment
+
+Stage only public runtime assets, never the repository root or private dashboard:
+
+```
+python3 -m unittest discover -s tools -p test_build_pages.py
+python3 tools/build-pages.py <new-empty-directory>
+npx wrangler pages deploy <new-empty-directory> --project-name 3r-studios --branch main
+```
+
+`tools/build-pages.py` refuses non-empty output directories and excludes repository metadata, documentation, test tools, private data and ZIPs. The production branch is `main`. Publishing from this directory is a separate step from pushing Git; the existing GitHub Pages mirror builds from `main` automatically. Management remains in the private repository and on localhost, not in either public deployment.

@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrumadinho</title>
+<style>
+  :root {
+    --bg: #2d241e;
+    --panel: #42362b;
+    --accent: #8bba6c;
+    --highlight: #f3cf7a;
+    --text: #f7ede2;
+    --muted: #b89f8a;
+    /* Vidro do HUD: escuro translucido da mesma familia do --bg, para o painel
+       parecer parte do ambiente e nao uma caixa colada por cima. */
+    --glass: rgba(34, 26, 21, 0.68);
+    --glass-edge: rgba(243, 207, 122, 0.24);
+  }
+
+  /* ============================================================
+     CAMADAS (z-index) — escala unica para o mundo inteiro.
+     Tudo que entra na cena escolhe uma destas faixas, nunca um
+     numero solto.
+        0   fundo    ceu, papel de parede, sangria das bordas
+       10   chao     grama, assoalho, caminho, tapete
+       20   fundo distante  cerca, quadros, rodape
+       30   estrutura       casa, vigas, portas, janelas
+       40+  entidades       entulho, itens colocados, bichos e voce
+                            (z = 40 + y, entao quem esta mais na
+                             frente do chao desenha por cima)
+      890   luz do ambiente
+      900   primeiro plano  folhagem, teias, feixe de luz
+      950   brilhos de recompensa
+     1000   HUD
+     2000   tela de criacao de personagem
+     ============================================================ */
+
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: ui-monospace, monospace; user-select: none; }
+  html, body { height: 100%; }
+  body { background: #14100d; color: var(--text); overflow: hidden; }
+  button { background: rgba(66, 54, 43, 0.9); border: 1px solid #6b5745; color: var(--text);
+    padding: 5px 11px; cursor: pointer; border-radius: 999px; font-weight: bold; font-size: 0.78rem; }
+  button:hover { background: #544436; border-color: var(--highlight); }
+  button.active { background: var(--accent); color: #1c2612; border-color: #a4dc82; }
+
+  /* ===== O JOGO OCUPA A JANELA INTEIRA =====
+     #viewport e a janela; #stage e o mundo, sempre 960x540 "px de mundo".
+     Todo x,y do jogo fala nessa unidade — a conta de encaixar na tela mora
+     so no fitStage(), entao nenhum numero de cena precisa saber o tamanho
+     do monitor de quem esta jogando. */
+  #viewport { position: fixed; inset: 0; overflow: hidden; background: #14100d; }
+  #stage { position: absolute; left: 50%; top: 50%; width: 960px; height: 540px;
+    transform-origin: center center; transform: translate(-50%, -50%);
+    image-rendering: pixelated; }
+  .scene { position: absolute; inset: 0; display: none; }
+  .scene.active { display: block; }
+  .pixel-ambient { position: absolute; pointer-events: none; image-rendering: pixelated; }
+  .ambient-light { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: soft-light; z-index: 890; }
+  .light-bloom { position: absolute; pointer-events: none; z-index: 890; mix-blend-mode: screen; opacity: 0.72; }
+  .window-beam { position: absolute; pointer-events: none; z-index: 891; mix-blend-mode: screen; opacity: 0.28; }
+
+  /* Sangria: o mundo tem proporcao fixa, a janela nao. Esta camada estica a
+     cor da cena para os lados e para cima/baixo, entao a sobra nunca aparece
+     como tarja preta — vira mais ceu, mais parede, mais chao. */
+  .scene-bleed { position: absolute; left: -2400px; right: -2400px; top: 0; bottom: 0; z-index: 0; pointer-events: none; }
+  .scene-bleed::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 1200px; background: var(--bleed-top); }
+  .scene-bleed::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1200px; background: var(--bleed-bottom); }
+  /* Faixas de chao/parede acompanham a sangria para o piso nao terminar no ar. */
+  .wide { left: -2400px; right: -2400px; }
+
+  /* Xadrez de 4px usado para transicoes: mantem a borda dura da pixel art,
+     no lugar do degrade suave que destoava dos sprites. */
+  .dither { background-image:
+      linear-gradient(45deg, var(--dc) 25%, transparent 25% 75%, var(--dc) 75%),
+      linear-gradient(45deg, var(--dc) 25%, transparent 25% 75%, var(--dc) 75%);
+    background-size: 8px 8px; background-position: 0 0, 4px 4px; }
+
+  /* ===== ANCORA DE CHAO =====
+     Todo objeto que se apoia no chao e posicionado pelo PE, nao pelo topo:
+     left = centro, top = a linha do chao onde ele encosta. Assim dois objetos
+     com o mesmo y estao literalmente no mesmo plano, e nada fica boiando.
+     A sombrinha de contato vem junto, para o objeto ter peso. */
+  .grounded { position: absolute; transform: translate(-50%, -100%); }
+  .grounded::after { content: ""; position: absolute; left: 50%; bottom: -4px; transform: translateX(-50%);
+    width: 78%; height: 11px; border-radius: 50%; background: rgba(20, 12, 6, 0.34); filter: blur(2.5px); z-index: -1; }
+  .no-shadow::after { display: none; }
+
+  /* ===== JARDIM ===== */
+  #scene-jardim .scene-bleed {
+    --bleed-top: #6ea8c8; --bleed-bottom: #365522;
+    background: linear-gradient(180deg,
+      #6ea8c8 0 40px, #7fb8d4 40px 92px, #8dc3db 92px 140px, #a5d2e4 140px 186px,
+      #bce2ef 186px 228px, #cfeaf4 228px 262px,
+      #6f9a3f 262px 278px, #5a8a3a 278px 314px, #517f34 314px 358px, #4a742f 358px 408px,
+      #416c29 408px 462px, #3b6025 462px 512px, #365522 512px 540px); }
+  .jardim-horizon { --dc: #6f9a3f; position: absolute; top: 254px; height: 16px; opacity: 0.85; pointer-events: none; z-index: 10; }
+  .jardim-ground { position: absolute; top: 268px; bottom: 0; pointer-events: none; z-index: 10;
+    background-image:
+      repeating-linear-gradient(90deg, transparent 0 8px, rgba(96,128,32,0.5) 8px 12px, transparent 12px 26px),
+      repeating-linear-gradient(90deg, transparent 0 18px, rgba(48,80,32,0.42) 18px 22px, transparent 22px 44px);
+    background-size: 26px 30px, 44px 52px; background-position: 0 6px, 12px 34px; }
+  /* Caminho: sai debaixo da porta e abre em leque ate a beira da tela. */
+  .jardim-path { position: absolute; top: 370px; left: 50%; transform: translateX(-50%);
+    width: 184px; height: 170px; z-index: 11; pointer-events: none; opacity: 0.92;
+    background-image: repeating-linear-gradient(0deg, #8a6a44 0 10px, #7a5c39 10px 12px, #93744c 12px 22px, #7a5c39 22px 24px);
+    clip-path: polygon(33% 0%, 67% 0%, 100% 100%, 0% 100%); }
+  /* Cerca dos fundos: uma faixa so, repetida, com a base na linha y=300. */
+  .jardim-fence { position: absolute; top: 180px; height: 120px; z-index: 20; pointer-events: none;
+    background-image: url(assets/garden_03.png); background-repeat: repeat-x; background-size: 186px 120px; image-rendering: pixelated; }
+
+  /* ===== A CASA =====
+     A fachada e uma imagem inteira: telhado, parede, janelas, varanda e
+     desgaste pertencem ao mesmo desenho. A ancora (480, 370) coincide com
+     o plano do jardim; o alvo da porta fica separado para nao transformar
+     a arte em superficie interativa. */
+  .house { position: absolute; left: 224px; top: 122px; width: 512px; height: 256px; z-index: 30;
+    image-rendering: pixelated; }
+  .house-art { display: block; width: 512px; height: 256px; image-rendering: pixelated; pointer-events: none; }
+  .house::after { content: ""; position: absolute; left: 8%; bottom: 8px; width: 84%; height: 15px;
+    border-radius: 50%; background: rgba(20, 12, 6, 0.3); filter: blur(5px); z-index: -1; }
+  .house-door { position: absolute; left: 226px; top: 156px; width: 67px; height: 79px; padding: 0;
+    border: 0; border-radius: 2px; background: transparent; cursor: pointer; transition: filter 0.15s;
+    font: inherit; }
+  .house-door:hover, .house-door:focus-visible { outline: 2px solid var(--highlight); outline-offset: 2px;
+    filter: brightness(1.2) drop-shadow(0 0 6px var(--highlight)); }
+  .door-label { position: absolute; left: 259px; top: 237px; transform: translateX(-50%); font-size: 10px;
+    color: var(--highlight); background: rgba(0,0,0,0.6); padding: 1px 6px; border-radius: 4px; pointer-events: none; }
+
+  /* ===== SALA ===== */
+  #scene-sala .scene-bleed {
+    --bleed-top: #563723; --bleed-bottom: #6b4326;
+    background-color: #563723;
+    background-image: repeating-linear-gradient(90deg, #5f3d26 0 14px, #573822 14px 18px, #5f3d26 18px 34px, #4f321e 34px 38px); }
+  .sala-rail { position: absolute; top: 318px; height: 18px; z-index: 20; pointer-events: none;
+    background: linear-gradient(180deg, #6b4527 0 4px, #7a4d2c 4px 12px, #4a2e1c 12px 16px, #3a2416 16px 18px); }
+  .sala-floor { position: absolute; top: 336px; bottom: 0; z-index: 10; pointer-events: none;
+    background-color: #6b4326;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(26,17,14,0.45) 0 2px, transparent 2px 30px),
+      repeating-linear-gradient(90deg, #7a4d2c 0 32px, #714628 32px 36px, #674025 36px 68px, #5c3821 68px 72px);
+    border-top: 6px solid #3a2416; box-shadow: inset 0 6px 0 rgba(26,17,14,0.35); }
+  /* O tapete e chao, nao movel: entra na faixa 10 e todo mundo pisa em cima. */
+  .sala-rug { position: absolute; left: 480px; top: 512px; width: 300px; height: 157px; z-index: 12;
+    transform: translate(-50%, -100%); image-rendering: pixelated; opacity: 0.96; }
+  .sala-window { position: absolute; left: 300px; top: 112px; width: 96px; height: 96px; margin-left: -48px; z-index: 20;
+    image-rendering: pixelated; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.45)); }
+  .sala-art { position: absolute; left: 660px; top: 128px; width: 122px; height: 104px; margin-left: -61px; z-index: 20;
+    image-rendering: pixelated; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4)); }
+  /* Vaso pendurado: nasce no teto, entao e o unico que ancora pelo topo. */
+  .sala-hanging { position: absolute; left: 830px; top: 0; width: 76px; height: 147px; margin-left: -38px; z-index: 30;
+    image-rendering: pixelated; }
+  .sala-door { position: absolute; left: 78px; top: 364px; width: 78px; height: 122px; z-index: 30;
+    transform: translate(-50%, -100%); image-rendering: pixelated; cursor: pointer; transition: filter 0.15s; }
+  .sala-door:hover { filter: brightness(1.25) drop-shadow(0 0 6px var(--highlight)); }
+  .sala-stair { position: absolute; left: 880px; top: 364px; width: 74px; height: 118px; z-index: 30;
+    transform: translate(-50%, -100%); image-rendering: pixelated; cursor: pointer; transition: filter 0.15s; }
+  .sala-stair:hover { filter: brightness(1.25) drop-shadow(0 0 6px var(--highlight)); }
+  .place-label { position: absolute; transform: translateX(-50%); font-size: 10px; color: var(--highlight);
+    background: rgba(0,0,0,0.6); padding: 1px 6px; border-radius: 4px; pointer-events: none; z-index: 31; }
+
+  /* ===== SOTAO ===== */
+  #scene-sotao .scene-bleed {
+    --bleed-top: #241a2e; --bleed-bottom: #3b2c24;
+    background: repeating-linear-gradient(0deg, #2a1f33 0 16px, #1e1626 16px 18px); }
+  .sotao-floor { position: absolute; top: 380px; bottom: 0; z-index: 10; pointer-events: none;
+    background: repeating-linear-gradient(90deg, #3b2c24 0 30px, #291e18 30px 32px);
+    border-top: 5px solid #1a121d; box-shadow: inset 0 8px 16px rgba(0,0,0,0.6); }
+  .sotao-ridge { position: absolute; top: 36px; height: 34px; z-index: 30; pointer-events: none;
+    background-image: url(assets/struct_18.png); background-repeat: repeat-x; background-size: 126px 34px; image-rendering: pixelated; }
+  .sotao-rafter { position: absolute; top: 74px; width: 220px; height: 30px; z-index: 30; image-rendering: pixelated; opacity: 0.9; }
+  .sotao-post { position: absolute; width: 34px; height: 200px; z-index: 30; transform: translate(-50%, -100%); image-rendering: pixelated; }
+  .sotao-window { position: absolute; left: 480px; top: 100px; width: 100px; height: 94px; margin-left: -50px; z-index: 30; image-rendering: pixelated; }
+  .sotao-lightbeam { position: absolute; left: 480px; top: 190px; transform: translateX(-50%); width: 260px; height: 250px;
+    background: linear-gradient(180deg, rgba(255,235,170,0.22) 0%, rgba(255,235,170,0.01) 100%);
+    clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%); pointer-events: none; z-index: 900; }
+  .sotao-web { position: absolute; top: 0; width: 96px; height: 101px; z-index: 900; opacity: 0.72; image-rendering: pixelated; }
+
+  /* ===== ANIMACOES DE AMBIENTE ===== */
+  @keyframes sway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(2deg) translateY(-1px); } }
+  @keyframes smoke { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 40% { opacity: 0.7; } 100% { transform: translateY(-28px) translateX(8px) scale(1.6); opacity: 0; } }
+  @keyframes lightPulse { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
+  @keyframes idleBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  .anim-sway { animation: sway 4s ease-in-out infinite; transform-origin: bottom center; }
+  .anim-pulse { animation: lightPulse 3.5s ease-in-out infinite; }
+  .smoke-puff { position: absolute; width: 8px; height: 8px; background: rgba(230,235,245,0.7); border-radius: 50%;
+    pointer-events: none; animation: smoke 2.4s infinite ease-out; }
+
+  /* ===== ENTULHO ===== */
+  /* A casca ancora no chao; a figurinha de dentro e quem balanca, para o
+     gingado nao brigar com a ancoragem. */
+  .rubbish { cursor: pointer; }
+  .rubbish-art { display: block; animation: idleBob 2.6s ease-in-out infinite; }
+  .rubbish:nth-child(even) .rubbish-art { animation-delay: 1.3s; }
+  /* Ao alcance do espaco: brilha e avisa qual tecla resolve. */
+  .rubbish.in-reach .pixel-placed { filter: drop-shadow(0 0 3px #fff6cf) drop-shadow(0 0 9px var(--highlight)); }
+  .rubbish.in-reach::before { content: "␣ espaço"; position: absolute; left: 50%; bottom: calc(100% + 6px);
+    transform: translateX(-50%); font-size: 11px; font-weight: bold; color: #241a10; background: var(--highlight);
+    padding: 1px 7px; border-radius: 7px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.45); }
+
+  /* ===== ITENS COLOCADOS ===== */
+  .placed-item { font-size: 36px; }
+  .placed-item.is-editing { filter: drop-shadow(0 0 3px #fff6cf) drop-shadow(0 0 10px var(--highlight)); }
+  /* O tamanho escolhido vai no filho .placed-art, nunca no .placed-item: assim
+     os botoezinhos de ajuste nao crescem junto com o objeto, e a ancora de
+     chao continua valendo. */
+  .placed-art { display: block; transform-origin: center bottom; transition: transform 0.12s ease-out; }
+  .resize-ctl { position: absolute; left: 50%; top: -18px; transform: translateX(-50%); display: flex; gap: 3px;
+    z-index: 60; opacity: 0; pointer-events: none; transition: opacity 0.12s; }
+  .placed-item:hover .resize-ctl, .placed-item:focus-within .resize-ctl { opacity: 1; pointer-events: auto; }
+  .resize-ctl button { padding: 0 6px; font-size: 12px; line-height: 16px; border-radius: 4px; }
+  .item-ctl { position: absolute; left: 50%; top: -39px; transform: translateX(-50%); display: flex; gap: 3px;
+    z-index: 60; opacity: 0; pointer-events: none; transition: opacity 0.12s; }
+  .placed-item:hover .item-ctl, .placed-item:focus-within .item-ctl { opacity: 1; pointer-events: auto; }
+  .item-ctl button { padding: 0 6px; font-size: 10px; line-height: 15px; border-radius: 4px; }
+  .placed-item.is-editing .item-ctl { opacity: 1; pointer-events: auto; }
+
+  /* ===== BICHOS: cada folha traz 2 quadros lado a lado =====
+     O background-size de 200% deixa a folha com o dobro da largura do
+     elemento, entao cada quadro ocupa exatamente a area visivel. O steps(2)
+     troca de quadro de uma vez so, sem borrar — que e o jeito da pixel art.
+     Como tudo esta em porcentagem, a mesma regra serve para o bonequinho
+     grande da tela de criacao e para a miniatura da mochila. */
+  @keyframes spriteFlip { from { background-position-x: 0%; } to { background-position-x: 200%; } }
+  .sprite2 { background-repeat: no-repeat; background-size: 200% 100%; image-rendering: pixelated; }
+
+  .animal-anchor { position: absolute; transform: translate(-50%, -100%); z-index: 40; }
+  .animal-anchor.hang { transform: translate(-50%, 0); padding-top: var(--fio, 90px); }
+  /* fio de teia, para a aranha nao parecer boiando no ar */
+  .animal-anchor.hang::before { content: ""; position: absolute; left: 50%; top: 0; width: 2px;
+    height: calc(var(--fio, 90px) + 60px); margin-left: -1px; background: rgba(240,245,255,0.25); }
+  .animal { position: relative; display: block; width: 48px; height: 40px; cursor: pointer; }
+  .animal:focus-visible { outline: 2px solid var(--highlight); outline-offset: 3px; }
+  /* Sombra de contato so para quem anda no chao. */
+  .animal.on-ground::after { content: ""; position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%);
+    width: 70%; height: 8px; border-radius: 50%; background: rgba(20,12,6,0.32); filter: blur(2px); z-index: -1; }
+
+  /* Cada bicho junta a troca de quadro com um passeio proprio. */
+  @keyframes flutter { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(44px, -26px); }
+                       50% { transform: translate(88px, 4px); } 75% { transform: translate(38px, -32px); } }
+  @keyframes flyby { 0% { transform: translate(0, 0) scaleX(1); } 44% { transform: translate(600px, -18px) scaleX(1); }
+                     52% { transform: translate(600px, -18px) scaleX(-1); } 96%, 100% { transform: translate(0, 0) scaleX(-1); } }
+  @keyframes patrol { 0% { transform: translateX(0) scaleX(1); } 42% { transform: translateX(160px) scaleX(1); }
+                      50% { transform: translateX(160px) scaleX(-1); } 92% { transform: translateX(0) scaleX(-1); }
+                      100% { transform: translateX(0) scaleX(1); } }
+  @keyframes dangle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(56px); } }
+  @keyframes hop { 0%, 12% { transform: translate(0, 0); } 26% { transform: translate(28px, -22px); }
+                   40%, 58% { transform: translate(56px, 0); } 72% { transform: translate(28px, -22px); }
+                   86%, 100% { transform: translate(0, 0); } }
+  @keyframes knead { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-3px) scaleY(1.05); } }
+
+  .anim-borboleta { animation: spriteFlip 0.22s steps(2) infinite, flutter 9s ease-in-out infinite; }
+  .anim-passaro { animation: spriteFlip 0.3s steps(2) infinite, flyby 15s linear infinite; }
+  .anim-cachorro { animation: spriteFlip 0.45s steps(2) infinite, patrol 13s ease-in-out infinite; }
+  .anim-aranha { animation: spriteFlip 0.9s steps(2) infinite, dangle 7s ease-in-out infinite; }
+  .anim-gato { animation: spriteFlip 1.2s steps(2) infinite, knead 4.5s ease-in-out infinite; }
+  .anim-sapo { animation: spriteFlip 0.6s steps(2) infinite, hop 3.6s ease-in-out infinite; }
+
+  /* ===== PERSONAGEM ===== */
+  /* #player e a ancora (pe no chao, sombra de contato); o filho e quem vira
+     de lado e troca de quadro. Separar os dois evita que o espelhamento
+     bagunce a ancoragem — e a plaquinha do nome nunca sai ao contrario. */
+  #player { position: absolute; z-index: 40; pointer-events: none; transform: translate(-50%, -100%); }
+  #player::after { content: ""; position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%);
+    width: 62%; height: 10px; border-radius: 50%; background: rgba(20,12,6,0.38); filter: blur(2.5px); z-index: -1; }
+  #player-sprite { display: block; width: 48px; height: 72px; }
+  .player-idle { animation: spriteFlip 1.8s steps(2) infinite; }
+  .player-walk { animation: spriteFlip 0.2s steps(2) infinite; }
+  #player-name { position: absolute; left: 50%; top: calc(100% + 3px); transform: translateX(-50%);
+    font-size: 10px; color: var(--highlight); text-shadow: 1px 1px 0 #000; white-space: nowrap; }
+  .skin-row { display: flex; gap: 6px; align-items: center; }
+  .skin-btn { padding: 3px; line-height: 0; border-radius: 6px; }
+  .skin-btn[aria-checked="true"] { border-color: var(--highlight); background: #6b5745; }
+  .skin-thumb { display: block; width: 22px; height: 33px; }
+
+  /* Quem pediu menos movimento ve os bichos parados no primeiro quadro. */
+  @media (prefers-reduced-motion: reduce) {
+    .animal, #player-sprite, .rubbish-art, .smoke-puff, .anim-sway, .anim-pulse, .skin-big { animation: none !important; }
+  }
+
+  /* pointer-events: none deixa o arrasto comecar no slot inteiro, e nao na
+     figurinha de dentro (que o navegador arrastaria como imagem solta). */
+  .pixel-icon { width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated; display: block; pointer-events: none; }
+  .pixel-placed { height: 60px; width: auto; object-fit: contain; image-rendering: pixelated; display: block; pointer-events: none; }
+  .rubbish .pixel-placed { height: 56px; }
+
+  .sparkle { position: absolute; pointer-events: none; animation: floatUp 0.6s ease-out forwards; font-size: 20px; z-index: 950; }
+  @keyframes floatUp { 0% { transform: translateY(0) scale(0.6); opacity: 1; } 100% { transform: translateY(-30px) scale(1.2); opacity: 0; } }
+
+  /* ===== HUD: mora dentro do jogo, nao numa faixa embaixo dele =====
+     A casca inteira deixa o clique passar (pointer-events:none) para o meio
+     da tela continuar sendo lugar de andar e decorar; so os paineis pegam o
+     dedo de volta. Cantos redondos, vidro escuro e desfoque leve para o
+     painel se apoiar na cena em vez de tampa-la. */
+  #hud { position: absolute; inset: 0; z-index: 1000; pointer-events: none;
+    display: flex; flex-direction: column; justify-content: space-between; padding: 14px; gap: 10px; }
+  .hud-row { display: flex; gap: 10px; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
+  .hud-panel { pointer-events: auto; background: var(--glass); border: 1px solid var(--glass-edge); border-radius: 14px;
+    padding: 8px 11px; backdrop-filter: blur(7px) saturate(1.15); -webkit-backdrop-filter: blur(7px) saturate(1.15);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.07); }
+  .hud-group { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .hud-brand { color: var(--highlight); font-weight: bold; font-size: 0.92rem; margin-right: 4px; }
+  .hud-scene { color: var(--muted); font-weight: normal; font-size: 0.72rem; display: block; }
+
+  #dialog-box { flex: 1 1 320px; max-width: 460px; min-height: 78px; }
+  #dialog-title { color: var(--highlight); font-weight: bold; font-size: 0.9rem; margin-bottom: 4px; }
+  #dialog-desc { font-size: 0.86rem; line-height: 1.38; color: var(--text); }
+  #sidebar { width: 286px; display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; }
+  /* Mochila sem limite: mostra duas fileiras e rola o resto, para que muitos
+     itens nunca empurrem o placar e o seletor de personagem para fora. */
+  #inventory { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; min-height: 44px; max-height: 92px;
+    overflow-y: auto; padding: 4px; background: rgba(0,0,0,0.24); border-radius: 8px; scrollbar-width: thin; }
+  .inv-slot { flex: 0 0 auto; font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center;
+    justify-content: center; background: #524335; border: 1px solid #6b5745; border-radius: 6px; cursor: grab; }
+  .inv-slot:focus-visible, .placed-item:focus-visible, #inventory:focus-visible { outline: 2px solid var(--highlight); outline-offset: 2px; }
+  .inv-slot:active { cursor: grabbing; }
+  .inv-slot.selected { border-color: var(--highlight); background: #6b5745; transform: scale(1.1); }
+  .inv-slot.dragging { opacity: 0.45; }
+  .hud-score { display: flex; justify-content: space-between; color: var(--muted); }
+  .hud-score b { color: var(--text); }
+
+  /* Caderno: painel proprio, encostado na barra de cima, em vez do alert()
+     do navegador — que parava o jogo e nao tinha nada a ver com a casa. */
+  #catalog-panel { position: absolute; top: 62px; right: 14px; width: 300px; max-height: 62vh; overflow-y: auto;
+    scrollbar-width: thin; font-size: 0.78rem; }
+  #catalog-panel[hidden] { display: none; }
+  #catalog-panel h3 { color: var(--highlight); font-size: 0.85rem; margin-bottom: 6px; }
+  .cat-item { padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.06); line-height: 1.3; }
+  .cat-item small { color: var(--muted); display: block; }
+  .cat-unknown { color: var(--muted); opacity: 0.6; }
+
+  /* ===== Caixinha de dar nome (agora so para os bichos que chegam) ===== */
+  #name-modal { position: fixed; inset: 0; z-index: 1500; display: flex; align-items: center; justify-content: center;
+    background: rgba(12,8,5,0.7); }
+  #name-modal[hidden] { display: none; }
+  .name-card { background: var(--panel); border: 3px solid #5a493a; border-radius: 12px; padding: 16px 18px;
+    width: min(340px, 88vw); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+  .name-card h2 { font-size: 1rem; color: var(--highlight); margin-bottom: 4px; }
+  .name-card p { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; line-height: 1.35; }
+  .name-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  input[type="text"] { width: 100%; padding: 8px 10px; border-radius: 6px; user-select: text;
+    background: #30261e; border: 2px solid #6b5745; color: var(--text); font-size: 0.9rem; }
+  input[type="text"]:focus { outline: none; border-color: var(--highlight); }
+
+  /* ===== TELA DE CRIACAO DE PERSONAGEM =====
+     Vem antes de qualquer cena: primeiro voce decide quem vai cuidar do
+     cantinho, depois o jardim aparece. */
+  #creator { position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center; justify-content: center;
+    padding: 20px; overflow: auto;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(243,207,122,0.16) 0%, transparent 58%),
+      linear-gradient(180deg, #3a2c22 0%, #2d241e 55%, #201913 100%); }
+  #creator[hidden] { display: none; }
+  #creator::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+    background-image: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 2px, transparent 2px 4px); }
+  .creator-card { position: relative; width: min(680px, 100%); text-align: center;
+    background: rgba(45,36,30,0.82); border: 1px solid var(--glass-edge); border-radius: 20px; padding: 26px 24px 22px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07); }
+  .creator-card h1 { color: var(--highlight); font-size: 1.7rem; letter-spacing: 1px; }
+  .creator-card > p { color: var(--muted); font-size: 0.86rem; margin: 6px 0 20px; line-height: 1.4; }
+  .creator-skins { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+  .skin-card { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 18px;
+    border-radius: 16px; border: 2px solid #5a493a; background: rgba(0,0,0,0.22); cursor: pointer; font-size: 0.8rem; }
+  .skin-card:hover { border-color: #8b7358; background: rgba(0,0,0,0.3); }
+  .skin-card[aria-pressed="true"] { border-color: var(--highlight); background: rgba(243,207,122,0.14);
+    box-shadow: 0 0 0 3px rgba(243,207,122,0.16), 0 6px 18px rgba(0,0,0,0.4); }
+  .skin-big { display: block; width: 96px; height: 144px; }
+  .skin-card[aria-pressed="true"] .skin-big { animation: spriteFlip 0.28s steps(2) infinite; }
+  .skin-name { color: var(--text); font-weight: bold; }
+  .creator-name { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-bottom: 18px; }
+  .creator-name label { color: var(--muted); font-size: 0.78rem; }
+  .creator-name input { max-width: 260px; text-align: center; }
+  .creator-actions { display: flex; gap: 10px; justify-content: center; }
+  .creator-actions button { padding: 10px 22px; font-size: 0.88rem; }
+  .creator-actions .primary { background: var(--accent); color: #1c2612; border-color: #a4dc82; }
+  .creator-actions .primary:hover { background: #9dcd7c; }
+  .creator-hint { margin-top: 16px; color: var(--muted); font-size: 0.72rem; line-height: 1.5; }
+  #touch-controls { position: absolute; left: 14px; bottom: 112px; z-index: 1001; pointer-events: auto; display: none; }
+  .touch-pad { position: relative; width: 136px; height: 136px; }
+  .touch-pad button { position: absolute; width: 44px; height: 44px; padding: 0; font-size: 1.15rem; background: rgba(34,26,21,0.72); }
+  .touch-up { left: 46px; top: 0; } .touch-left { left: 0; top: 46px; } .touch-down { left: 46px; top: 92px; } .touch-right { left: 92px; top: 46px; }
+  .touch-clean { margin: 8px 0 0 42px; width: 52px; height: 42px; padding: 0; font-size: 1rem; }
+  @media (hover: none), (pointer: coarse) {
+    #touch-controls { display: block; left: 10px; bottom: 10px; }
+    #hud { padding: 10px; }
+    #hud > .hud-row:first-child { gap: 6px; }
+    #hud > .hud-row:first-child .hud-panel:last-child { max-width: 100%; }
+    #dialog-box { position: absolute; left: 10px; top: 154px; width: min(220px, calc(100% - 170px)); min-height: 72px; margin: 0; }
+    #sidebar { position: absolute; right: 10px; bottom: 10px; width: min(168px, calc(100% - 164px)); max-height: 190px; overflow: auto; }
+    #inventory { max-height: 86px; }
+    #catalog-panel { top: 105px; right: 10px; width: min(280px, calc(100% - 20px)); max-height: 52vh; }
+    .hud-row:nth-child(2) { min-height: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; } }
+</style>
+</head>
+<body>
+
+<div id="viewport" onclick="handleViewportClick(event)" ondragover="handleViewportDragOver(event)" ondrop="handleViewportDrop(event)">
+
+  <!-- O mundo: 960x540 "px de mundo", escalado por fitStage() para caber na janela. -->
+  <div id="stage">
+
+    <!-- ================= JARDIM ================= -->
+    <div id="scene-jardim" class="scene active">
+      <div class="scene-bleed"></div>
+      <div class="jardim-ground wide"></div>
+      <div class="jardim-horizon dither wide"></div>
+      <div class="jardim-path"></div>
+      <div class="jardim-fence wide"></div>
+
+      <!-- A casa: asset inteiro, ancorado no mesmo plano dos objetos -->
+      <div class="house">
+        <img src="assets/house/casa.png" class="house-art" alt="Casa restaurada no jardim">
+        <button type="button" class="house-door" onclick="switchScene('sala'); event.stopPropagation();" aria-label="Entrar na sala" title="Entrar na sala"></button>
+        <span class="door-label">ENTRAR</span>
+      </div>
+
+      <!-- Canteiros, barril e lampiao: apoiados na mesma linha de chao -->
+      <div class="pixel-ambient grounded no-shadow" style="left:150px; top:396px; width:200px; height:97px; z-index:436;"><img src="assets/garden_12.png" class="anim-sway" style="width:100%; height:100%; display:block;"></div>
+      <div class="pixel-ambient grounded no-shadow" style="left:810px; top:396px; width:200px; height:97px; z-index:436;"><img src="assets/garden_12.png" class="anim-sway" style="width:100%; height:100%; display:block; transform:scaleX(-1);"></div>
+      <img src="assets/garden_27.png" class="pixel-ambient grounded" style="left:764px; top:374px; width:82px; height:138px; z-index:414;">
+      <img src="assets/garden_17.png" class="pixel-ambient grounded" style="left:250px; top:452px; width:60px; height:142px; z-index:492;">
+      <img src="assets/garden_21.png" class="pixel-ambient grounded no-shadow" style="left:66px; top:306px; width:70px; height:70px; z-index:346;">
+
+      <div class="ambient-light anim-pulse" style="background: radial-gradient(circle at 50% 26%, rgba(255,245,210,0.34) 0%, transparent 70%);"></div>
+      <div class="light-bloom anim-pulse" style="left:742px; top:285px; width:92px; height:92px; background:radial-gradient(circle, rgba(255,213,123,0.72), transparent 68%);"></div>
+      <div class="window-beam" style="left:554px; top:292px; width:132px; height:155px; background:linear-gradient(180deg, rgba(255,245,205,0.5), transparent); clip-path:polygon(30% 0,70% 0,100% 100%,0 100%);"></div>
+      <div id="animals-jardim"></div>
+      <div id="clutter-jardim"></div>
+      <div id="decor-jardim"></div>
+    </div>
+
+    <!-- ================= SALA ================= -->
+    <div id="scene-sala" class="scene">
+      <div class="scene-bleed"></div>
+      <div class="sala-floor wide"></div>
+      <div class="sala-rail wide"></div>
+
+      <img src="assets/indoor_09.png" class="sala-rug">
+      <img src="assets/struct_57.png" class="pixel-ambient sala-window">
+      <img src="assets/indoor_17.png" class="pixel-ambient sala-art">
+      <img src="assets/indoor_13.png" class="pixel-ambient sala-hanging anim-sway">
+
+      <!-- Porta de volta ao jardim e escada para o sotao: as duas saidas sao
+           objetos do comodo, nao botoes soltos no canto da tela. -->
+      <img src="assets/struct_50.png" class="sala-door" onclick="switchScene('jardim'); event.stopPropagation();" title="Sair para o jardim">
+      <span class="place-label" style="left:78px; top:372px;">JARDIM</span>
+      <img src="assets/struct_49.png" class="sala-stair" id="stair-sotao" hidden onclick="switchScene('sotao'); event.stopPropagation();" title="Subir para o sótão">
+      <span class="place-label" id="stair-label" hidden style="left:880px; top:372px;">SÓTÃO</span>
+
+      <!-- Agrupamento tapete + estante + mesa: o olho tem para onde ir -->
+      <img src="assets/indoor_03.png" class="pixel-ambient grounded" style="left:150px; top:372px; width:145px; height:180px; z-index:412;">
+      <img src="assets/indoor_02.png" class="pixel-ambient grounded" style="left:480px; top:470px; width:150px; height:141px; z-index:510;">
+      <img src="assets/indoor_39.png" class="pixel-ambient grounded" style="left:720px; top:400px; width:150px; height:112px; z-index:440;">
+
+      <div class="ambient-light anim-pulse" style="background: radial-gradient(circle at 32% 34%, rgba(255,225,160,0.3) 0%, rgba(20,12,6,0.42) 100%);"></div>
+      <div class="window-beam" style="left:235px; top:190px; width:172px; height:188px; background:linear-gradient(180deg, rgba(255,237,182,0.55), transparent); clip-path:polygon(26% 0,74% 0,100% 100%,0 100%);"></div>
+      <div class="light-bloom anim-pulse" style="left:660px; top:358px; width:140px; height:110px; background:radial-gradient(circle, rgba(255,197,116,0.5), transparent 70%);"></div>
+      <div id="animals-sala"></div>
+      <div id="clutter-sala"></div>
+      <div id="decor-sala"></div>
+    </div>
+
+    <!-- ================= SOTAO ================= -->
+    <div id="scene-sotao" class="scene">
+      <div class="scene-bleed"></div>
+      <div class="sotao-floor wide"></div>
+
+      <div class="sotao-ridge wide"></div>
+      <img src="assets/struct_18.png" class="sotao-rafter" style="left:-30px; transform: rotate(15deg);">
+      <img src="assets/struct_18.png" class="sotao-rafter" style="right:-30px; transform: scaleX(-1) rotate(15deg);">
+      <img src="assets/struct_01.png" class="sotao-post" style="left:180px; top:392px;">
+      <img src="assets/struct_01.png" class="sotao-post" style="left:780px; top:392px;">
+      <img src="assets/struct_58.png" class="pixel-ambient sotao-window">
+      <div class="sotao-lightbeam anim-pulse"></div>
+      <img src="assets/clutter_47.png" class="pixel-ambient sotao-web" style="left: 6px;">
+      <img src="assets/clutter_47.png" class="pixel-ambient sotao-web" style="right: 6px; transform: scaleX(-1);">
+      <img src="assets/indoor_31.png" class="pixel-ambient grounded" style="left:866px; top:470px; width:84px; height:81px; z-index:510;">
+
+      <div class="ambient-light anim-pulse" style="background: radial-gradient(circle at 50% 42%, rgba(255,230,170,0.2) 0%, rgba(10,5,15,0.6) 100%);"></div>
+      <div class="light-bloom anim-pulse" style="left:425px; top:128px; width:110px; height:110px; background:radial-gradient(circle, rgba(255,228,163,0.48), transparent 72%);"></div>
+      <div id="animals-sotao"></div>
+      <div id="clutter-sotao"></div>
+      <div id="decor-sotao"></div>
+    </div>
+
+    <!-- Personagem: vive por cima das cenas e acompanha voce de ambiente em ambiente -->
+    <div id="player">
+      <div id="player-sprite" class="sprite2 player-idle" role="img" aria-label="Seu personagem"></div>
+      <span id="player-name"></span>
+    </div>
+  </div>
+
+  <!-- ================= HUD ================= -->
+  <div id="hud">
+    <div class="hud-row">
+      <div class="hud-panel hud-group">
+        <span class="hud-brand">🏡 Arrumadinho<small class="hud-scene" id="scene-name">Jardim</small></span>
+        <button class="active" data-scene="jardim" onclick="switchScene('jardim')">Jardim</button>
+        <button data-scene="sala" onclick="switchScene('sala')">Sala</button>
+        <button id="btn-sotao" data-scene="sotao" onclick="switchScene('sotao')" hidden>Sótão 🗝️</button>
+      </div>
+      <div class="hud-panel hud-group">
+        <button onclick="toggleBeforeAfter()" id="btn-ba">Antes / Depois</button>
+        <button onclick="undoDecoration()" id="btn-undo" disabled title="Desfazer decoração">↶ Desfazer</button>
+        <button onclick="redoDecoration()" id="btn-redo" disabled title="Refazer decoração">↷ Refazer</button>
+        <button onclick="toggleCatalog()">📖 Caderno (<span id="cat-count">0</span>/<span id="cat-total"></span>)</button>
+        <button id="btn-music" onclick="toggleMusic()" title="Desligar o som de fundo">🎶 Música</button>
+        <button id="btn-sound" onclick="toggleSound()" title="Silenciar todos os sons">🔊 Som</button>
+      </div>
+    </div>
+
+    <div class="hud-row">
+      <div class="hud-panel" id="dialog-box">
+        <div id="dialog-title">Parece que ninguém mora aqui há um tempo...</div>
+        <div id="dialog-desc">Use W A S D (ou as setas) para andar e aperte espaço perto do entulho para limpar.</div>
+        <button id="export-save" type="button" hidden onclick="exportRawSave()">Exportar save encontrado</button>
+      </div>
+      <div class="hud-panel" id="sidebar">
+        <div><b>Mochila:</b> <span id="hint-place" style="color:var(--highlight); display:none">Clique no cenário para posicionar</span></div>
+        <div id="inventory" role="listbox" aria-label="Mochila. Use Tab para escolher um item; Enter para selecionar."></div>
+        <div style="font-size:0.76rem; color:var(--muted);">Arraste um item para o ambiente, ou clique nele e depois no lugar.</div>
+        <div class="hud-group" style="justify-content:space-between;">
+          <span style="color:var(--muted)">Estilo:</span>
+          <span class="skin-row" id="skin-row" role="radiogroup" aria-label="Estilo do personagem"></span>
+        </div>
+        <div class="hud-score">
+          <span>Visitantes: <b id="visitor-count">0</b>/2</span>
+          <span>Limpos: <b id="clean-count">0</b>/<b id="clean-total"></b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-panel" id="catalog-panel" hidden>
+      <h3>📖 Caderno de descobertas</h3>
+      <div id="catalog-list"></div>
+      <h4>Rastros da casa</h4>
+      <div id="progression-history" aria-live="polite"></div>
+    </div>
+  </div>
+  <div id="touch-controls" aria-label="Controles de toque">
+    <div class="touch-pad">
+      <button class="touch-up" data-touch-key="w" aria-label="Andar para cima">↑</button>
+      <button class="touch-left" data-touch-key="a" aria-label="Andar para esquerda">←</button>
+      <button class="touch-down" data-touch-key="s" aria-label="Andar para baixo">↓</button>
+      <button class="touch-right" data-touch-key="d" aria-label="Andar para direita">→</button>
+    </div>
+    <button class="touch-clean" id="touch-clean" aria-label="Limpar o que está perto">✦</button>
+  </div>
+</div>
+
+<div id="ending-card" hidden role="dialog" aria-modal="true" aria-labelledby="ending-title">
+  <div class="name-card">
+    <h2 id="ending-title">A casa respira de novo</h2>
+    <p>Você já fez a transformação principal. Quer encerrar esta visita com carinho?</p>
+    <div class="name-actions">
+      <button type="button" onclick="skipEnding()">Continuar decorando</button>
+      <button type="button" class="primary" onclick="finishEnding()">Guardar este momento</button>
+    </div>
+  </div>
+</div>
+
+<!-- Caixinha de dar nome: agora so os bichos que chegam passam por aqui. -->
+<div id="name-modal" hidden role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
+  <div class="name-card">
+    <h2 id="name-modal-title">Como você se chama?</h2>
+    <p id="name-modal-hint">Pode pular se preferir ficar no anonimato.</p>
+    <input id="name-input" type="text" maxlength="18" autocomplete="off" aria-labelledby="name-modal-title" style="margin-bottom:12px;">
+    <div class="name-actions">
+      <button type="button" onclick="skipName()">Pular</button>
+      <button type="button" onclick="confirmName()">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tela de criacao: primeira coisa que aparece, antes de qualquer cena. -->
+<div id="creator" hidden>
+  <div class="creator-card">
+    <h1>🏡 Arrumadinho</h1>
+    <p>Alguém deixou esse cantinho no abandono. Quem vai cuidar dele?</p>
+    <p id="creator-save-warning" hidden role="status"></p>
+    <div class="creator-skins" id="creator-skins" role="group" aria-label="Estilo do personagem"></div>
+    <div class="creator-name">
+      <label for="creator-name-input">Seu nome (dá para deixar em branco)</label>
+      <input id="creator-name-input" type="text" maxlength="18" autocomplete="off" placeholder="…">
+    </div>
+    <div class="creator-actions">
+      <button type="button" onclick="creatorSkip()">Pular</button>
+      <button type="button" class="primary" onclick="creatorStart()">Começar</button>
+    </div>
+    <p class="creator-hint">W A S D ou setas para andar · espaço para limpar · no toque, use o direcional</p>
+  </div>
+</div>
+
+<script src="src/progression.cjs"></script>
+<script src="src/game-state.cjs"></script>
+<script>
+// O que fica guardado — e como — mora num arquivo só (src/game-state.cjs), o
+// mesmo que os testes abrem. Assim o jogo e a checagem nunca discordam sobre
+// o que sobrevive a uma recarga, e a casa aguenta uma futura troca de
+// tecnologia. Se esse arquivo não carregar, a sessão roda normal; só não
+// lembra na próxima visita.
+const Save = window.ArrumadinhoGameState || {
+  persistGame() { return { ok: false, reason: "storage-unavailable" }; },
+  restoreGame() { return null; },
+  getLastRestoreStatus() { return { kind: "storage-unavailable", raw: null }; }
+};
+const Progression = window.ArrumadinhoProgression;
+const loadSavedGame = () => Save.restoreGame(saveRules());
+function persistGame() {
+  const result = Save.persistGame(state, saveRules());
+  if (!result || !result.ok) {
+    updateUI("⚠️ Ainda não foi possível salvar", "Sua casa continua aberta nesta visita. Libere espaço no navegador antes de fechar a página.");
+  }
+  return result;
+}
+// ponytail: minimalist synth audio via Web Audio API, zero audio asset files
+let audioCtx = null;
+let masterGainNode = null;
+let soundOn = true;
+const SOUND_KEY = "arrumadinho_sound";
+function audioOutput() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!masterGainNode) {
+    masterGainNode = audioCtx.createGain();
+    masterGainNode.gain.value = soundOn ? 1 : 0.0001;
+    masterGainNode.connect(audioCtx.destination);
+  }
+  return masterGainNode;
+}
+function beep(freq=440, type="sine", dur=0.15) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.connect(gain); gain.connect(audioOutput());
+    osc.start(); osc.stop(audioCtx.currentTime + dur);
+  } catch(e) {}
+}
+
+const ITEMS = {
+  colher: { name: "Colher de madeira", img: "assets/colher.png", icon: "🥄", desc: "Provavelmente responsável por pelo menos três sopas lendárias.", placeable: true },
+  meia: { name: "Meia solitária", icon: "🧦", desc: "A outra metade continua desaparecida no multiverso das máquinas de lavar.", placeable: false },
+  banco: { name: "Banco de jardim", img: "assets/banco.png", icon: "🪑", desc: "Rústico, ligeiramente torto, mas acolhedor.", placeable: true },
+  vaso: { name: "Vaso de barro", img: "assets/vaso.png", icon: "🪴", desc: "A plantinha sobreviveu só na base da pura teimosia.", placeable: true },
+  foto: { name: "Fotografia antiga", img: "assets/indoor_34.png", icon: "🖼️", desc: "Quatro pessoas felizes, um cachorro alegre e alguém cortado na borda.", placeable: true },
+  radio: { name: "Rádio velho", img: "assets/radio.png", icon: "📻", desc: "Não funciona. Exceto quando ninguém está olhando diretamente.", placeable: true },
+  fita: { name: "Fita 'Domingo'", img: "assets/fita.png", icon: "📼", desc: "A etiqueta tem uma carinha sorrindo feita de caneta azul.", placeable: true },
+  toca_fitas: { name: "Toca-fitas", img: "assets/indoor_23.png", icon: "🎛️", desc: "Sem ele, a fita é só um retângulo com saudade. Junte os dois e o rádio acorda.", placeable: true },
+  sapo_toy: { name: "Mini sapo de madeira", img: "assets/sapo_toy.png", icon: "🪵", desc: "Ele não faz nada. Mas sua energia espiritual é admirável.", placeable: true },
+
+  // Segunda leva de descobertas: mais coisa embaixo do entulho, mesma regra —
+  // quem tem placeable vai para a mochila, quem nao tem so entra no caderno.
+  regador: { name: "Regador de lata", img: "assets/garden_14.png", icon: "🚿", desc: "Rega a planta e o seu pé em partes exatamente iguais.", placeable: true },
+  luva_jardim: { name: "Luva de jardinagem", icon: "🧤", desc: "Só a da mão esquerda. A direita virou casa de uma joaninha.", placeable: false },
+  lampiao: { name: "Lampião enferrujado", img: "assets/indoor_30.png", icon: "🏮", desc: "Acende quando ele quer. Vocês combinaram assim.", placeable: true },
+  semente_misteriosa: { name: "Pacote de sementes", icon: "🌱", desc: "A etiqueta desbotou por completo. Vai ser surpresa.", placeable: false },
+  almofada: { name: "Almofada amassada", img: "assets/indoor_25.png", icon: "🛋️", desc: "Guarda o formato exato de alguém que cochilou aqui em 1998.", placeable: true },
+  pilha_livros: { name: "Pilha de livros", img: "assets/indoor_27.png", icon: "📚", desc: "O de cima está marcado na página 47 desde uma tarde que ninguém lembra.", placeable: true },
+  chave_perdida: { name: "Chave sem porta", icon: "🔑", desc: "Abre alguma coisa. O desafio inteiro é descobrir o quê.", placeable: false },
+  tigela_frutas: { name: "Tigela de frutas", img: "assets/indoor_20.png", icon: "🍎", desc: "A lasca fica do lado de lá. Ninguém precisa ficar sabendo.", placeable: true },
+  bau_pequeno: { name: "Baú pequeno", img: "assets/indoor_32.png", icon: "🧳", desc: "Trancado. A chave provavelmente está nesta mesma casa.", placeable: true },
+  bola_gude: { name: "Bolinha de gude", icon: "🔮", desc: "Azul por dentro e determinada a rolar para debaixo do móvel mais pesado.", placeable: false },
+  abajur: { name: "Abajur torto", img: "assets/indoor_11.png", icon: "💡", desc: "Ilumina o canto errado da parede com uma convicção admirável.", placeable: true },
+  carta_antiga: { name: "Carta sem selo", icon: "✉️", desc: "Escrita, dobrada e nunca enviada. Continua doce mesmo assim.", placeable: false },
+
+  // Achados raros: caem por sorte, servem so para enfeitar e colecionar.
+  // Nenhum deles entra em checkUnlocks, entao a progressao nunca depende do acaso.
+  moeda_antiga: { name: "Moeda antiga", icon: "🪙", desc: "Gasta demais para dizer de onde veio. Continua bonita.", placeable: true },
+  botao_dourado: { name: "Botão dourado", icon: "🔶", desc: "Sobrou de um casaco que ninguém lembra mais.", placeable: true },
+  pena_azul: { name: "Pena azul", icon: "🪶", desc: "Alguém passou voando por aqui e deixou lembrança.", placeable: true }
+};
+
+// Sorteio dos achados raros. O item fixo de cada entulho cai sempre; isto aqui
+// e um extra por cima, entao nada da progressao fica dependendo de sorte.
+const RARE_DROPS = ["moeda_antiga", "botao_dourado", "pena_azul"];
+const RARE_DROP_CHANCE = 0.15;
+
+// ===== ENTULHO =====
+// x = centro do monte, y = a linha de chao onde ele encosta (mesma regra de
+// todo objeto apoiado). Os valores foram redistribuidos junto com a nova
+// composicao das cenas: nada nasce em cima do movel, do caminho ou do ponto
+// onde voce chega ao trocar de ambiente.
+const CLUTTER = [
+  { id: 1, scene: "jardim", img: "assets/clutter_37.png", icon: "🍂", x: 150, y: 470, item: "colher" },
+  { id: 2, scene: "jardim", img: "assets/clutter_01.png", icon: "📦", x: 760, y: 500, item: "banco" },
+  { id: 3, scene: "jardim", img: "assets/clutter_18.png", icon: "🪴", x: 330, y: 528, item: "meia" },
+  { id: 4, scene: "sala", img: "assets/clutter_33.png", icon: "🧺", x: 350, y: 400, item: "foto" },
+  { id: 5, scene: "sala", img: "assets/clutter_14.png", icon: "🪴", x: 600, y: 415, item: "vaso" },
+  { id: 6, scene: "sala", img: "assets/clutter_08.png", icon: "📦", x: 830, y: 470, item: "radio" },
+  { id: 7, scene: "sotao", img: "assets/clutter_16.png", icon: "🧺", x: 300, y: 430, item: "fita" },
+  { id: 8, scene: "sotao", img: "assets/clutter_50.png", icon: "🐴", x: 660, y: 425, item: "sapo_toy" },
+  { id: 9, scene: "sotao", img: "assets/clutter_49.png", icon: "🎛️", x: 480, y: 470, item: "toca_fitas" },
+
+  // Segunda leva: sete pilhas por ambiente, espalhadas longe do lugar onde o
+  // personagem para ao chegar, para nunca nascer entulho em cima dele.
+  { id: 10, scene: "jardim", img: "assets/clutter_02.png", icon: "🍾", x: 350, y: 412, item: "regador" },
+  { id: 11, scene: "jardim", img: "assets/clutter_05.png", icon: "🍾", x: 620, y: 400, item: "luva_jardim" },
+  { id: 12, scene: "jardim", img: "assets/clutter_07.png", icon: "📦", x: 880, y: 520, item: "lampiao" },
+  { id: 13, scene: "jardim", img: "assets/clutter_11.png", icon: "🪵", x: 70, y: 520, item: "semente_misteriosa" },
+  { id: 14, scene: "sala", img: "assets/clutter_42.png", icon: "🪑", x: 380, y: 522, item: "almofada" },
+  { id: 15, scene: "sala", img: "assets/clutter_25.png", icon: "🪣", x: 150, y: 500, item: "pilha_livros" },
+  { id: 16, scene: "sala", img: "assets/clutter_27.png", icon: "✂️", x: 260, y: 448, item: "chave_perdida" },
+  { id: 17, scene: "sala", img: "assets/clutter_30.png", icon: "🪢", x: 700, y: 525, item: "tigela_frutas" },
+  { id: 18, scene: "sotao", img: "assets/clutter_03.png", icon: "📦", x: 160, y: 500, item: "bau_pequeno" },
+  { id: 19, scene: "sotao", img: "assets/clutter_35.png", icon: "🧺", x: 820, y: 500, item: "bola_gude" },
+  { id: 20, scene: "sotao", img: "assets/clutter_10.png", icon: "📦", x: 380, y: 522, item: "abajur" },
+  { id: 21, scene: "sotao", img: "assets/clutter_34.png", icon: "📰", x: 620, y: 522, item: "carta_antiga" }
+];
+
+// O placar ("Limpos") e o caderno saem daqui, e nao de um numero escrito na
+// mao: entraram doze entulhos novos e o total virou 21 sozinho.
+const TOTAL_DESCOBERTAS = CLUTTER.length;
+
+const SCENES = ["jardim", "sala", "sotao"];
+const SCENE_NAMES = { jardim: "Jardim", sala: "Sala de estar", sotao: "Sótão" };
+
+const ANIMALS = {
+  gato: { name: "Gato", img: "assets/animal_gato.png", voice: 700,
+    desc: "Dorme onde bate sol e finge que a casa sempre foi dele." },
+  sapo: { name: "Sapo", img: "assets/animal_sapo.png", voice: 280,
+    desc: "Ele não paga aluguel nem come as plantas. Companheiro perfeito." },
+  borboleta: { name: "Borboleta", img: "assets/animal_borboleta.png", voice: 880,
+    desc: "Faz um caminho tortinho pelo jardim, como quem não tem pressa nenhuma." },
+  aranha: { name: "Aranha", img: "assets/animal_aranha.png", voice: 340,
+    desc: "Cuida da própria teia e não incomoda ninguém. Só desce para conferir a vista." },
+  cachorro: { name: "Cachorro", img: "assets/animal_cachorro.png", voice: 400,
+    desc: "Vai e volta pela trilha o dia inteiro, sempre com a mesma empolgação." },
+  passaro: { name: "Pássaro", img: "assets/animal_passaro.png", voice: 980,
+    desc: "Cruza o céu, dá uma olhada no que você fez e some atrás do telhado." }
+};
+
+// Quem anda no chao ganha sombra de contato; quem voa ou fica pendurado, nao.
+const ANIMAIS_DE_CHAO = new Set(["gato", "sapo", "cachorro"]);
+
+// Bichos que ja moram aqui: aparecem desde o inicio, sem depender de limpeza.
+// hang = pendurado (o y vira o ponto de onde o fio sai, no teto).
+const AMBIENT_ANIMALS = [
+  { type: "borboleta", scene: "jardim", x: 180, y: 360 },
+  { type: "passaro", scene: "jardim", x: 120, y: 150 },
+  { type: "cachorro", scene: "jardim", x: 250, y: 512 },
+  { type: "aranha", scene: "jardim", x: 750, y: 199, hang: true, fio: 40, delay: "-2.5s" },
+  { type: "gato", scene: "jardim", x: 120, y: 196, id: "gato-de-rua", name: "Gato de rua",
+    desc: "Fica na cerca observando de longe. Ainda não decidiu se confia em você." },
+  { type: "aranha", scene: "sotao", x: 120, y: 70, hang: true, fio: 80 }
+];
+
+// Visitantes: so aparecem depois que o cantinho merece uma visita.
+const VISITORS = {
+  sapo: { type: "sapo", scene: "jardim", x: 640, y: 516 },
+  gato: { type: "gato", scene: "sala", x: 540, y: 498, name: "Gato dorminhoco",
+    desc: "Ele aprova 100% da sua decoração." }
+};
+
+const PLAYER_SKINS = {
+  musgo: { name: "Musgo", img: "assets/player_musgo.png" },
+  anil: { name: "Anil", img: "assets/player_anil.png" },
+  terracota: { name: "Terracota", img: "assets/player_terracota.png" }
+};
+// Onde o personagem para ao chegar em cada ambiente (x = centro, y = pe no chao).
+const PLAYER_HOME = { jardim: { x: 480, y: 515 }, sala: { x: 210, y: 505 }, sotao: { x: 260, y: 512 } };
+
+// Ate onde da para andar em cada ambiente. Sao os limites do plano de chao:
+// a frente da casa no jardim, o assoalho na sala, o piso de tabuas no sotao.
+const BOUNDS = {
+  jardim: { x0: 46, x1: 916, y0: 388, y1: 530 },
+  sala:   { x0: 46, x1: 916, y0: 376, y1: 530 },
+  sotao:  { x0: 46, x1: 916, y0: 400, y1: 530 }
+};
+
+function saveRules() {
+  return {
+    scenes: SCENES,
+    itemKeys: Object.keys(ITEMS),
+    visitorKeys: Object.keys(VISITORS),
+    ambientIds: AMBIENT_ANIMALS.map(animal => animal.id).filter(id => typeof id === "string"),
+    clutterIds: CLUTTER.map(clutter => clutter.id),
+    skins: Object.keys(PLAYER_SKINS),
+    // Decoração é livre no cenário inteiro; BOUNDS limita só os pés do jogador.
+    bounds: Object.fromEntries(SCENES.map(scene => [scene, { x0: 0, x1: WORLD_W, y0: 0, y1: WORLD_H }]))
+  };
+}
+
+const WORLD_W = 960, WORLD_H = 540;
+const WALK_SPEED = 172;  // px de mundo por segundo
+const REACH = 58;        // raio do espaco, medido do meio do corpo ao meio do entulho
+
+// Tres estacoes, tres humores. Cada uma e so uma lista de notas que o radio
+// repete em looping. A estacao 0 e a melodia de sempre, um pouco mais longa.
+// TODO: estacoes gravadas de verdade (audio em arquivo) ficam para depois —
+// por ora seguimos o ADR-06 e sintetizamos tudo no Web Audio, sem binario no repo.
+const RADIO_STATIONS = [
+  { name: "Domingo de Manhã", type: "sine", step: 280,
+    notes: [261.6, 329.6, 392.0, 523.2, 440.0, 392.0, 329.6, 293.7, 261.6] },
+  { name: "Pula-Pula", type: "square", step: 170,
+    notes: [523.2, 659.2, 523.2, 784.0, 659.2, 880.0, 784.0, 659.2, 523.2, 587.3] },
+  { name: "Soneca do Gato", type: "triangle", step: 460,
+    notes: [174.6, 196.0, 220.0, 174.6, 146.8, 174.6, 130.8] }
+];
+
+// ===== FUNDO MUSICAL =====
+// Um colchao de acordes longos, um por ambiente, tocando em roda bem baixinho.
+// E outra coisa, separada do radio: o radio e um objeto que voce liga; isto
+// aqui e o clima do lugar. Cada cena tem seu tom para a troca de ambiente ser
+// sentida no ouvido, nao so nos olhos.
+// hold = quanto tempo cada acorde segura (segundos).
+// arp  = quais notas do acorde voltam uma oitava acima, como brilhinho.
+const AMBIENCE = {
+  // Jardim: dó maior aberto, luz de manhã.
+  jardim: { type: "sine", hold: 5.0, arp: [2, 3], chords: [
+    [261.6, 329.6, 392.0, 493.9],
+    [174.6, 261.6, 349.2, 440.0],
+    [196.0, 293.7, 392.0, 493.9],
+    [220.0, 329.6, 392.0, 523.3]
+  ]},
+  // Sala: fá maior, mais grave e mais morno, como luz de abajur.
+  sala: { type: "triangle", hold: 5.6, arp: [3], chords: [
+    [174.6, 220.0, 261.6, 329.6],
+    [233.1, 293.7, 349.2, 440.0],
+    [146.8, 174.6, 220.0, 261.6],
+    [130.8, 164.8, 196.0, 293.7]
+  ]},
+  // Sótão: lá menor, devagar e um tom mais escuro — poeira e caixas fechadas.
+  sotao: { type: "sine", hold: 6.4, arp: [1, 3], chords: [
+    [220.0, 261.6, 329.6, 493.9],
+    [174.6, 261.6, 329.6, 440.0],
+    [146.8, 220.0, 261.6, 349.2],
+    [164.8, 246.9, 293.7, 392.0]
+  ]}
+};
+
+// Volume total do fundo: bem abaixo do beep (0.12), para o retorno dos cliques
+// continuar por cima da musica, e nao o contrario.
+const AMBIENT_GAIN = 0.03;
+const MUSIC_KEY = "arrumadinho_muted";
+
+let ambientGainNode = null;
+let ambientOscs = [];
+// Mesma ideia do tuneToken do radio: trocou de cena, o numero muda e o que
+// estava agendado da cena anterior desiste sozinho.
+let ambientToken = 0;
+let musicOn = true;      // preferencia de quem joga, guardada entre visitas
+let audioLiberado = false; // navegador so solta som depois de um gesto de verdade
+
+let state = {
+  scene: "jardim",
+  cleaned: new Set(),
+  catalog: new Set(),
+  inventory: [],
+  selectedItem: null,
+  placed: [], // { itemKey, scene, x, y }
+  visitors: new Set(),
+  radioPlaying: false,
+  radioStation: 0,
+  showingBefore: false,
+  playerSkin: "musgo",
+  playerName: null,
+  criado: false,   // ja passou pela tela de criacao alguma vez?
+  animalNames: {}, // chaveado pela chave do visitante: { sapo: "...", gato: "..." }
+  movedOut: new Set(), // moradores que sairam do lugar de origem (ex: o gato da cerca)
+  progression: Progression.restore()
+};
+let decorationHistory = [];
+let decorationHistoryIndex = -1;
+let editingPlacedOriginal = null;
+let decorationHistoryApplying = false;
+function decorationSnapshot() { return JSON.stringify({ inventory: state.inventory, placed: state.placed }); }
+function updateDecorationHistoryButtons() {
+  const undo = document.getElementById("btn-undo"), redo = document.getElementById("btn-redo");
+  if (undo) undo.disabled = decorationHistoryIndex < 1;
+  if (redo) redo.disabled = decorationHistoryIndex >= decorationHistory.length - 1;
+}
+function recordDecorationChange() {
+  if (decorationHistoryApplying) return;
+  decorationHistory = decorationHistory.slice(0, decorationHistoryIndex + 1);
+  decorationHistory.push(decorationSnapshot()); decorationHistoryIndex++;
+  updateDecorationHistoryButtons();
+}
+function restoreDecorationSnapshot(encoded) {
+  const saved = JSON.parse(encoded);
+  state.inventory = [...saved.inventory]; state.placed = saved.placed.map(item => ({ ...item }));
+  state.selectedItem = null; state.editingPlaced = null; renderInventory(); renderPlaced(); persistGame();
+}
+function undoDecoration() { if (decorationHistoryIndex < 1) return; decorationHistoryApplying = true; decorationHistoryIndex--; restoreDecorationSnapshot(decorationHistory[decorationHistoryIndex]); decorationHistoryApplying = false; updateDecorationHistoryButtons(); }
+function redoDecoration() { if (decorationHistoryIndex >= decorationHistory.length - 1) return; decorationHistoryApplying = true; decorationHistoryIndex++; restoreDecorationSnapshot(decorationHistory[decorationHistoryIndex]); decorationHistoryApplying = false; updateDecorationHistoryButtons(); }
+function cancelDecorationEdit() { state.selectedItem = null; state.editingPlaced = null; renderInventory(); renderPlaced(); }
+let saveRecovery = { kind: "absent", raw: null };
+
+function restoreSavedGame() {
+  const saved = loadSavedGame();
+  saveRecovery = Save.getLastRestoreStatus();
+  if (!saved) return false;
+  state.scene = saved.scene;
+  state.cleaned = new Set(saved.cleaned);
+  state.catalog = new Set(saved.catalog);
+  state.inventory = [...saved.inventory];
+  state.placed = saved.placed.map((p, index) => ({ id: p.id || `placed-legacy-${index + 1}`, ...p }));
+  state.visitors = new Set(saved.visitors);
+  state.playerSkin = saved.playerSkin || state.playerSkin;
+  state.playerName = saved.playerName;
+  state.criado = saved.criado === true;
+  state.animalNames = { ...saved.animalNames };
+  state.movedOut = new Set(saved.movedOut);
+  state.progression = Progression.restore();
+  return true;
+}
+
+// Geracao da melodia: cada vez que o radio liga ou troca de estacao este numero
+// muda, e as notas que ficaram pendentes da estacao anterior se calam sozinhas.
+let tuneToken = 0;
+// O radio so se acende sozinho uma vez; depois disso quem manda e o clique.
+let radioAutoStarted = false;
+
+// ============================================================
+// A JANELA E O MUNDO
+// O mundo tem tamanho fixo (960x540 px de mundo) e a janela nao. fitStage()
+// e o unico lugar que sabe converter um do outro: escolhe a maior escala em
+// que o mundo inteiro ainda cabe (nada de corte feio nas pontas) e a sobra
+// das bordas vira mais ceu/parede/chao, por conta da camada de sangria.
+// ============================================================
+let stageScale = 1;
+function fitStage() {
+  const stage = document.getElementById("stage");
+  stageScale = Math.min(window.innerWidth / WORLD_W, window.innerHeight / WORLD_H);
+  stage.style.transform = `translate(-50%, -50%) scale(${stageScale})`;
+}
+window.addEventListener("resize", fitStage);
+fitStage();
+
+// ============================================================
+// ARRANQUE
+// A tela de criacao so aparece na primeira visita: assim que alguem decide
+// (Começar ou Pular) a escolha fica guardada e das proximas vezes o jogo abre
+// direto no jardim, sem repetir a mesma pergunta. Quem quiser outro visual
+// troca a qualquer hora pelo seletor de estilo da mochila.
+// ============================================================
+function describeSaveRecovery() {
+  if (saveRecovery.kind === "backup") return "⚠️ O save principal não pôde ser lido; o último backup válido foi restaurado. Você pode exportar os bytes encontrados antes de continuar.";
+  if (saveRecovery.kind === "unreadable") {
+    return saveRecovery.reason === "future-version"
+      ? "⚠️ Este save foi criado por uma versão mais nova do jogo. Ele foi mantido intacto e você pode exportá-lo antes de começar de novo."
+      : "⚠️ Este save não pôde ser lido. Ele foi mantido intacto e você pode exportá-lo antes de começar de novo.";
+  }
+  if (saveRecovery.kind === "storage-unavailable") return "⚠️ O navegador não liberou o armazenamento local; esta visita não poderá ser salva.";
+  return "";
+}
+
+function renderSaveRecovery() {
+  const message = describeSaveRecovery();
+  const creatorWarning = document.getElementById("creator-save-warning");
+  const exporter = document.getElementById("export-save");
+  creatorWarning.hidden = !message;
+  creatorWarning.innerText = message;
+  exporter.hidden = !(message && typeof saveRecovery.raw === "string");
+  if (message && state.criado) updateUI("Recuperação do save", message);
+}
+
+function exportRawSave() {
+  if (typeof saveRecovery.raw !== "string") return;
+  const file = new Blob([saveRecovery.raw], { type: "application/json" });
+  const url = URL.createObjectURL(file);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "arrumadinho-save-encontrado.json";
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+
+function hydrateRestoredUI() {
+  document.getElementById("cat-count").innerText = state.catalog.size;
+  document.getElementById("clean-count").innerText = state.cleaned.size;
+  document.getElementById("visitor-count").innerText = state.visitors.size;
+  const sotaoLiberado = state.cleaned.has(1) && state.cleaned.has(2) && state.cleaned.has(4);
+  document.getElementById("btn-sotao").hidden = !sotaoLiberado;
+  document.getElementById("stair-sotao").hidden = !sotaoLiberado;
+  document.getElementById("stair-label").hidden = !sotaoLiberado;
+  renderSaveRecovery();
+}
+
+function boot() {
+  loadNames();
+  restoreSavedGame();
+  renderSaveRecovery();
+  if (state.criado) {
+    document.getElementById("creator").hidden = true;
+    init();
+  } else {
+    mostrarCriador();
+  }
+}
+
+function init() {
+  // Se alguem desligou a musica na visita passada, ela continua desligada.
+  // O som em si so comeca depois do primeiro clique — ver liberarAudio().
+  try { musicOn = localStorage.getItem(MUSIC_KEY) !== "1"; } catch (e) {}
+  try { soundOn = localStorage.getItem(SOUND_KEY) !== "1"; } catch (e) {}
+  renderMusicButton();
+  renderSoundButton();
+  document.getElementById("cat-total").innerText = TOTAL_DESCOBERTAS;
+  document.getElementById("clean-total").innerText = TOTAL_DESCOBERTAS;
+  renderClutter();
+  renderAnimals();
+  renderInventory();
+  renderPlaced();
+  decorationHistory = [decorationSnapshot()];
+  decorationHistoryIndex = 0;
+  updateDecorationHistoryButtons();
+  renderPlayerName(); // ja chama applySkin() por dentro
+  hydrateRestoredUI();
+  switchScene(state.scene, { silent: true });
+  jogoAtivo = true;
+  requestAnimationFrame(gameLoop);
+}
+
+// ---------- Tela de criacao de personagem ----------
+let skinEscolhido = "musgo";
+
+function mostrarCriador() {
+  skinEscolhido = state.playerSkin;
+  const box = document.getElementById("creator-skins");
+  box.innerHTML = "";
+  Object.entries(PLAYER_SKINS).forEach(([key, skin]) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "skin-card";
+    card.dataset.skin = key;
+    card.setAttribute("aria-label", `Escolher o estilo ${skin.name}`);
+    card.innerHTML = `<span class="skin-big sprite2" style="background-image:url(${skin.img})"></span>` +
+                     `<span class="skin-name">${skin.name}</span>`;
+    card.onclick = () => { skinEscolhido = key; marcarSkinEscolhido(); beep(660, "square", 0.06); };
+    box.appendChild(card);
+  });
+  marcarSkinEscolhido();
+  document.getElementById("creator").hidden = false;
+  document.getElementById("creator-name-input").focus();
+}
+
+function marcarSkinEscolhido() {
+  document.querySelectorAll("#creator-skins .skin-card").forEach(c => {
+    c.setAttribute("aria-pressed", String(c.dataset.skin === skinEscolhido));
+  });
+}
+
+function fecharCriador() {
+  document.getElementById("creator").hidden = true;
+  state.criado = true;
+  saveNames();
+  persistGame();
+  init();
+}
+
+function creatorStart() {
+  const nome = document.getElementById("creator-name-input").value.trim();
+  state.playerSkin = skinEscolhido;
+  state.playerName = nome || null;
+  beep(720, "triangle", 0.16);
+  fecharCriador();
+  if (state.playerName) {
+    updateUI(`Prazer, ${state.playerName}!`, "O cantinho agora tem dono. Chegue perto do entulho e aperte espaço.");
+  }
+}
+
+// Pular: entra direto com um estilo sorteado e sem nome — mesmo espirito do
+// antigo "Pular" da caixinha de nome.
+function creatorSkip() {
+  const chaves = Object.keys(PLAYER_SKINS);
+  state.playerSkin = chaves[Math.floor(Math.random() * chaves.length)];
+  state.playerName = null;
+  beep(520, "triangle", 0.1);
+  fecharCriador();
+  updateUI("Vamos lá, então.", "Sem nome, sem cerimônia. Use W A S D para andar e espaço para limpar.");
+}
+
+document.getElementById("creator-name-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") { e.preventDefault(); creatorStart(); }
+});
+
+function switchScene(sc, options = {}) {
+  const mudouDeAmbiente = state.scene !== sc;
+  if (mudouDeAmbiente && !state.showingBefore) cancelDecorationEdit();
+  state.scene = sc;
+  document.querySelectorAll(".scene").forEach(el => el.classList.remove("active"));
+  document.getElementById(`scene-${sc}`).classList.add("active");
+  document.querySelectorAll("#hud button[data-scene]").forEach(b => {
+    b.classList.toggle("active", b.dataset.scene === sc);
+  });
+  document.getElementById("scene-name").innerText = SCENE_NAMES[sc] || "";
+  const home = PLAYER_HOME[sc];
+  if (home) placePlayerAt(home.x, home.y);
+  if (!options.silent) beep(520, "triangle", 0.08);
+  // Cada ambiente tem o proprio tom: mudar de lugar troca o fundo musical.
+  if (mudouDeAmbiente && musicOn && audioLiberado) { stopAmbient(); startAmbient(); }
+  if (!options.silent && !state.showingBefore) persistGame();
+}
+
+// ---------- Entulho ----------
+// Guarda quem esta na tela para o espaco saber o que tem por perto sem
+// precisar varrer o DOM a cada quadro.
+let clutterNodes = new Map(); // id -> { cfg, node }
+
+function renderClutter() {
+  clutterNodes = new Map();
+  SCENES.forEach(sc => {
+    const el = document.getElementById(`clutter-${sc}`);
+    el.innerHTML = "";
+    CLUTTER.filter(c => c.scene === sc && !state.cleaned.has(c.id)).forEach(c => {
+      const node = document.createElement("div");
+      node.className = "rubbish grounded";
+      node.style.left = `${c.x}px`;
+      node.style.top = `${c.y}px`;
+      node.style.zIndex = String(40 + Math.round(c.y));
+      const art = document.createElement("div");
+      art.className = "rubbish-art";
+      art.innerHTML = c.img ? `<img src="${c.img}" class="pixel-placed">` : c.icon;
+      node.appendChild(art);
+      node.title = "Chegue perto e aperte espaço (ou clique)";
+      node.onclick = (e) => { e.stopPropagation(); cleanClutter(c, node); };
+      el.appendChild(node);
+      clutterNodes.set(c.id, { cfg: c, node });
+    });
+  });
+  alvoAtual = null;
+}
+
+// Monta um bicho a partir da folha de 2 quadros: uma ancora presa ao chao (ou
+// ao teto, no caso de quem fica pendurado) e, dentro dela, a figurinha que
+// troca de quadro e faz o passeio. Separar os dois deixa o passeio usar
+// transform sem brigar com a ancoragem.
+function makeAnimalNode(cfg) {
+  const a = ANIMALS[cfg.type];
+  const name = cfg.name || a.name;
+  const desc = cfg.desc || a.desc;
+
+  const anchor = document.createElement("div");
+  anchor.className = `animal-anchor${cfg.hang ? " hang" : ""}${cfg.extraClass ? " " + cfg.extraClass : ""}`;
+  anchor.style.left = `${cfg.x}px`;
+  anchor.style.top = `${cfg.y}px`;
+  anchor.style.zIndex = String(40 + Math.round(cfg.y));
+  if (cfg.fio) anchor.style.setProperty("--fio", `${cfg.fio}px`);
+
+  const node = document.createElement("div");
+  node.className = `sprite2 animal anim-${cfg.type}${ANIMAIS_DE_CHAO.has(cfg.type) ? " on-ground" : ""}`;
+  if (cfg.id) anchor.id = cfg.id;
+  node.style.backgroundImage = `url(${a.img})`;
+  if (cfg.delay) node.style.animationDelay = cfg.delay;
+  node.title = name;
+  node.setAttribute("role", "button");
+  node.setAttribute("tabindex", "0");
+  node.setAttribute("aria-label", `${name}. ${desc}`);
+  const greet = () => { beep(a.voice, "triangle", 0.12); updateUI(name, desc); };
+  node.onclick = (e) => { e.stopPropagation(); greet(); };
+  node.onkeydown = (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); greet(); }
+  };
+  anchor.appendChild(node);
+  return anchor;
+}
+
+function renderAnimals() {
+  SCENES.forEach(sc => {
+    const el = document.getElementById(`animals-${sc}`);
+    el.innerHTML = "";
+    AMBIENT_ANIMALS
+      .filter(a => a.scene === sc && !state.movedOut.has(a.id))
+      .forEach(a => el.appendChild(makeAnimalNode(a)));
+    // Visitante leva .placed-item para sumir junto no modo ANTES: ele so existe
+    // por causa do que voce arrumou.
+    Object.keys(VISITORS)
+      .filter(k => state.visitors.has(k) && VISITORS[k].scene === sc)
+      .forEach(k => {
+        // O apelido que voce deu ganha da etiqueta de fabrica.
+        const apelido = state.animalNames[k];
+        const cfg = Object.assign({}, VISITORS[k], { extraClass: "placed-item" }, apelido ? { name: apelido } : {});
+        el.appendChild(makeAnimalNode(cfg));
+      });
+  });
+}
+
+// ---------- Personagem ----------
+function applySkin() {
+  const p = document.getElementById("player-sprite");
+  const skin = PLAYER_SKINS[state.playerSkin];
+  p.style.backgroundImage = `url(${skin.img})`;
+  p.setAttribute("aria-label", `${state.playerName || "Seu personagem"}, estilo ${skin.name}`);
+  renderSkinPicker();
+}
+
+function renderSkinPicker() {
+  const row = document.getElementById("skin-row");
+  row.innerHTML = "";
+  Object.entries(PLAYER_SKINS).forEach(([key, skin]) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "skin-btn";
+    b.title = skin.name;
+    b.setAttribute("role", "radio");
+    b.setAttribute("aria-checked", String(state.playerSkin === key));
+    b.setAttribute("aria-label", `Vestir o personagem no estilo ${skin.name}`);
+    b.innerHTML = `<span class="skin-thumb sprite2" style="background-image:url(${skin.img})"></span>`;
+    b.onclick = () => setPlayerSkin(key);
+    row.appendChild(b);
+  });
+}
+
+function setPlayerSkin(key) {
+  if (!PLAYER_SKINS[key]) return;
+  state.playerSkin = key;
+  saveNames();
+  persistGame();
+  applySkin();
+  updateUI(`Personagem: ${PLAYER_SKINS[key].name}`, "Roupa trocada. O cantinho continua o mesmo, você que não.");
+  beep(660, "square", 0.06);
+}
+
+// ============================================================
+// ANDAR: W A S D (e setas), quadro a quadro
+// A posicao vive aqui em px de mundo; o requestAnimationFrame so soma
+// velocidade x tempo decorrido, entao a caminhada tem o mesmo ritmo num
+// monitor de 60Hz e num de 144Hz.
+// ============================================================
+const TECLAS_MOV = new Set(["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"]);
+const teclas = new Set();
+const player = { x: PLAYER_HOME.jardim.x, y: PLAYER_HOME.jardim.y, facing: 1, andando: false };
+let jogoAtivo = false;
+let ultimoQuadro = 0;
+let alvoAtual = null; // entulho iluminado no momento
+
+function placePlayerAt(x, y) {
+  player.x = x;
+  player.y = y;
+  player.facing = 1;
+  aplicarPosicaoDoJogador();
+  atualizarAlcance();
+}
+
+function aplicarPosicaoDoJogador() {
+  const p = document.getElementById("player");
+  p.style.left = `${player.x}px`;
+  p.style.top = `${player.y}px`;
+  p.style.zIndex = String(40 + Math.round(player.y));
+  document.getElementById("player-sprite").style.transform = `scaleX(${player.facing})`;
+}
+
+// Vira o personagem para onde a acao aconteceu, sem arrasta-lo pela sala:
+// quem manda no passo agora e o teclado.
+function facePlayerTowards(x) {
+  player.facing = x < player.x ? -1 : 1;
+  document.getElementById("player-sprite").style.transform = `scaleX(${player.facing})`;
+}
+
+// Enquanto uma caixinha estiver aberta, o teclado e dela.
+function entradaBloqueada() {
+  return !document.getElementById("creator").hidden || !document.getElementById("name-modal").hidden;
+}
+
+function gameLoop(ts) {
+  requestAnimationFrame(gameLoop);
+  const dt = ultimoQuadro ? Math.min(0.05, (ts - ultimoQuadro) / 1000) : 0;
+  ultimoQuadro = ts;
+  if (!jogoAtivo) return;
+  if (entradaBloqueada()) { teclas.clear(); return; }
+
+  let dx = 0, dy = 0;
+  if (teclas.has("a") || teclas.has("arrowleft")) dx -= 1;
+  if (teclas.has("d") || teclas.has("arrowright")) dx += 1;
+  if (teclas.has("w") || teclas.has("arrowup")) dy -= 1;
+  if (teclas.has("s") || teclas.has("arrowdown")) dy += 1;
+
+  const andando = dx !== 0 || dy !== 0;
+  if (andando) {
+    // Na diagonal o passo e o mesmo: sem isso, andar torto seria 40% mais rapido.
+    const passo = WALK_SPEED * dt * (dx && dy ? Math.SQRT1_2 : 1);
+    const b = BOUNDS[state.scene] || BOUNDS.jardim;
+    player.x = Math.max(b.x0, Math.min(b.x1, player.x + dx * passo));
+    player.y = Math.max(b.y0, Math.min(b.y1, player.y + dy * passo));
+    if (dx) player.facing = dx < 0 ? -1 : 1;
+    aplicarPosicaoDoJogador();
+  }
+  if (andando !== player.andando) {
+    player.andando = andando;
+    const sp = document.getElementById("player-sprite");
+    sp.classList.toggle("player-walk", andando);
+    sp.classList.toggle("player-idle", !andando);
+  }
+  atualizarAlcance();
+}
+
+// Qual entulho esta ao alcance do braco? Mede do meio do corpo ao meio do
+// monte, os dois em px de mundo.
+function clutterNoAlcance() {
+  const px = player.x, py = player.y - 36;
+  let melhor = null, menor = REACH;
+  clutterNodes.forEach(reg => {
+    if (reg.cfg.scene !== state.scene) return;
+    const d = Math.hypot(reg.cfg.x - px, (reg.cfg.y - 28) - py);
+    if (d < menor) { menor = d; melhor = reg; }
+  });
+  return melhor;
+}
+
+// Um contorno so, no monte mais perto, para ficar claro por que o espaco
+// funciona ali e nao no vizinho.
+function atualizarAlcance() {
+  const alvo = clutterNoAlcance();
+  if (alvo === alvoAtual) return;
+  if (alvoAtual && alvoAtual.node) alvoAtual.node.classList.remove("in-reach");
+  alvoAtual = alvo;
+  if (alvoAtual && alvoAtual.node) alvoAtual.node.classList.add("in-reach");
+}
+
+// Espaco sem nada por perto nao e erro: simplesmente nao acontece nada.
+function limparComEspaco() {
+  const alvo = clutterNoAlcance();
+  if (!alvo) return;
+  cleanClutter(alvo.cfg, alvo.node);
+}
+
+document.addEventListener("keydown", (e) => {
+  const alvo = e.target;
+  if (alvo && (alvo.tagName === "INPUT" || alvo.tagName === "TEXTAREA")) return;
+  const k = (e.key || "").toLowerCase();
+  if (TECLAS_MOV.has(k)) {
+    if (entradaBloqueada()) return;
+    teclas.add(k);
+    e.preventDefault();
+    return;
+  }
+  if (k === " " || e.code === "Space") {
+    if (entradaBloqueada()) return;
+    // Se um botao ou um bichinho esta com o foco, o espaco e dele: quem joga
+    // pelo teclado continua conseguindo acionar o que escolheu.
+    if (document.activeElement && document.activeElement !== document.body) return;
+    e.preventDefault();
+    limparComEspaco();
+  }
+});
+document.addEventListener("keyup", (e) => teclas.delete((e.key || "").toLowerCase()));
+window.addEventListener("blur", () => teclas.clear());
+// Depois de clicar num botao do HUD o foco fica nele, e o espaco viraria um
+// segundo clique. Solta o foco para o espaco voltar a ser "limpar".
+document.addEventListener("click", (e) => {
+  const b = e.target.closest && e.target.closest("#hud button");
+  if (b) b.blur();
+});
+
+document.querySelectorAll("[data-touch-key]").forEach(button => {
+  const key = button.dataset.touchKey;
+  const start = (e) => { e.preventDefault(); if (!entradaBloqueada()) teclas.add(key); };
+  const end = (e) => { e.preventDefault(); teclas.delete(key); };
+  button.addEventListener("pointerdown", start);
+  ["pointerup", "pointercancel", "pointerleave"].forEach(type => button.addEventListener(type, end));
+});
+document.getElementById("touch-clean").addEventListener("pointerdown", (e) => { e.preventDefault(); limparComEspaco(); });
+
+// ---------- Nomes: seu personagem e os bichos que chegam ----------
+const NAMES_KEY = "arrumadinho_names";
+// Uma fila simples: se dois batismos caem juntos, um espera a vez do outro.
+const filaDeNomes = [];
+let pedidoDeNome = null;
+let modalPreviousFocus = null;
+
+function loadNames() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(NAMES_KEY) || "{}");
+    if (typeof raw.player === "string" && raw.player) state.playerName = raw.player;
+    if (PLAYER_SKINS[raw.skin]) state.playerSkin = raw.skin;
+    if (raw.criado === true) state.criado = true;
+    if (raw.animals && typeof raw.animals === "object") state.animalNames = raw.animals;
+  } catch (e) {} // storage bloqueado? o jogo segue sem lembrar de nada
+}
+
+function saveNames() {
+  try {
+    localStorage.setItem(NAMES_KEY, JSON.stringify({
+      player: state.playerName, skin: state.playerSkin, criado: state.criado, animals: state.animalNames
+    }));
+  } catch (e) {}
+}
+
+function renderPlayerName() {
+  const tag = document.getElementById("player-name");
+  if (tag) tag.innerText = state.playerName || "";
+  applySkin();
+}
+
+// Pede um nome. `onName` so e chamado se a pessoa escreveu algo e confirmou —
+// pular ou fechar deixa tudo como estava e o jogo continua rodando.
+function askName(cfg) {
+  filaDeNomes.push(cfg);
+  if (!pedidoDeNome) nextNamePrompt();
+}
+
+function nextNamePrompt() {
+  pedidoDeNome = filaDeNomes.shift() || null;
+  const modal = document.getElementById("name-modal");
+  if (!pedidoDeNome) {
+    modal.hidden = true;
+    if (modalPreviousFocus && modalPreviousFocus.isConnected) modalPreviousFocus.focus();
+    modalPreviousFocus = null;
+    return;
+  }
+  document.getElementById("name-modal-title").innerText = pedidoDeNome.title;
+  document.getElementById("name-modal-hint").innerText = pedidoDeNome.hint;
+  const input = document.getElementById("name-input");
+  input.value = pedidoDeNome.suggestion || "";
+  input.placeholder = pedidoDeNome.suggestion || "";
+  if (modal.hidden) modalPreviousFocus = document.activeElement;
+  modal.hidden = false;
+  input.focus();
+  input.select();
+}
+
+function confirmName() {
+  const pedido = pedidoDeNome;
+  const nome = document.getElementById("name-input").value.trim();
+  document.getElementById("name-modal").hidden = true;
+  pedidoDeNome = null;
+  if (pedido && nome) pedido.onName(nome);
+  persistGame();
+  nextNamePrompt();
+}
+
+function skipName() {
+  document.getElementById("name-modal").hidden = true;
+  pedidoDeNome = null;
+  persistGame();
+  nextNamePrompt();
+}
+
+document.getElementById("name-modal").addEventListener("keydown", (e) => {
+  if (e.key !== "Tab") return;
+  const focusable = [...e.currentTarget.querySelectorAll("input, button")].filter(el => !el.disabled);
+  if (!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (pedidoDeNome || e.target.closest?.("input, textarea")) return;
+  if (e.key === "Escape" && (state.selectedItem !== null || state.editingPlaced)) {
+    e.preventDefault();
+    cancelDecorationKeyboard();
+  }
+});
+
+function askAnimalName(key) {
+  const padrao = VISITORS[key].name || ANIMALS[VISITORS[key].type].name;
+  askName({
+    title: `E esse bichinho, como vai se chamar?`,
+    hint: `Se pular, ele continua sendo "${padrao}".`,
+    suggestion: padrao,
+    onName: (nome) => {
+      state.animalNames[key] = nome;
+      saveNames();
+      renderAnimals();
+      updateUI(`Agora ele é o ${nome}`, "Nome dado, amizade oficializada.");
+      beep(640, "triangle", 0.14);
+    }
+  });
+}
+
+// Enter confirma, Esc pula. Ninguem fica preso na caixinha.
+document.addEventListener("keydown", (e) => {
+  if (!pedidoDeNome) return;
+  if (e.key === "Enter") { e.preventDefault(); confirmName(); }
+  else if (e.key === "Escape") { e.preventDefault(); skipName(); }
+});
+
+function cleanClutter(c, el) {
+  if (state.showingBefore) return;
+  if (state.cleaned.has(c.id)) return;
+  state.cleaned.add(c.id);
+  state.catalog.add(c.item);
+  const it = ITEMS[c.item];
+  if (it.placeable) state.inventory.push(c.item);
+
+  // Achado raro: entra na mochila junto, mas fica fora do caderno para nao
+  // bagunçar a contagem das descobertas do jogo.
+  let bonus = null;
+  if (Math.random() < RARE_DROP_CHANCE) {
+    bonus = RARE_DROPS[Math.floor(Math.random() * RARE_DROPS.length)];
+    state.inventory.push(bonus);
+  }
+
+  facePlayerTowards(c.x);
+  spawnSparkles(c.x, c.y - 30);
+  beep(400, "sine", 0.05);
+  setTimeout(() => beep(640, "sine", 0.15), 60);
+
+  el.remove();
+  clutterNodes.delete(c.id);
+  if (alvoAtual && alvoAtual.cfg.id === c.id) alvoAtual = null;
+
+  if (bonus) {
+    const b = ITEMS[bonus];
+    spawnSparkles(c.x, c.y - 56);
+    setTimeout(() => beep(1040, "triangle", 0.22), 220);
+    updateUI("✨ Achado raro!", `${it.name}. E no meio da bagunça apareceu também: ${b.name} — ${b.desc}`);
+  } else {
+    updateUI(it.name, it.desc);
+  }
+  announceProgression(it.name, it.desc);
+  renderInventory();
+  renderCatalog();
+  checkUnlocks();
+  persistGame();
+  atualizarAlcance();
+}
+
+function spawnSparkles(x, y) {
+  const stage = document.getElementById("stage");
+  for (let i = 0; i < 4; i++) {
+    const sp = document.createElement("div");
+    sp.className = "sparkle";
+    sp.innerText = ["✨", "🌟", "🌸"][Math.floor(Math.random() * 3)];
+    sp.style.left = `${x + (Math.random() * 40 - 20)}px`;
+    sp.style.top = `${y + (Math.random() * 40 - 20)}px`;
+    stage.appendChild(sp);
+    setTimeout(() => sp.remove(), 600);
+  }
+}
+
+function updateUI(title, desc) {
+  document.getElementById("dialog-title").innerText = title;
+  document.getElementById("dialog-desc").innerText = desc;
+  document.getElementById("cat-count").innerText = state.catalog.size;
+  document.getElementById("clean-count").innerText = state.cleaned.size;
+  renderProgressionHistory();
+}
+
+function renderInventory() {
+  const inv = document.getElementById("inventory");
+  inv.innerHTML = "";
+  state.inventory.forEach((itemKey, idx) => {
+    const it = ITEMS[itemKey];
+    const slot = document.createElement("div");
+    slot.className = `inv-slot ${state.selectedItem === idx ? "selected" : ""}`;
+    slot.tabIndex = 0;
+    slot.setAttribute("role", "option");
+    slot.setAttribute("aria-selected", String(state.selectedItem === idx));
+    slot.setAttribute("aria-label", `${it.name}. ${state.selectedItem === idx ? "Selecionado para colocar" : "Pressione Enter para selecionar"}`);
+    slot.innerHTML = it.img ? `<img src="${it.img}" class="pixel-icon">` : it.icon;
+    slot.title = `${it.name} (arraste para o ambiente ou clique para colocar)`;
+    // Sem isto o mesmo clique escapa para o cenario e o item cai sozinho atras
+    // da mochila, em vez de esperar voce escolher o lugar. (O objeto ja posto e
+    // os botoes de tamanho ja se protegem do mesmo jeito.)
+    slot.onclick = (ev) => { ev.stopPropagation(); selectItem(idx); };
+    slot.onkeydown = (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault(); ev.stopPropagation();
+        if (ev.key === "Enter" && state.selectedItem === idx) placeSelectedFromKeyboard();
+        else selectItem(idx);
+      }
+      if (ev.key === "Escape") { ev.preventDefault(); cancelDecorationKeyboard(); slot.focus(); }
+    };
+
+    // Arrastar e um atalho: quem prefere (ou precisa) clicar continua usando
+    // selectItem + clique no cenario, que fazem exatamente a mesma coisa.
+    slot.draggable = true;
+    slot.dataset.idx = String(idx);
+    slot.ondragstart = (ev) => {
+      ev.dataTransfer.setData("text/plain", String(idx));
+      ev.dataTransfer.effectAllowed = "move";
+      slot.classList.add("dragging");
+    };
+    slot.ondragend = () => slot.classList.remove("dragging");
+    inv.appendChild(slot);
+  });
+  document.getElementById("hint-place").style.display = state.selectedItem !== null ? "inline" : "none";
+}
+
+function selectItem(idx) {
+  if (!state.inventory[idx]) return;
+  state.selectedItem = state.selectedItem === idx ? null : idx;
+  renderInventory();
+  if (state.selectedItem !== null) {
+    const focused = document.querySelector(`#inventory .inv-slot[data-idx="${state.selectedItem}"]`);
+    if (focused) focused.focus();
+  }
+  if (state.selectedItem !== null) {
+    const it = ITEMS[state.inventory[state.selectedItem]];
+    updateUI(`Colocando: ${it.name}`, "Clique em qualquer ponto do ambiente para decorar.");
+    beep(600, "square", 0.04);
+  }
+}
+
+function placeSelectedFromKeyboard() {
+  if (state.selectedItem !== null && !state.showingBefore) {
+    placeItemAt(state.selectedItem, Math.round(player.x), Math.round(player.y));
+  }
+}
+
+function moveEditingPlaced(dx, dy) {
+  if (!state.editingPlaced || state.showingBefore) return;
+  const b = BOUNDS[state.scene] || BOUNDS.jardim;
+  state.editingPlaced.x = Math.max(b.x0, Math.min(b.x1, state.editingPlaced.x + dx));
+  state.editingPlaced.y = Math.max(b.y0, Math.min(b.y1, state.editingPlaced.y + dy));
+  renderPlaced();
+  document.querySelector(`.placed-item[data-placed-id="${CSS.escape(String(state.editingPlaced.id))}"]`)?.focus();
+  updateUI(`Movendo: ${ITEMS[state.editingPlaced.itemKey].name}`, "Setas movem · Enter confirma · Esc cancela");
+}
+
+function cancelDecorationKeyboard() {
+  if (state.editingPlaced) {
+    if (editingPlacedOriginal) Object.assign(state.editingPlaced, editingPlacedOriginal);
+    state.editingPlaced = null;
+    editingPlacedOriginal = null;
+    renderPlaced();
+    updateUI("Movimento cancelado", "O objeto voltou para onde estava.");
+  } else if (state.selectedItem !== null) {
+    state.selectedItem = null;
+    renderInventory();
+    updateUI("Colocação cancelada", "A mochila continua intacta.");
+  }
+}
+
+function beginPlacedKeyboardEdit(p) {
+  if (state.showingBefore) return;
+  state.editingPlaced = p;
+  editingPlacedOriginal = { x: p.x, y: p.y, scale: p.scale || 1 };
+  renderPlaced();
+  document.querySelector(`.placed-item[data-placed-id="${CSS.escape(String(p.id))}"]`)?.focus();
+  updateUI(`Movendo: ${ITEMS[p.itemKey].name}`, "Setas movem · Enter confirma · Esc cancela");
+}
+
+// Do dedo na tela para o px de mundo. E o inverso exato do fitStage(): tira o
+// canto do palco e desfaz a escala.
+function viewportCoords(e) {
+  const rect = document.getElementById("stage").getBoundingClientRect();
+  return {
+    x: Math.round(Math.max(24, Math.min(WORLD_W - 24, (e.clientX - rect.left) / stageScale))),
+    y: Math.round(Math.max(140, Math.min(WORLD_H - 12, (e.clientY - rect.top) / stageScale)))
+  };
+}
+
+// Coracao de colocar coisa no cantinho. Os dois caminhos (clicar no item e
+// depois no cenario, ou arrastar direto) terminam aqui, para nao existirem
+// duas versoes da mesma regra.
+function placeItemAt(idx, x, y) {
+  if (state.showingBefore) return;
+  const itemKey = state.inventory[idx];
+  if (!itemKey) return;
+  state.inventory.splice(idx, 1);
+  // A mochila encolheu: a selecao pendente precisa acompanhar o novo indice.
+  if (state.selectedItem !== null) {
+    if (state.selectedItem === idx) state.selectedItem = null;
+    else if (state.selectedItem > idx) state.selectedItem--;
+  }
+  state.placed.push({ id: `placed-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, itemKey, scene: state.scene, x, y, scale: 1 });
+  recordDecorationChange();
+  renderPlaced();
+  renderInventory();
+  facePlayerTowards(x);
+  spawnSparkles(x, y - 24);
+  beep(720, "triangle", 0.12);
+  updateUI("Ficou ótimo!", `Você colocou ${ITEMS[itemKey].name} no seu cantinho.`);
+  checkUnlocks();
+  persistGame();
+}
+
+function handleViewportClick(e) {
+  // Clique em painel do HUD nao e clique no cenario.
+  if (e.target.closest && e.target.closest("#hud, #touch-controls")) return;
+  if (state.showingBefore) return;
+  if (state.editingPlaced) {
+    const { x, y } = viewportCoords(e);
+    state.editingPlaced.x = x;
+    state.editingPlaced.y = y;
+    const nome = ITEMS[state.editingPlaced.itemKey].name;
+    state.editingPlaced = null;
+    recordDecorationChange();
+    persistGame();
+    renderPlaced();
+    updateUI(`${nome} reposicionado`, "Agora é exatamente onde você quis deixar.");
+    return;
+  }
+  if (state.selectedItem === null) return;
+  const { x, y } = viewportCoords(e);
+  placeItemAt(state.selectedItem, x, y);
+}
+
+function handleViewportDragOver(e) {
+  e.preventDefault(); // sem isto o navegador recusa o solte
+  if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+}
+
+function handleViewportDrop(e) {
+  e.preventDefault();
+  if (e.target.closest && e.target.closest("#hud, #touch-controls")) return;
+  const idx = parseInt(e.dataTransfer.getData("text/plain"), 10);
+  if (Number.isNaN(idx) || !state.inventory[idx]) return;
+  const { x, y } = viewportCoords(e);
+  placeItemAt(idx, x, y);
+}
+
+function renderPlaced() {
+  SCENES.forEach(sc => {
+    const el = document.getElementById(`decor-${sc}`);
+    el.innerHTML = "";
+    state.placed.filter(p => p.scene === sc).forEach(p => {
+      const it = ITEMS[p.itemKey];
+      const node = document.createElement("div");
+      node.className = "placed-item grounded";
+      node.tabIndex = 0;
+      node.setAttribute("role", "button");
+      node.dataset.placedId = String(p.id);
+      node.setAttribute("aria-label", `${it.name}. Enter para mover, Delete para guardar, + e - para redimensionar`);
+      node.style.left = `${p.x}px`;
+      node.style.top = `${p.y}px`;
+      node.style.zIndex = String(40 + Math.round(p.y));
+      if (state.editingPlaced === p) node.classList.add("is-editing");
+
+      const art = document.createElement("div");
+      art.className = "placed-art";
+      art.style.transform = `scale(${p.scale || 1})`;
+      art.innerHTML = it.img ? `<img src="${it.img}" class="pixel-placed">` : it.icon;
+      node.appendChild(art);
+      node.appendChild(makeResizeControl(p, art, it));
+      node.appendChild(makeItemControl(p, it));
+
+      node.title = it.name;
+      node.onclick = (e) => {
+        e.stopPropagation();
+        if (state.showingBefore || state.editingPlaced === p) return;
+        if (p.itemKey === "radio") toggleRadio();
+        else { beginPlacedKeyboardEdit(p); }
+      };
+      node.onkeydown = (e) => {
+        if (e.key === "Enter" && !state.editingPlaced) { e.preventDefault(); beginPlacedKeyboardEdit(p); return; }
+        if (state.editingPlaced !== p) return;
+        if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
+          e.preventDefault();
+          moveEditingPlaced(e.key === "ArrowLeft" ? -12 : e.key === "ArrowRight" ? 12 : 0, e.key === "ArrowUp" ? -12 : e.key === "ArrowDown" ? 12 : 0);
+        } else if (e.key === "Enter") {
+          e.preventDefault(); state.editingPlaced = null; editingPlacedOriginal = null; persistGame(); renderPlaced(); updateUI(it.name, "Posição confirmada.");
+        } else if (e.key === "Escape") { e.preventDefault(); cancelDecorationKeyboard(); }
+        else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); guardarItemColocado(p, it); }
+        else if (e.key === "+" || e.key === "=") { e.preventDefault(); ajustarTamanhoColocado(p, 0.2, it); }
+        else if (e.key === "-" || e.key === "_") { e.preventDefault(); ajustarTamanhoColocado(p, -0.2, it); }
+      };
+      el.appendChild(node);
+    });
+  });
+}
+
+function ajustarTamanhoColocado(p, delta, it) {
+  const atual = p.scale || 1;
+  const novo = Math.min(1.8, Math.max(0.6, Math.round((atual + delta) * 10) / 10));
+  if (novo === atual) return;
+  p.scale = novo;
+  recordDecorationChange();
+  persistGame();
+  renderPlaced();
+  beep(delta > 0 ? 760 : 520, "square", 0.05);
+  updateUI(it.name, `Tamanho ajustado para ${Math.round(novo * 100)}%.`);
+}
+
+function guardarItemColocado(p, it) {
+  const index = state.placed.indexOf(p);
+  if (index < 0) return;
+  state.placed.splice(index, 1);
+  state.inventory.push(p.itemKey);
+  state.editingPlaced = null;
+  editingPlacedOriginal = null;
+  recordDecorationChange();
+  persistGame();
+  renderPlaced(); renderInventory();
+  updateUI(`${it.name} guardado`, "Ele voltou para a mochila. Nada precisa ficar definitivo.");
+}
+
+// Dois botoezinhos que so aparecem ao passar o mouse (ou ao chegar de teclado):
+// deixam o objeto maior ou menor. O tamanho fica guardado no state.placed, entao
+// aguenta trocar de ambiente e qualquer redesenho da cena.
+function makeResizeControl(p, art, it) {
+  const ctl = document.createElement("div");
+  ctl.className = "resize-ctl";
+  [["−", -0.2, "menor"], ["+", 0.2, "maior"]].forEach(([label, delta, word]) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.innerText = label;
+    b.title = `Deixar ${it.name} ${word}`;
+    b.setAttribute("aria-label", `Deixar ${it.name} ${word}`);
+    b.onclick = (ev) => {
+      // Sem isto o clique escaparia para o radio e para o clique do cenario.
+      ev.stopPropagation();
+      const atual = p.scale || 1;
+      const novo = Math.min(1.8, Math.max(0.6, Math.round((atual + delta) * 10) / 10));
+      if (novo === atual) return;
+      p.scale = novo;
+      recordDecorationChange();
+      persistGame();
+      art.style.transform = `scale(${novo})`;
+      beep(delta > 0 ? 760 : 520, "square", 0.05);
+      updateUI(it.name, `Tamanho ajustado para ${Math.round(novo * 100)}%.`);
+    };
+    ctl.appendChild(b);
+  });
+  return ctl;
+}
+
+function makeItemControl(p, it) {
+  const ctl = document.createElement("div");
+  ctl.className = "item-ctl";
+  [["Mover", "mover"], ["Guardar", "guardar"]].forEach(([label, action]) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.innerText = label;
+    b.onclick = (ev) => {
+      ev.stopPropagation();
+      if (action === "mover") {
+        state.editingPlaced = p;
+        renderPlaced();
+        updateUI(`Movendo: ${it.name}`, "Clique no chão para escolher o novo cantinho.");
+        return;
+      }
+      const index = state.placed.indexOf(p);
+      if (index < 0) return;
+      state.placed.splice(index, 1);
+      state.inventory.push(p.itemKey);
+      state.editingPlaced = null;
+      recordDecorationChange();
+      persistGame();
+      renderPlaced(); renderInventory();
+      updateUI(`${it.name} guardado`, "Ele voltou para a mochila. Nada precisa ficar definitivo.");
+    };
+    ctl.appendChild(b);
+  });
+  return ctl;
+}
+
+function persistProgression() {
+  Progression.save(state.progression);
+  renderProgressionHistory();
+}
+
+function announceProgression(title, description, kind = "discovery") {
+  Progression.addEvent(state.progression, { title, description, kind });
+  persistProgression();
+}
+
+function placedInScene(itemKey, scene) {
+  return state.placed.some(p => p.itemKey === itemKey && p.scene === scene);
+}
+
+function maybeOfferEnding() {
+  if (state.progression.endingOffered || !Progression.coreComplete([...state.cleaned], CLUTTER)) return;
+  state.progression.endingOffered = true;
+  persistProgression();
+  document.getElementById("ending-card").hidden = false;
+  updateUI("A casa respira de novo", "A transformação principal está completa. Você pode guardar este momento ou continuar experimentando.");
+}
+
+function finishEnding() {
+  state.progression.ending = "continued";
+  persistProgression();
+  document.getElementById("ending-card").hidden = true;
+  updateUI("Momento guardado", "A casa continua sua. Você pode decorar, mover e voltar quando quiser.");
+}
+
+function skipEnding() {
+  state.progression.ending = "skipped";
+  persistProgression();
+  document.getElementById("ending-card").hidden = true;
+  updateUI("Pode ficar mais um pouco", "O final é gentil e opcional. A mochila e a decoração continuam abertas.");
+}
+
+function renderProgressionHistory() {
+  const box = document.getElementById("progression-history");
+  if (!box || !state.progression) return;
+  box.innerHTML = state.progression.eventHistory.map(event => `<div class="cat-item"><b>${event.title}</b><small>${event.description}</small></div>`).join("");
+}
+
+function checkUnlocks() {
+  // Sótão unlock after cleaning garden and finding photo.
+  if (state.cleaned.has(1) && state.cleaned.has(2) && state.cleaned.has(4)) {
+    const btnSotao = document.getElementById("btn-sotao");
+    if (btnSotao.hidden) {
+      btnSotao.hidden = false;
+      document.getElementById("stair-sotao").hidden = false;
+      document.getElementById("stair-label").hidden = false;
+      updateUI("🗝️ O sótão foi destrancado!", "A poeira baixou e a escada rangeu. O que será que tem lá em cima?");
+      beep(880, "sine", 0.3);
+    }
+  }
+  // Visitantes leem a cena onde o objeto foi colocado; a posição é livre.
+  if (state.cleaned.has(1) && placedInScene("banco", "jardim") && !state.visitors.has("sapo")) {
+    state.visitors.add("sapo");
+    renderAnimals();
+    const regra = Progression.visitorDescription({ key: "sapo", scene: "jardim" });
+    updateUI("🐸 Novo visitante!", regra);
+    announceProgression("Pingo encontrou o jardim", regra, "visitor");
+    beep(500, "triangle", 0.2);
+    askAnimalName("sapo");
+    persistGame();
+  }
+  // Visitor 2: Cat 🐱 appears in living room if photo and pot are placed
+  if (placedInScene("foto", "sala") && placedInScene("vaso", "sala") && !state.visitors.has("gato")) {
+    state.visitors.add("gato");
+    state.movedOut.add("gato-de-rua"); // ele desceu da cerca e entrou de vez
+    renderAnimals();
+    const regra = Progression.visitorDescription({ key: "gato", scene: "sala" });
+    updateUI("🐱 Um gato adotou seu cantinho!", regra);
+    announceProgression("O gato reconheceu a sala", regra, "visitor");
+    beep(600, "sine", 0.2);
+    askAnimalName("gato");
+    persistGame();
+  }
+  document.getElementById("visitor-count").innerText = state.visitors.size;
+
+  // Fita + toca-fitas é um extra opcional e não controla o rádio.
+  const payoff = placedInScene("fita", "sotao") && placedInScene("toca_fitas", "sotao");
+  if (payoff && !state.progression.payoffHeard) {
+    state.progression.payoffHeard = true;
+    announceProgression("Uma lembrança ganhou som", "A fita e o toca-fitas combinaram no sótão. O rádio continua independente, se você quiser ligá-lo.", "optional");
+  }
+  maybeOfferEnding();
+}
+
+// O botao do radio e o proprio radio, e ele gira em roda:
+// desligado -> estacao 1 -> estacao 2 -> estacao 3 -> desligado -> ...
+// Escolhi a roda em vez de clique direito ou botao escondido porque e um gesto
+// so, funciona igual no toque e no mouse, e nao esconde nada de ninguem.
+function toggleRadio() {
+  if (!state.radioPlaying) {
+    state.radioPlaying = true;
+    state.radioStation = 0;
+  } else if (state.radioStation < RADIO_STATIONS.length - 1) {
+    state.radioStation++;
+  } else {
+    state.radioPlaying = false;
+    state.radioStation = 0;
+  }
+  tuneToken++; // corta as notas da estacao anterior antes de comecar a proxima
+
+  if (state.radioPlaying) {
+    const st = RADIO_STATIONS[state.radioStation];
+    updateUI(`🎵 Rádio: ${st.name}`, `Estação ${state.radioStation + 1} de ${RADIO_STATIONS.length}. Clique de novo para mudar — no fim da volta ele descansa.`);
+    playCozyTune(tuneToken);
+  } else {
+    updateUI("Rádio desligado", "Silêncio gostoso.");
+  }
+}
+
+function playCozyTune(token) {
+  if (!state.radioPlaying || token !== tuneToken) return;
+  const st = RADIO_STATIONS[state.radioStation];
+  const vivo = () => state.radioPlaying && token === tuneToken;
+  st.notes.forEach((f, i) => {
+    setTimeout(() => { if (vivo()) beep(f, st.type, st.step / 1000 * 0.9); }, i * st.step);
+  });
+  setTimeout(() => { if (vivo()) playCozyTune(token); }, st.notes.length * st.step + 1200);
+}
+
+// Saida so do fundo musical. Fica separada da saida do beep para dar para
+// abaixar a musica sem encostar no som dos cliques.
+function ambientBus() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  if (!ambientGainNode) {
+    ambientGainNode = audioCtx.createGain();
+    ambientGainNode.gain.value = 0.0001;
+    ambientGainNode.connect(audioOutput());
+  }
+  return ambientGainNode;
+}
+
+// Uma voz do colchao: entra devagar, segura e some devagar. O horario e o do
+// relogio do Web Audio, entao nao desafina quando a aba engasga.
+function ambientVoice(freq, at, dur, type, vol) {
+  const osc = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, at);
+  g.gain.setValueAtTime(0.0001, at);
+  g.gain.exponentialRampToValueAtTime(vol, at + dur * 0.4);
+  g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+  osc.connect(g); g.connect(ambientBus());
+  osc.start(at); osc.stop(at + dur + 0.05);
+  ambientOscs.push(osc);
+  osc.onended = () => { ambientOscs = ambientOscs.filter(o => o !== osc); };
+}
+
+function startAmbient() {
+  if (!musicOn || !audioLiberado) return;
+  try {
+    const bus = ambientBus();
+    const t = audioCtx.currentTime;
+    bus.gain.cancelScheduledValues(t);
+    bus.gain.setValueAtTime(0.0001, t);
+    bus.gain.linearRampToValueAtTime(1, t + 0.6); // entra sem susto
+    ambientToken++;
+    playAmbientLoop(ambientToken, 0);
+  } catch (e) {}
+}
+
+function stopAmbient() {
+  ambientToken++; // o que estava agendado para de se remarcar
+  const velhos = ambientOscs;
+  ambientOscs = [];
+  if (!audioCtx || !ambientGainNode) return;
+  try {
+    const t = audioCtx.currentTime;
+    // Desce o volume em meio segundo antes de calar os osciladores. Cortar um
+    // acorde no meio faz um estalo feio; assim ele so se despede.
+    ambientGainNode.gain.cancelScheduledValues(t);
+    ambientGainNode.gain.setValueAtTime(ambientGainNode.gain.value, t);
+    ambientGainNode.gain.linearRampToValueAtTime(0.0001, t + 0.45);
+    velhos.forEach(o => { try { o.stop(t + 0.5); } catch (e) {} });
+  } catch (e) {}
+}
+
+// A roda do fundo musical: toca o acorde da vez e se remarca um pouco antes de
+// ele acabar, para um acorde entrar por cima do outro sem buraco no meio.
+function playAmbientLoop(token, i) {
+  if (!musicOn || token !== ambientToken || !audioCtx) return;
+  const amb = AMBIENCE[state.scene] || AMBIENCE.jardim;
+  const chord = amb.chords[i % amb.chords.length];
+  const t0 = audioCtx.currentTime + 0.05;
+  const vozes = chord.length;
+  chord.forEach(f => ambientVoice(f, t0, amb.hold, amb.type, AMBIENT_GAIN / vozes));
+  // Brilhinho por cima: notas do proprio acorde, uma oitava acima, quase sussurro.
+  (amb.arp || []).forEach((idx, k) => {
+    const f = chord[idx % vozes] * 2;
+    ambientVoice(f, t0 + amb.hold * (0.35 + k * 0.22), amb.hold * 0.28, "triangle", AMBIENT_GAIN * 0.3);
+  });
+  setTimeout(() => playAmbientLoop(token, i + 1), amb.hold * 920);
+}
+
+function renderMusicButton() {
+  const b = document.getElementById("btn-music");
+  if (!b) return;
+  b.innerText = musicOn ? "🎶 Música" : "🔇 Música";
+  b.title = musicOn ? "Desligar o som de fundo" : "Ligar o som de fundo";
+}
+
+function renderSoundButton() {
+  const b = document.getElementById("btn-sound");
+  if (!b) return;
+  b.innerText = soundOn ? "🔊 Som" : "🔇 Som";
+  b.title = soundOn ? "Silenciar todos os sons" : "Ligar todos os sons";
+}
+
+function toggleSound() {
+  soundOn = !soundOn;
+  try { localStorage.setItem(SOUND_KEY, soundOn ? "0" : "1"); } catch (e) {}
+  if (audioCtx) audioOutput().gain.setTargetAtTime(soundOn ? 1 : 0.0001, audioCtx.currentTime, 0.04);
+  renderSoundButton();
+}
+
+function toggleMusic() {
+  musicOn = !musicOn;
+  try { localStorage.setItem(MUSIC_KEY, musicOn ? "0" : "1"); } catch (e) {}
+  renderMusicButton();
+  if (musicOn) {
+    audioLiberado = true; // o proprio clique no botao ja e o gesto que libera
+    startAmbient();
+  } else {
+    stopAmbient();
+  }
+}
+
+// Nenhum navegador toca som antes de alguem encostar na pagina — e uma regra
+// deles, nao nossa. Entao o fundo musical espera o primeiro clique ou tecla.
+function liberarAudio() {
+  if (audioLiberado) return;
+  audioLiberado = true;
+  startAmbient();
+}
+document.addEventListener("click", liberarAudio, { once: true });
+document.addEventListener("keydown", liberarAudio, { once: true });
+
+function toggleBeforeAfter() {
+  state.showingBefore = !state.showingBefore;
+  const btn = document.getElementById("btn-ba");
+  if (state.showingBefore) {
+    btn.innerText = "Mostrar Restaurado";
+    state.selectedItem = null;
+    state.editingPlaced = null;
+    renderInventory();
+    document.querySelectorAll(".placed-item").forEach(el => el.style.display = "none");
+    renderOriginalView();
+    updateUI("Modo ANTES", "Olha só como isso aqui estava abandonado e triste...");
+  } else {
+    btn.innerText = "Antes / Depois";
+    renderClutter();
+    renderAnimals();
+    renderPlaced();
+    updateUI("Modo DEPOIS", "Olha a diferença! Fui eu que fiz isso.");
+  }
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && (state.selectedItem !== null || state.editingPlaced)) {
+    e.preventDefault(); cancelDecorationEdit();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") { e.preventDefault(); undoDecoration(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "y") { e.preventDefault(); redoDecoration(); }
+});
+
+function renderOriginalView() {
+  SCENES.forEach(sc => {
+    const el = document.getElementById(`clutter-${sc}`);
+    el.innerHTML = "";
+    CLUTTER.filter(c => c.scene === sc).forEach(c => {
+      const node = document.createElement("div");
+      node.className = "rubbish grounded";
+      node.style.left = `${c.x}px`; node.style.top = `${c.y}px`; node.style.zIndex = String(40 + Math.round(c.y));
+      node.innerHTML = `<div class="rubbish-art">${c.img ? `<img src="${c.img}" class="pixel-placed">` : c.icon}</div>`;
+      el.appendChild(node);
+    });
+    const animals = document.getElementById(`animals-${sc}`);
+    animals.innerHTML = "";
+    AMBIENT_ANIMALS.filter(a => a.scene === sc).forEach(a => animals.appendChild(makeAnimalNode(a)));
+  });
+}
+
+// Caderno: painel dentro do jogo, na mesma paleta do resto do HUD.
+function renderCatalog() {
+  const box = document.getElementById("catalog-list");
+  if (!box) return;
+  box.innerHTML = "";
+  Array.from(state.catalog).forEach(k => {
+    const it = ITEMS[k];
+    const li = document.createElement("div");
+    li.className = "cat-item";
+    li.innerHTML = `✅ <b>${it.name}</b><small>${it.desc}</small>`;
+    box.appendChild(li);
+  });
+  for (let i = state.catalog.size; i < TOTAL_DESCOBERTAS; i++) {
+    const li = document.createElement("div");
+    li.className = "cat-item cat-unknown";
+    li.innerText = "❔ Ainda embaixo de alguma coisa";
+    box.appendChild(li);
+  }
+}
+
+function toggleCatalog() {
+  const panel = document.getElementById("catalog-panel");
+  panel.hidden = !panel.hidden;
+  if (!panel.hidden) { renderCatalog(); renderProgressionHistory(); beep(560, "triangle", 0.07); }
+}
+
+boot();
+</script>
+</body>
+</html>
