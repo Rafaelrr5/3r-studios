@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 STATIC = (
     'index.html', 'style.css', 'main.js', 'i18n.js', 'projects.js',
     'projetos.json', 'usar.html', 'use.css', 'use.js', 'downloads/releases.json',
+    'ads.txt', 'app-ads.txt',
 )
 
 

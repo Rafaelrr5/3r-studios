@@ -31,6 +31,14 @@ class PagesBuildTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 MODULE.build(source, source.parent)
 
+    def test_ads_files_ship_with_the_publisher_line(self):
+        root = Path(__file__).resolve().parent.parent
+        self.assertIn('ads.txt', MODULE.STATIC)
+        self.assertIn('app-ads.txt', MODULE.STATIC)
+        for name in ('ads.txt', 'app-ads.txt'):
+            self.assertEqual((root / name).read_text(encoding='utf-8').strip(),
+                             'google.com, pub-5017691799936042, DIRECT, f08c47fec0942fa0')
+
     def test_missing_asset_fails_before_copying(self):
         with tempfile.TemporaryDirectory() as tmp:
             source, output = Path(tmp) / 'source', Path(tmp) / 'upload'
