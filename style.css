@@ -40,6 +40,15 @@ html[data-underline="on"] a:not(.skip){text-decoration:underline;text-underline-
 .gear svg{transition:transform .5s var(--ease)}
 .gear:hover svg{transform:rotate(180deg)}
 html[data-contrast="high"] .top{background:var(--bg);border-bottom:2px solid var(--fg)}
+/* Site navigation: same links in the header and the footer of every page */
+.site{display:flex;align-items:center;gap:22px;margin-left:auto}
+.top .site a[aria-current="page"]::after{transform:scaleX(1)}
+.site + .links{padding-left:6px}
+.foot-nav{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:8px}
+.foot-nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:.25em}
+.nojs{padding:110px var(--pad) 24px}
+.nojs ul{display:grid;gap:14px;font-size:calc(1.125rem * var(--s));line-height:1.5;max-width:70ch}
+.nojs a{text-decoration:underline;text-underline-offset:.2em;font-weight:600}
 
 /* Horizontal mode (set by JS on <html class="h">) */
 .h .pin{position:relative}
@@ -153,6 +162,11 @@ html:not(.h) .art{height:260px}
   .top{background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:10px var(--pad)}
   .top .brand{font-weight:500}
   .links{gap:14px}
+  .top{flex-wrap:wrap;row-gap:0}
+  .top .site{order:3;flex:1 0 100%;margin-left:0;gap:4px 16px;flex-wrap:wrap}
+  .top .site a{display:inline-flex;align-items:center;min-height:44px;padding:0}
+  .top .links{margin-left:auto}
+  .top .site a.hide-s{display:none}
   .gear span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   .gear{padding:0;width:44px;height:44px;justify-content:center}
   .intro{min-height:88vh}

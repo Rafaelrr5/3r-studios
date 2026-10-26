@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>3R Studios — produtos para o rolê, a música e quem constrói</title>
 <meta name="description" content="3R Studios é um estúdio de Juiz de Fora. Faz o Resenhópolis, o mapa das resenhas, e o DeejAI, produção musical com IA.">
+<link rel="canonical" href="https://3rstudios.com.br/">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#F5F2FA">
 <meta property="og:title" content="3R Studios">
@@ -27,19 +28,26 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
 <script src="main.js" defer></script>
 </head>
 <body>
-<a class="skip m" href="#work" data-i18n="skip">Skip to projects</a>
+<a class="skip m" href="#work" data-i18n="skip">Pular para os projetos</a>
 
 <header class="top m">
   <a href="#top" class="brand">3R Studios</a>
-  <span class="hide-s" data-i18n="tag">Product studio · Juiz de Fora</span>
-  <nav class="links" aria-label="Main" data-i18n-label="nav">
-    <a href="https://www.linkedin.com/in/rafael-rocha-ribeiro-581bb2202/" target="_blank" rel="noopener me">LinkedIn<span aria-hidden="true"> ↗</span><span class="sr" data-i18n="newtab">(opens in a new tab)</span></a>
-    <a href="https://github.com/Rafaelrr5" target="_blank" rel="noopener me">GitHub<span aria-hidden="true"> ↗</span><span class="sr" data-i18n="newtab">(opens in a new tab)</span></a>
+  <span class="hide-s" data-i18n="tag">Estúdio de produtos · Juiz de Fora</span>
+  <nav class="site" aria-label="Principal" data-i18n-label="nav">
+    <a class="hide-s" href="./" aria-current="page" data-i18n="navHome">Início</a>
+    <a href="resenhopolis.html">Resenhópolis</a>
+    <a href="sobre.html" data-i18n="navAbout">Sobre</a>
+    <a href="sobre.html#contato" data-i18n="navContact">Contato</a>
+    <a href="privacidade.html" data-i18n="navPrivacy">Privacidade</a>
+  </nav>
+  <div class="links">
+    <a class="hide-s" href="https://www.linkedin.com/in/rafael-rocha-ribeiro-581bb2202/" target="_blank" rel="noopener me">LinkedIn<span aria-hidden="true"> ↗</span><span class="sr" data-i18n="newtab">(abre em nova aba)</span></a>
+    <a class="hide-s" href="https://github.com/Rafaelrr5" target="_blank" rel="noopener me">GitHub<span aria-hidden="true"> ↗</span><span class="sr" data-i18n="newtab">(abre em nova aba)</span></a>
     <button class="gear" id="gear" type="button" aria-haspopup="dialog" aria-controls="prefs">
       <svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14"><path fill="none" stroke="currentColor" stroke-width="2.2" d="M3 7h11M19 7h2M3 17h2M10 17h11"/><circle cx="16.5" cy="7" r="2.3" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="7.5" cy="17" r="2.3" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
-      <span data-i18n="prefs">Settings</span>
+      <span data-i18n="prefs">Ajustes</span>
     </button>
-  </nav>
+  </div>
 </header>
 
 <main id="top">
@@ -48,22 +56,40 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
   <section class="intro" aria-labelledby="h-title">
     <h1 id="h-title">3<span class="r" aria-hidden="true">R</span><span class="sr">R</span> Studios</h1>
     <div class="row">
-      <p data-i18n="intro">We build for nights out, for music, and for people who build.</p>
-      <p class="m hint"><span class="hide-s" data-hint="D">Scroll or use ← → to browse the projects</span><span class="show-s" data-hint="M">Scroll to browse the projects</span></p>
+      <p data-i18n="intro">A gente faz produto para o rolê, para a música e para quem constrói.</p>
+      <p class="m hint"><span class="hide-s" data-hint="D">Role ou use ← → para ver os projetos</span><span class="show-s" data-hint="M">Role para ver os projetos</span></p>
     </div>
   </section>
 
-  <h2 class="sr" data-i18n="projects">Projects</h2>
+  <h2 class="sr" data-i18n="projects">Projetos</h2>
 
-  <!-- Project cards are built from projetos.json by projects.js. -->
+  <!-- Project cards are built from projetos.json by projects.js. Without JavaScript, this list stands in for them. -->
+  <noscript><section class="nojs" aria-label="Projetos">
+    <ul>
+      <li><a href="resenhopolis.html">Resenhópolis</a>: o mapa das resenhas. Festas, shows, bares e rolês de rua publicados pelas próprias pessoas. No ar.</li>
+      <li><a href="https://qualmonmovie.netlify.app/">Qual Mon Movie</a>: recomendações de filmes e um quiz de cinema, no navegador. No ar.</li>
+      <li><a href="https://blinkninja05.netlify.app/">BlinkNinja</a>: jogo para o navegador, no computador ou no celular. No ar.</li>
+      <li>DeejAI: produção musical com IA, montada com os seus próprios samples. Em desenvolvimento.</li>
+      <li><a href="jogar/arrumadinho/">Arrumadinho</a>: protótipo de jogo para limpar e decorar uma casinha. Em desenvolvimento.</li>
+      <li><a href="usar.html">Extrato Claro e Claude Autosend</a>: aplicativos para Windows, em versão de prévia.</li>
+      <li>Agent Cortex, Modpack Assistant e Alexa Hermes: projetos de laboratório com código aberto no <a href="https://github.com/Rafaelrr5">GitHub</a>.</li>
+    </ul>
+  </section></noscript>
 
   <section class="end" aria-labelledby="h-end">
-    <p class="m" data-i18n="endLoc">3R Studios · Juiz de Fora, Brazil</p>
-    <h2 class="say" id="h-end" data-i18n="endSay">Built by Rafael Rocha. Everything here runs real work before it is published.</h2>
+    <p class="m" data-i18n="endLoc">3R Studios · Juiz de Fora, Brasil</p>
+    <h2 class="say" id="h-end" data-i18n="endSay">3R Studios, de Rafael Rocha. Tudo aqui é usado de verdade antes de ser publicado.</h2>
     <div class="outs">
-      <a class="more" href="https://github.com/Rafaelrr5" target="_blank" rel="noopener me"><span data-i18n="more">More on GitHub</span><span class="sr" data-i18n="newtab">(opens in a new tab)</span></a>
-      <a class="li" href="https://www.linkedin.com/in/rafael-rocha-ribeiro-581bb2202/" target="_blank" rel="noopener me"><b aria-hidden="true">in</b><span data-i18n="linkedin">Talk to me on LinkedIn</span><span class="sr" data-i18n="newtab">(opens in a new tab)</span></a>
+      <a class="more" href="https://github.com/Rafaelrr5" target="_blank" rel="noopener me"><span data-i18n="more">Mais no GitHub</span><span class="sr" data-i18n="newtab">(abre em nova aba)</span></a>
+      <a class="li" href="https://www.linkedin.com/in/rafael-rocha-ribeiro-581bb2202/" target="_blank" rel="noopener me"><b aria-hidden="true">in</b><span data-i18n="linkedin">Fale comigo no LinkedIn</span><span class="sr" data-i18n="newtab">(abre em nova aba)</span></a>
     </div>
+    <nav class="foot-nav m" aria-label="Rodapé" data-i18n-label="footNav">
+      <a href="./" data-i18n="navHome">Início</a>
+      <a href="resenhopolis.html">Resenhópolis</a>
+      <a href="sobre.html" data-i18n="navAbout">Sobre</a>
+      <a href="sobre.html#contato" data-i18n="navContact">Contato</a>
+      <a href="privacidade.html" data-i18n="navPrivacy">Privacidade</a>
+    </nav>
   </section>
 
 </div></div></div>
@@ -74,46 +100,46 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
 
 <dialog id="prefs" class="prefs" aria-labelledby="prefs-h">
   <form method="dialog" id="pform">
-    <div class="ph"><h2 id="prefs-h" data-i18n="prefs">Settings</h2>
-      <button class="x" value="close" aria-label="Close settings" data-i18n-label="close"><span aria-hidden="true">×</span></button></div>
+    <div class="ph"><h2 id="prefs-h" data-i18n="prefs">Ajustes</h2>
+      <button class="x" value="close" aria-label="Fechar ajustes" data-i18n-label="close"><span aria-hidden="true">×</span></button></div>
 
-    <fieldset><legend data-i18n="lang">Language</legend><div class="seg">
+    <fieldset><legend data-i18n="lang">Idioma</legend><div class="seg">
       <label><input type="radio" name="lang" value="pt-BR"><span lang="pt-BR">Português</span></label>
       <label><input type="radio" name="lang" value="en"><span lang="en">English</span></label>
       <label><input type="radio" name="lang" value="es"><span lang="es">Español</span></label>
       <label><input type="radio" name="lang" value="fr"><span lang="fr">Français</span></label>
     </div></fieldset>
 
-    <fieldset><legend data-i18n="theme">Theme</legend><div class="seg">
-      <label><input type="radio" name="theme" value="auto"><span data-i18n="auto">Auto</span></label>
-      <label><input type="radio" name="theme" value="light"><span data-i18n="light">Light</span></label>
-      <label><input type="radio" name="theme" value="dark"><span data-i18n="dark">Dark</span></label>
+    <fieldset><legend data-i18n="theme">Tema</legend><div class="seg">
+      <label><input type="radio" name="theme" value="auto"><span data-i18n="auto">Automático</span></label>
+      <label><input type="radio" name="theme" value="light"><span data-i18n="light">Claro</span></label>
+      <label><input type="radio" name="theme" value="dark"><span data-i18n="dark">Escuro</span></label>
     </div></fieldset>
 
-    <fieldset><legend data-i18n="motion">Motion</legend><div class="seg">
-      <label><input type="radio" name="motion" value="auto"><span data-i18n="auto">Auto</span></label>
-      <label><input type="radio" name="motion" value="full"><span data-i18n="full">Full</span></label>
-      <label><input type="radio" name="motion" value="reduce"><span data-i18n="reduce">Reduced</span></label>
+    <fieldset><legend data-i18n="motion">Animações</legend><div class="seg">
+      <label><input type="radio" name="motion" value="auto"><span data-i18n="auto">Automático</span></label>
+      <label><input type="radio" name="motion" value="full"><span data-i18n="full">Completas</span></label>
+      <label><input type="radio" name="motion" value="reduce"><span data-i18n="reduce">Reduzidas</span></label>
     </div></fieldset>
 
-    <fieldset><legend data-i18n="layout">Browsing</legend><div class="seg">
-      <label><input type="radio" name="layout" value="auto"><span data-i18n="auto">Auto</span></label>
-      <label><input type="radio" name="layout" value="horiz"><span data-i18n="horiz">Sideways</span></label>
+    <fieldset><legend data-i18n="layout">Navegação</legend><div class="seg">
+      <label><input type="radio" name="layout" value="auto"><span data-i18n="auto">Automático</span></label>
+      <label><input type="radio" name="layout" value="horiz"><span data-i18n="horiz">Lateral</span></label>
       <label><input type="radio" name="layout" value="vert"><span data-i18n="vert">Vertical</span></label>
     </div></fieldset>
 
-    <fieldset><legend data-i18n="text">Text size</legend><div class="seg">
+    <fieldset><legend data-i18n="text">Tamanho do texto</legend><div class="seg">
       <label><input type="radio" name="text" value="1"><span>A<span class="sr"> 100%</span></span></label>
       <label><input type="radio" name="text" value="1.15"><span style="font-size:1.15em">A<span class="sr"> 115%</span></span></label>
       <label><input type="radio" name="text" value="1.3"><span style="font-size:1.3em">A<span class="sr"> 130%</span></span></label>
     </div></fieldset>
 
     <div class="toggles">
-      <label class="tg"><input type="checkbox" name="contrast" role="switch"><span data-i18n="contrast">High contrast</span></label>
-      <label class="tg"><input type="checkbox" name="underline" role="switch"><span data-i18n="underline">Underline links</span></label>
+      <label class="tg"><input type="checkbox" name="contrast" role="switch"><span data-i18n="contrast">Alto contraste</span></label>
+      <label class="tg"><input type="checkbox" name="underline" role="switch"><span data-i18n="underline">Sublinhar links</span></label>
     </div>
 
-    <div class="pf"><button type="button" id="reset" class="m" data-i18n="reset">Reset to default</button><p class="m" id="saved" role="status"></p></div>
+    <div class="pf"><button type="button" id="reset" class="m" data-i18n="reset">Restaurar padrão</button><p class="m" id="saved" role="status"></p></div>
   </form>
 </dialog>
 </body>

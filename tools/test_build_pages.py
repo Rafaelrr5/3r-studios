@@ -1,5 +1,6 @@
 """Regression checks for the public-only Pages upload."""
 import importlib.util
+import re
 from pathlib import Path
 import tempfile
 import unittest
@@ -38,6 +39,43 @@ class PagesBuildTests(unittest.TestCase):
         for name in ('ads.txt', 'app-ads.txt'):
             self.assertEqual((root / name).read_text(encoding='utf-8').strip(),
                              'google.com, pub-5017691799936042, DIRECT, f08c47fec0942fa0')
+
+    def test_sitemap_lists_only_shipped_pages(self):
+        root = Path(__file__).resolve().parent.parent
+        locs = re.findall(r'<loc>(.*?)</loc>', (root / 'sitemap.xml').read_text(encoding='utf-8'))
+        self.assertEqual(len(locs), len(set(locs)))
+        files = []
+        for loc in locs:
+            self.assertTrue(loc.startswith(MODULE.SITE), loc)
+            path = loc[len(MODULE.SITE):]
+            files.append('index.html' if path == '' else path + '.html')
+        self.assertEqual(sorted(files), sorted(MODULE.PAGES))
+        for name in files:
+            self.assertIn(name, MODULE.STATIC)
+            self.assertTrue((root / name).is_file(), name)
+        self.assertIn('sitemap.xml', MODULE.STATIC)
+        self.assertIn('Sitemap: https://3rstudios.com.br/sitemap.xml',
+                      (root / 'robots.txt').read_text(encoding='utf-8').splitlines())
+
+    def test_pages_have_metadata_and_no_dead_internal_links(self):
+        root = Path(__file__).resolve().parent.parent
+        shipped = set(MODULE.STATIC) | {'jogar/arrumadinho/index.html'}
+        for name in (*MODULE.PAGES, '404.html'):
+            html = (root / name).read_text(encoding='utf-8')
+            self.assertEqual(len(re.findall(r'<title>[^<]{10,}</title>', html)), 1, name)
+            self.assertRegex(html, r'<meta name="description" content="[^"]{40,}">', name)
+            if name != '404.html':
+                slug = '' if name == 'index.html' else name[:-5]
+                self.assertIn(f'<link rel="canonical" href="{MODULE.SITE}{slug}">', html, name)
+            for nav in ('sobre.html', 'sobre.html#contato', 'privacidade.html', 'resenhopolis.html'):
+                self.assertIn(f'href="{"/" if name == "404.html" else ""}{nav}"', html, (name, nav))
+            for href in re.findall(r'(?:href|src)="([^"]+)"', html):
+                if re.match(r'(https?:|mailto:|data:|#)', href):
+                    continue
+                target = href.split('#')[0].lstrip('/').removeprefix('./')
+                if target == '' or target.endswith('/'):
+                    target += 'index.html'
+                self.assertIn(target, shipped, (name, href))
 
     def test_missing_asset_fails_before_copying(self):
         with tempfile.TemporaryDirectory() as tmp:

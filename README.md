@@ -6,7 +6,14 @@ Live: https://3r-studios.pages.dev/
 
 GitHub Pages mirror: https://rafaelrr5.github.io/3r-studios/
 
-The site is one static page with no build step and no framework: `index.html`, `style.css`, `main.js`, `i18n.js`, `projects.js` and `projetos.json`. You can host it on anything that serves files (not `file://`: the project list is fetched).
+The site has no build step and no framework. The home page is `index.html`, `style.css`, `main.js`, `i18n.js`, `projects.js` and `projetos.json`. You can host it on anything that serves files (not `file://`: the project list is fetched).
+
+## Text pages, sitemap and 404
+- `resenhopolis.html` (live product), `sobre.html` (about + `#contato`), `privacidade.html` (this site's privacy policy) and `404.html` share `style.css` + `page.css`. Their text is static pt-BR HTML (`lang="pt-BR"`) and reads fine without JavaScript; they only apply the saved theme/contrast/text-size settings.
+- Every page has the same header and footer links: Início, Resenhópolis, Sobre, Contato, Privacidade. On the home page and `usar.html` those labels are translated (`i18n.js`, `use.js`).
+- `sitemap.xml` and `robots.txt` list the canonical, extensionless URLs Cloudflare Pages serves (`/sobre`, not `/sobre.html`). Each page has a matching `<link rel="canonical">`. `404.html` uses root-absolute paths because Pages serves it for any missing address.
+- A product only gets its own page when there is enough verified material to describe it; Qual Mon Movie and BlinkNinja stay as cards.
+- New public files must be added to `STATIC` in `tools/build-pages.py`; `tools/test_build_pages.py` checks the sitemap, canonical tags and internal links against it.
 
 ## Motion
 - On desktop, scrolling down moves the projects sideways. The ← and → keys jump from one project to the next.

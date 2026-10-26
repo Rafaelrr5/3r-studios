@@ -195,3 +195,9 @@ Object.assign(window.I18N.fr, {
   arln: "Nettoyez, décorez et faites d’une petite maison la vôtre.",
   arbd: "Jouez au prototype d’Arrumadinho ici dans le navigateur. Marchez avec les flèches ou WASD, nettoyez avec Espace et décorez avec la souris. Sur téléphone, utilisez les commandes tactiles. La progression reste dans ce navigateur."
 });
+
+// Site navigation (header and footer) shared by the home page.
+Object.assign(window.I18N.en, { navHome: "Home", navAbout: "About", navContact: "Contact", navPrivacy: "Privacy", footNav: "Footer" });
+Object.assign(window.I18N["pt-BR"], { navHome: "Início", navAbout: "Sobre", navContact: "Contato", navPrivacy: "Privacidade", footNav: "Rodapé" });
+Object.assign(window.I18N.es, { navHome: "Inicio", navAbout: "Nosotros", navContact: "Contacto", navPrivacy: "Privacidad", footNav: "Pie de página" });
+Object.assign(window.I18N.fr, { navHome: "Accueil", navAbout: "À propos", navContact: "Contact", navPrivacy: "Vie privée", footNav: "Pied de page" });

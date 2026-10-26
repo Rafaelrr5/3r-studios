@@ -19,7 +19,7 @@ CLIP = """(() => [...document.querySelectorAll('h1,h3,.ln,.bd,.go,.more,.say,.li
   .filter(e => e.offsetParent && e.scrollWidth > e.clientWidth + 1).map(e => (e.className||e.tagName)+':'+e.textContent.slice(0,30)))()"""
 LEAK = """(() => { const t = I18N.en; if (document.documentElement.lang === 'en') return [];
   return [...document.querySelectorAll('[data-i18n]')].filter(e => e.textContent === t[e.dataset.i18n]
-    && !['tag','auto','vert'].includes(e.dataset.i18n)).map(e => e.dataset.i18n) })()"""
+    && !['tag','auto','vert','navContact'].includes(e.dataset.i18n)).map(e => e.dataset.i18n) })()"""
 
 async def axe(pg, label):
     await pg.add_script_tag(url=AXE)

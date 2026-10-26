@@ -12,7 +12,12 @@ STATIC = (
     'index.html', 'style.css', 'main.js', 'i18n.js', 'projects.js',
     'projetos.json', 'usar.html', 'use.css', 'use.js', 'downloads/releases.json',
     'ads.txt', 'app-ads.txt',
+    'resenhopolis.html', 'sobre.html', 'privacidade.html', '404.html', 'page.css',
+    'sitemap.xml', 'robots.txt',
 )
+# Pages listed in sitemap.xml, as served by Cloudflare Pages (extensionless; / is index.html).
+PAGES = ('index.html', 'resenhopolis.html', 'sobre.html', 'privacidade.html', 'usar.html')
+SITE = 'https://3rstudios.com.br/'
 
 
 def build(source, output):
