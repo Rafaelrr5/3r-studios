@@ -13,12 +13,7 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0A0F'/%3E%3Ccircle cx='21' cy='12' r='6' fill='%23FFD21F'/%3E%3Crect x='6' y='18' width='9' height='9' fill='%2300E5C2'/%3E%3C/svg%3E">
 <!-- Apply saved settings before first paint: no flash of the wrong theme or language. -->
-<script>
-(function(){var d=document.documentElement,s={};try{s=JSON.parse(localStorage.getItem("3r-prefs")||"{}")}catch(e){}
-var L=s.lang;if(!L){var n=navigator.languages||[navigator.language||"en"];for(var i=0;i<n.length&&!L;i++){var x=(n[i]||"").toLowerCase();L=x.indexOf("pt")==0?"pt-BR":x.indexOf("fr")==0?"fr":x.indexOf("es")==0?"es":x.indexOf("en")==0?"en":""}}
-d.lang=L||"en";d.dataset.theme=s.theme||"auto";d.dataset.motion=s.motion||"auto";d.dataset.layout=s.layout||"auto";
-if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";if(s.text)d.style.setProperty("--scale",s.text)})();
-</script>
+<script>(function(){var d=document.documentElement,s={};try{s=JSON.parse(localStorage.getItem("3r-prefs")||"{}")}catch(e){}var L=s.lang;if(!L){var n=navigator.languages||[navigator.language||"en"];for(var i=0;i<n.length&&!L;i++){var x=(n[i]||"").toLowerCase();L=x.indexOf("pt")==0?"pt-BR":x.indexOf("fr")==0?"fr":x.indexOf("es")==0?"es":x.indexOf("en")==0?"en":""}}d.lang=L||"en";d.dataset.theme=s.theme||"auto";d.dataset.motion=s.motion||"auto";d.dataset.layout=s.layout||"auto";if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";if(s.text)d.style.setProperty("--scale",s.text)})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Mono:wght@400;500&display=swap">
@@ -36,9 +31,10 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
   <nav class="site" aria-label="Principal" data-i18n-label="nav">
     <a class="hide-s" href="./" aria-current="page" data-i18n="navHome">Início</a>
     <a href="resenhopolis.html">Resenhópolis</a>
+    <a href="portfolio.html" data-i18n="navPortfolio">Portfólio</a>
     <a href="sobre.html" data-i18n="navAbout">Sobre</a>
     <a href="sobre.html#contato" data-i18n="navContact">Contato</a>
-    <a href="privacidade.html" data-i18n="navPrivacy">Privacidade</a>
+    <a class="hide-s" href="privacidade.html" data-i18n="navPrivacy">Privacidade</a>
   </nav>
   <div class="links">
     <a class="hide-s" href="https://www.linkedin.com/in/rafael-rocha-ribeiro-581bb2202/" target="_blank" rel="noopener me">LinkedIn<span aria-hidden="true"> ↗</span><span class="sr" data-i18n="newtab">(abre em nova aba)</span></a>
@@ -71,6 +67,7 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
       <li><a href="https://blinkninja05.netlify.app/">BlinkNinja</a>: jogo para o navegador, no computador ou no celular. No ar.</li>
       <li>DeejAI: produção musical com IA, montada com os seus próprios samples. Em desenvolvimento.</li>
       <li><a href="jogar/arrumadinho/">Arrumadinho</a>: protótipo de jogo para limpar e decorar uma casinha. Em desenvolvimento.</li>
+      <li><a href="portfolio.html">Portfólio</a>: a Minds Academy e um jogo 3D feitos na UFJF, e o site da Fundação Maria Mãe.</li>
       <li><a href="usar.html">Extrato Claro e Claude Autosend</a>: aplicativos para Windows, em versão de prévia.</li>
       <li>Agent Cortex, Modpack Assistant e Alexa Hermes: projetos de laboratório com código aberto no <a href="https://github.com/Rafaelrr5">GitHub</a>.</li>
     </ul>
@@ -86,6 +83,7 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
     <nav class="foot-nav m" aria-label="Rodapé" data-i18n-label="footNav">
       <a href="./" data-i18n="navHome">Início</a>
       <a href="resenhopolis.html">Resenhópolis</a>
+      <a href="portfolio.html" data-i18n="navPortfolio">Portfólio</a>
       <a href="sobre.html" data-i18n="navAbout">Sobre</a>
       <a href="sobre.html#contato" data-i18n="navContact">Contato</a>
       <a href="privacidade.html" data-i18n="navPrivacy">Privacidade</a>
@@ -130,8 +128,8 @@ if(s.contrast)d.dataset.contrast="high";if(s.underline)d.dataset.underline="on";
 
     <fieldset><legend data-i18n="text">Tamanho do texto</legend><div class="seg">
       <label><input type="radio" name="text" value="1"><span>A<span class="sr"> 100%</span></span></label>
-      <label><input type="radio" name="text" value="1.15"><span style="font-size:1.15em">A<span class="sr"> 115%</span></span></label>
-      <label><input type="radio" name="text" value="1.3"><span style="font-size:1.3em">A<span class="sr"> 130%</span></span></label>
+      <label><input type="radio" name="text" value="1.15"><span class="t115">A<span class="sr"> 115%</span></span></label>
+      <label><input type="radio" name="text" value="1.3"><span class="t130">A<span class="sr"> 130%</span></span></label>
     </div></fieldset>
 
     <div class="toggles">

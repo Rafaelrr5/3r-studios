@@ -23,5 +23,19 @@
 .foot{border-top:1px solid var(--line);padding:28px var(--pad) 40px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 32px}
 .foot p{color:var(--mute)}
 .foot .foot-nav{margin:0}
+/* Portfolio page */
+.doc .jump{display:flex;flex-wrap:wrap;gap:4px 22px;margin-top:22px}
+.doc .jump a{display:inline-flex;align-items:center;min-height:44px}
+.doc .work{display:grid;gap:18px;margin-top:28px;padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.doc .work img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.doc .work h3{margin-top:4px}
+.doc .work .tag{color:var(--mute);font-size:calc(.75rem * var(--s));text-transform:uppercase;letter-spacing:.05em;margin:0}
+.doc .work .links{display:flex;flex-wrap:wrap;gap:4px 22px}
+.doc .work .links a{display:inline-flex;align-items:center;min-height:44px}
+.doc .scores{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.doc .scores li{margin:0;padding:10px 16px;border:1px solid var(--line);border-radius:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.doc .scores b{display:block;font-family:"DM Mono",ui-monospace,monospace;font-weight:500;font-size:calc(.75rem * var(--s));text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.doc .more-cta{margin-top:52px;font-size:calc(1.15rem * var(--s))}
+html[data-contrast="high"] .doc .work,html[data-contrast="high"] .doc .scores li{border:2px solid var(--fg)}
 html[data-contrast="high"] .doc .contacts li{border:2px solid var(--fg)}
 @media (forced-colors:active){.doc .cta{border:2px solid ButtonText}}

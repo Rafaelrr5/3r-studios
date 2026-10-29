@@ -1,4 +1,6 @@
 """Regression checks for the public-only Pages upload."""
+import base64
+import hashlib
 import importlib.util
 import re
 from pathlib import Path
@@ -67,7 +69,7 @@ class PagesBuildTests(unittest.TestCase):
             if name != '404.html':
                 slug = '' if name == 'index.html' else name[:-5]
                 self.assertIn(f'<link rel="canonical" href="{MODULE.SITE}{slug}">', html, name)
-            for nav in ('sobre.html', 'sobre.html#contato', 'privacidade.html', 'resenhopolis.html'):
+            for nav in ('sobre.html', 'sobre.html#contato', 'privacidade.html', 'resenhopolis.html', 'portfolio.html'):
                 self.assertIn(f'href="{"/" if name == "404.html" else ""}{nav}"', html, (name, nav))
             for href in re.findall(r'(?:href|src)="([^"]+)"', html):
                 if re.match(r'(https?:|mailto:|data:|#)', href):
@@ -76,6 +78,22 @@ class PagesBuildTests(unittest.TestCase):
                 if target == '' or target.endswith('/'):
                     target += 'index.html'
                 self.assertIn(target, shipped, (name, href))
+
+    def test_csp_allows_exactly_the_shipped_inline_scripts(self):
+        root = Path(__file__).resolve().parent.parent
+        headers = (root / '_headers').read_text(encoding='utf-8')
+        csp = re.search(r'^/\*\n  Content-Security-Policy: (.+)$', headers, re.M).group(1)
+        self.assertNotIn("'unsafe-inline'", csp)
+        hashes = set()
+        for name in (*MODULE.PAGES, '404.html'):
+            html = (root / name).read_text(encoding='utf-8')
+            # The browser blocks these under the CSP: inline styles and event handlers.
+            self.assertNotRegex(html, r'\sstyle="|\son[a-z]+="', name)
+            for body in re.findall(r'<script>(.*?)</script>', html, re.S):
+                self.assertNotIn('\n', body, f'{name}: keep inline scripts on one line (CRLF changes the hash)')
+                digest = base64.b64encode(hashlib.sha256(body.encode('utf-8')).digest()).decode()
+                hashes.add(f"'sha256-{digest}'")
+        self.assertEqual(hashes, set(re.findall(r"'sha256-[A-Za-z0-9+/=]+'", csp)))
 
     def test_missing_asset_fails_before_copying(self):
         with tempfile.TemporaryDirectory() as tmp:

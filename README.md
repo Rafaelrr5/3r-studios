@@ -9,11 +9,17 @@ GitHub Pages mirror: https://rafaelrr5.github.io/3r-studios/
 The site has no build step and no framework. The home page is `index.html`, `style.css`, `main.js`, `i18n.js`, `projects.js` and `projetos.json`. You can host it on anything that serves files (not `file://`: the project list is fetched).
 
 ## Text pages, sitemap and 404
-- `resenhopolis.html` (live product), `sobre.html` (about + `#contato`), `privacidade.html` (this site's privacy policy) and `404.html` share `style.css` + `page.css`. Their text is static pt-BR HTML (`lang="pt-BR"`) and reads fine without JavaScript; they only apply the saved theme/contrast/text-size settings.
-- Every page has the same header and footer links: Início, Resenhópolis, Sobre, Contato, Privacidade. On the home page and `usar.html` those labels are translated (`i18n.js`, `use.js`).
+- `resenhopolis.html` (live product), `portfolio.html` (UFJF work and client sites, `#ufjf` and `#clientes`; thumbnails in `img/portfolio/`), `sobre.html` (about + `#contato`), `privacidade.html` (this site's privacy policy) and `404.html` share `style.css` + `page.css`. Their text is static pt-BR HTML (`lang="pt-BR"`) and reads fine without JavaScript; they only apply the saved theme/contrast/text-size settings.
+- Every page has the same header and footer links: Início, Resenhópolis, Portfólio, Sobre, Contato, Privacidade. On phones the header drops Início and Privacidade; the footer keeps both. On the home page and `usar.html` those labels are translated (`i18n.js`, `use.js`).
 - `sitemap.xml` and `robots.txt` list the canonical, extensionless URLs Cloudflare Pages serves (`/sobre`, not `/sobre.html`). Each page has a matching `<link rel="canonical">`. `404.html` uses root-absolute paths because Pages serves it for any missing address.
 - A product only gets its own page when there is enough verified material to describe it; Qual Mon Movie and BlinkNinja stay as cards.
 - New public files must be added to `STATIC` in `tools/build-pages.py`; `tools/test_build_pages.py` checks the sitemap, canonical tags and internal links against it.
+
+## Security headers
+`_headers` sets the Cloudflare Pages response headers: a Content-Security-Policy, HSTS, `X-Frame-Options: DENY`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`, and `noindex` on the `*.pages.dev` addresses.
+- The CSP has no `'unsafe-inline'` for the site pages. The small settings script in each page's `<head>` is allowed by its SHA-256 hash, so keep it on one line (a CRLF checkout would change a multi-line hash) and update the hash in `_headers` when you change it. `tools/test_build_pages.py` fails if a hash is missing or stale, or if a page gains a `style="…"` or `on…="…"` attribute.
+- `/jogar/*` swaps in a looser CSP because the Arrumadinho build is one HTML file with inline script and styles.
+- `python tools/check.py` runs axe with `preload: false`; otherwise axe fetches the Google Fonts CSS itself and the CSP logs that as an error.
 
 ## Motion
 - On desktop, scrolling down moves the projects sideways. The ← and → keys jump from one project to the next.

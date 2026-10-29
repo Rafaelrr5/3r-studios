@@ -4,7 +4,7 @@ Usage: python tools/check.py [URL]   (defaults to the local index.html)
 Reports: script errors, overflowing text, sideways overflow on mobile, keyboard navigation,
 frame timing, all 4 languages, light/dark, settings dialog, and an axe-core accessibility audit.
 """
-import asyncio, sys
+import asyncio, sys, urllib.request
 from pathlib import Path
 from playwright.async_api import async_playwright
 
@@ -19,11 +19,18 @@ CLIP = """(() => [...document.querySelectorAll('h1,h3,.ln,.bd,.go,.more,.say,.li
   .filter(e => e.offsetParent && e.scrollWidth > e.clientWidth + 1).map(e => (e.className||e.tagName)+':'+e.textContent.slice(0,30)))()"""
 LEAK = """(() => { const t = I18N.en; if (document.documentElement.lang === 'en') return [];
   return [...document.querySelectorAll('[data-i18n]')].filter(e => e.textContent === t[e.dataset.i18n]
-    && !['tag','auto','vert','navContact'].includes(e.dataset.i18n)).map(e => e.dataset.i18n) })()"""
+    && !['tag','auto','vert','navContact','navPortfolio'].includes(e.dataset.i18n)).map(e => e.dataset.i18n) })()"""
+
+AXE_SRC = None
 
 async def axe(pg, label):
-    await pg.add_script_tag(url=AXE)
-    r = await pg.evaluate("""axe.run(document, {runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa','best-practice']}})
+    # Evaluated over CDP: the site's CSP would block an injected <script src>.
+    global AXE_SRC
+    if AXE_SRC is None:
+        AXE_SRC = urllib.request.urlopen(AXE, timeout=30).read().decode("utf-8")  # nosemgrep (AXE is a constant https URL)
+    await pg.evaluate(AXE_SRC)
+    # preload:false stops axe fetching cross-origin CSS, which the CSP blocks as a console error.
+    r = await pg.evaluate("""axe.run(document, {preload: false, runOnly: {type: 'tag', values: ['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22aa','best-practice']}})
       .then(r => r.violations.map(v => ({id: v.id, impact: v.impact, n: v.nodes.length, t: v.nodes.slice(0,2).map(n => n.target.join(' '))})))""")
     print(f"axe[{label}]:", "clean" if not r else r)
     return r

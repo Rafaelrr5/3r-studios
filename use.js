@@ -5,7 +5,7 @@
   const copy = {
     'pt-BR': pt,
     en: {
-      navHome: 'Home', navAbout: 'About', navContact: 'Contact', navPrivacy: 'Privacy',
+      navHome: 'Home', navPortfolio: 'Portfolio', navAbout: 'About', navContact: 'Contact', navPrivacy: 'Privacy',
       skip: 'Skip to instructions', language: 'Language', eyebrow: 'GET STARTED', title: 'Download. Open. Use.',
       intro: 'Apps that run on your computer. You do not need to clone a repository or open a terminal.',
       financeIntro: 'View and organise statements from Inter and B3. Your data stays on your computer, without a cloud account.',
@@ -23,7 +23,7 @@
       hashTitle: 'Download identification', back: 'Back to projects'
     },
     es: {
-      navHome: 'Inicio', navAbout: 'Nosotros', navContact: 'Contacto', navPrivacy: 'Privacidad',
+      navHome: 'Inicio', navPortfolio: 'Portafolio', navAbout: 'Nosotros', navContact: 'Contacto', navPrivacy: 'Privacidad',
       skip: 'Saltar a las instrucciones', language: 'Idioma', eyebrow: 'PARA EMPEZAR', title: 'Descarga. Abre. Usa.',
       intro: 'Aplicaciones que funcionan en tu ordenador. No necesitas clonar un repositorio ni abrir un terminal.',
       financeIntro: 'Consulta y organiza extractos de Inter y B3. Los datos se quedan en tu ordenador, sin cuenta en la nube.',
@@ -41,7 +41,7 @@
       hashTitle: 'Identificación de las descargas', back: 'Volver a los proyectos'
     },
     fr: {
-      navHome: 'Accueil', navAbout: 'À propos', navContact: 'Contact', navPrivacy: 'Vie privée',
+      navHome: 'Accueil', navPortfolio: 'Portfolio', navAbout: 'À propos', navContact: 'Contact', navPrivacy: 'Vie privée',
       skip: 'Aller aux instructions', language: 'Langue', eyebrow: 'POUR COMMENCER', title: 'Téléchargez. Ouvrez. Utilisez.',
       intro: 'Des applications qui tournent sur votre ordinateur. Pas besoin de cloner un dépôt ou d’ouvrir un terminal.',
       financeIntro: 'Consultez et classez vos relevés d’Inter et de B3. Les données restent sur votre ordinateur, sans compte cloud.',

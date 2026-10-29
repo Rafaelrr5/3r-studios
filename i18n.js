@@ -197,7 +197,7 @@ Object.assign(window.I18N.fr, {
 });
 
 // Site navigation (header and footer) shared by the home page.
-Object.assign(window.I18N.en, { navHome: "Home", navAbout: "About", navContact: "Contact", navPrivacy: "Privacy", footNav: "Footer" });
-Object.assign(window.I18N["pt-BR"], { navHome: "Início", navAbout: "Sobre", navContact: "Contato", navPrivacy: "Privacidade", footNav: "Rodapé" });
-Object.assign(window.I18N.es, { navHome: "Inicio", navAbout: "Nosotros", navContact: "Contacto", navPrivacy: "Privacidad", footNav: "Pie de página" });
-Object.assign(window.I18N.fr, { navHome: "Accueil", navAbout: "À propos", navContact: "Contact", navPrivacy: "Vie privée", footNav: "Pied de page" });
+Object.assign(window.I18N.en, { navHome: "Home", navPortfolio: "Portfolio", navAbout: "About", navContact: "Contact", navPrivacy: "Privacy", footNav: "Footer" });
+Object.assign(window.I18N["pt-BR"], { navHome: "Início", navPortfolio: "Portfólio", navAbout: "Sobre", navContact: "Contato", navPrivacy: "Privacidade", footNav: "Rodapé" });
+Object.assign(window.I18N.es, { navHome: "Inicio", navPortfolio: "Portafolio", navAbout: "Nosotros", navContact: "Contacto", navPrivacy: "Privacidad", footNav: "Pie de página" });
+Object.assign(window.I18N.fr, { navHome: "Accueil", navPortfolio: "Portfolio", navAbout: "À propos", navContact: "Contact", navPrivacy: "Vie privée", footNav: "Pied de page" });

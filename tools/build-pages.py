@@ -13,10 +13,11 @@ STATIC = (
     'projetos.json', 'usar.html', 'use.css', 'use.js', 'downloads/releases.json',
     'ads.txt', 'app-ads.txt',
     'resenhopolis.html', 'sobre.html', 'privacidade.html', '404.html', 'page.css',
-    'sitemap.xml', 'robots.txt',
+    'sitemap.xml', 'robots.txt', '_headers', 'portfolio.html',
+    'img/portfolio/minds-academy.webp', 'img/portfolio/base-infernal.webp', 'img/portfolio/mariamae.webp',
 )
 # Pages listed in sitemap.xml, as served by Cloudflare Pages (extensionless; / is index.html).
-PAGES = ('index.html', 'resenhopolis.html', 'sobre.html', 'privacidade.html', 'usar.html')
+PAGES = ('index.html', 'resenhopolis.html', 'portfolio.html', 'sobre.html', 'privacidade.html', 'usar.html')
 SITE = 'https://3rstudios.com.br/'
 
 
