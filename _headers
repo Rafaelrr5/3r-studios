@@ -2,7 +2,7 @@
 # <script> on a shipped page has its hash in the CSP below; change one, update the other.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-mXPw7y2jWCDsPY55z14Yc/0zbflKRbWQXiEkyWaFrsE=' 'sha256-Wv9BHM/E+p32ql6CamMrTca6eGLRezPBIx2umpagTpw='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-mXPw7y2jWCDsPY55z14Yc/0zbflKRbWQXiEkyWaFrsE=' 'sha256-Wv9BHM/E+p32ql6CamMrTca6eGLRezPBIx2umpagTpw='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
@@ -13,7 +13,7 @@
 # The Arrumadinho prototype is a single HTML file with inline script and styles.
 /jogar/*
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 # Keep the Pages preview addresses out of search results; 3rstudios.com.br is canonical.
 https://3r-studios.pages.dev/*
