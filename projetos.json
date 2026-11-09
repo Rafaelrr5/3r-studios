@@ -158,6 +158,13 @@
       "tagline": "", "description": "", "topics": ["jogo", "decoração", "progresso local"],
       "showCode": false, "codeUrl": "", "useProject": true,
       "projectUrl": "./jogar/arrumadinho/"
+    },
+    {
+      "id": "varal-veloz", "template": "vv", "name": "Varal Veloz",
+      "kind": "product", "status": "dev", "platform": "Web · protótipo 3D", "year": "2026",
+      "tagline": "", "description": "", "topics": ["jogo", "3D", "coleção"],
+      "showCode": false, "codeUrl": "", "useProject": true,
+      "projectUrl": "./jogar/varal-veloz/"
     }
   ]
 }

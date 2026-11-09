@@ -90,9 +90,9 @@ t("count hints follow the number of projects in all four languages", () => {
 });
 
 t("safe site-relative destinations and browser-only projects", () => {
-  for (const u of ["./usar.html#extrato-claro", "./usar.html#claude-autosend", "./jogar/arrumadinho/"]) assert.equal(P.safeUrl(u), u);
+  for (const u of ["./usar.html#extrato-claro", "./usar.html#claude-autosend", "./jogar/arrumadinho/", "./jogar/varal-veloz/"]) assert.equal(P.safeUrl(u), u);
   for (const u of ["./../private", "./x/../secret", "./x/../../secret", "./x/%2e%2e/private", "./x//evil", "./x/..", "./x\\\\evil", "/private", "//evil.example", "./usar.html#<svg>"]) assert.equal(P.safeUrl(u), "", u);
-  for (const id of ["qual-mon-movie", "blinkninja", "arrumadinho"]) {
+  for (const id of ["qual-mon-movie", "blinkninja", "arrumadinho", "varal-veloz"]) {
     const p = catalog.projects.find(p => p.id === id);
     assert.ok(p, id); assert.equal(p.showCode, false); assert.equal(p.codeUrl, "");
     assert.deepEqual(P.linksFor(p).map(l => l.key), ["open"]);
@@ -101,7 +101,7 @@ t("safe site-relative destinations and browser-only projects", () => {
 });
 
 t("new products have four-language copy and art", () => {
-  for (const tpl of ["qm", "bn", "ar"]) {
+  for (const tpl of ["qm", "bn", "ar", "vv"]) {
     for (const L of Object.values(I18N)) { assert.ok(L[tpl + "ln"]); assert.ok(L[tpl + "bd"]); }
     const p = catalog.projects.find(p => p.template === tpl);
     const card = P.render(doc, {projects:[p]}, I18N)[0];

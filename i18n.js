@@ -157,7 +157,9 @@ Object.assign(window.I18N.en, {
   bnln: "Play BlinkNinja in your browser.",
   bnbd: "Open the web game on your computer or phone. No installer or programming knowledge is needed.",
   arln: "Clean, decorate and make a little house your own.",
-  arbd: "Play the Arrumadinho prototype right here in your browser. Use the arrow keys or WASD to walk, Space to clean and the mouse to decorate. Touch controls work on phones. Progress stays in this browser."
+  arbd: "Play the Arrumadinho prototype right here in your browser. Use the arrow keys or WASD to walk, Space to clean and the mouse to decorate. Touch controls work on phones. Progress stays in this browser.",
+  vvln: "Hook clothes off the lines from the roof of a moving car.",
+  vvbd: "Play the Varal Veloz 3D prototype in your browser. Aim with the mouse and click to throw the hook, and press Space to duck under low cables. Rare pieces glow; dress the character with what you catch. Your wardrobe stays in this browser."
 });
 Object.assign(window.I18N["pt-BR"], {
   p4ln: "Seus extratos, mais claros no seu computador.",
@@ -169,7 +171,9 @@ Object.assign(window.I18N["pt-BR"], {
   bnln: "Jogue BlinkNinja direto no navegador.",
   bnbd: "Abra o jogo web no computador ou no celular. Não precisa instalar nem saber programar.",
   arln: "Limpe, decore e deixe uma casinha com a sua cara.",
-  arbd: "Jogue o protótipo de Arrumadinho aqui mesmo no navegador. Ande com as setas ou WASD, limpe com Espaço e decore com o mouse. No celular, use os controles de toque. O progresso fica neste navegador."
+  arbd: "Jogue o protótipo de Arrumadinho aqui mesmo no navegador. Ande com as setas ou WASD, limpe com Espaço e decore com o mouse. No celular, use os controles de toque. O progresso fica neste navegador.",
+  vvln: "Do teto do carro, pegue as roupas dos varais com um gancho.",
+  vvbd: "Jogue o protótipo 3D de Varal Veloz no navegador. Mire com o mouse e clique para lançar o gancho, e aperte Espaço para abaixar nos fios baixos. As peças raras brilham; vista o personagem com o que pegar. O guarda-roupa fica neste navegador."
 });
 Object.assign(window.I18N.es, {
   p4ln: "Tus extractos, más claros en tu ordenador.",
@@ -181,7 +185,9 @@ Object.assign(window.I18N.es, {
   bnln: "Juega a BlinkNinja directamente en el navegador.",
   bnbd: "Abre el juego web en tu ordenador o móvil. No necesitas instalarlo ni saber programar.",
   arln: "Limpia, decora y haz tuya una casita.",
-  arbd: "Juega al prototipo de Arrumadinho aquí en el navegador. Camina con las flechas o WASD, limpia con Espacio y decora con el ratón. En el móvil usa los controles táctiles. El progreso se guarda en este navegador."
+  arbd: "Juega al prototipo de Arrumadinho aquí en el navegador. Camina con las flechas o WASD, limpia con Espacio y decora con el ratón. En el móvil usa los controles táctiles. El progreso se guarda en este navegador.",
+  vvln: "Desde el techo del coche, atrapa la ropa de los tendederos con un gancho.",
+  vvbd: "Juega al prototipo 3D de Varal Veloz en el navegador. Apunta con el ratón y haz clic para lanzar el gancho, y pulsa Espacio para agacharte bajo los cables. Las prendas raras brillan; viste al personaje con lo que atrapes. El armario se guarda en este navegador."
 });
 Object.assign(window.I18N.fr, {
   p4ln: "Vos relevés, plus clairs sur votre ordinateur.",
@@ -193,7 +199,9 @@ Object.assign(window.I18N.fr, {
   bnln: "Jouez à BlinkNinja dans le navigateur.",
   bnbd: "Ouvrez le jeu web sur ordinateur ou téléphone. Vous n’avez rien à installer et pas besoin de savoir programmer.",
   arln: "Nettoyez, décorez et faites d’une petite maison la vôtre.",
-  arbd: "Jouez au prototype d’Arrumadinho ici dans le navigateur. Marchez avec les flèches ou WASD, nettoyez avec Espace et décorez avec la souris. Sur téléphone, utilisez les commandes tactiles. La progression reste dans ce navigateur."
+  arbd: "Jouez au prototype d’Arrumadinho ici dans le navigateur. Marchez avec les flèches ou WASD, nettoyez avec Espace et décorez avec la souris. Sur téléphone, utilisez les commandes tactiles. La progression reste dans ce navigateur.",
+  vvln: "Depuis le toit de la voiture, attrapez le linge des étendoirs avec un grappin.",
+  vvbd: "Jouez au prototype 3D de Varal Veloz dans le navigateur. Visez avec la souris et cliquez pour lancer le grappin, appuyez sur Espace pour passer sous les câbles bas. Les pièces rares brillent ; habillez le personnage avec ce que vous attrapez. La garde-robe reste dans ce navigateur."
 });
 
 // Site navigation (header and footer) shared by the home page.

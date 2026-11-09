@@ -16,6 +16,12 @@ STATIC = (
     'sitemap.xml', 'robots.txt', '_headers', 'portfolio.html',
     'img/portfolio/minds-academy.webp', 'img/portfolio/base-infernal.webp', 'img/portfolio/mariamae.webp',
 )
+# Browser games under jogar/<name>/: index.html plus these (folder, extensions) pairs.
+# varal-veloz is the Vite build output copied from its own project (hashed .js/.css).
+GAMES = {
+    'arrumadinho': [('assets', {'.png'}), ('src', {'.js'})],
+    'varal-veloz': [('assets', {'.js', '.css'})],
+}
 # Pages listed in sitemap.xml, as served by Cloudflare Pages (extensionless; / is index.html).
 PAGES = ('index.html', 'resenhopolis.html', 'portfolio.html', 'sobre.html', 'privacidade.html', 'usar.html')
 SITE = 'https://3rstudios.com.br/'
@@ -28,10 +34,11 @@ def build(source, output):
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
         raise ValueError('Choose a new or empty output directory; existing files are never removed.')
     files = [source / name for name in STATIC]
-    game = source / 'jogar' / 'arrumadinho'
-    files += [game / 'index.html']
-    for folder, extensions in [('assets', {'.png'}), ('src', {'.js'})]:
-        files += [p for p in (game / folder).rglob('*') if p.is_file() and p.suffix in extensions]
+    for name, folders in GAMES.items():
+        game = source / 'jogar' / name
+        files += [game / 'index.html']
+        for folder, extensions in folders:
+            files += [p for p in (game / folder).rglob('*') if p.is_file() and p.suffix in extensions]
     for p in files:
         if not p.is_file() or not p.resolve().is_relative_to(source) or p.is_symlink():
             raise ValueError(f'Missing or unsafe public asset: {p}')

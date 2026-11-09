@@ -19,7 +19,9 @@ class PagesBuildTests(unittest.TestCase):
             for name in (*MODULE.STATIC, 'jogar/arrumadinho/index.html',
                          'jogar/arrumadinho/assets/player.png', 'jogar/arrumadinho/src/game.js',
                          '.env', 'README.md', 'painel/dados.json', 'downloads/private.zip',
-                         'jogar/arrumadinho/assets/secret.json', 'jogar/arrumadinho/src/secret.py'):
+                         'jogar/arrumadinho/assets/secret.json', 'jogar/arrumadinho/src/secret.py',
+                         'jogar/varal-veloz/index.html', 'jogar/varal-veloz/assets/index-x.js',
+                         'jogar/varal-veloz/assets/index-x.css', 'jogar/varal-veloz/assets/index-x.js.map'):
                 p = source / name
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text('fixture', encoding='utf-8')
@@ -28,7 +30,8 @@ class PagesBuildTests(unittest.TestCase):
             self.assertEqual(count, len(actual))
             self.assertEqual(actual, set(MODULE.STATIC) | {
                 'jogar/arrumadinho/index.html', 'jogar/arrumadinho/assets/player.png',
-                'jogar/arrumadinho/src/game.js'})
+                'jogar/arrumadinho/src/game.js', 'jogar/varal-veloz/index.html',
+                'jogar/varal-veloz/assets/index-x.js', 'jogar/varal-veloz/assets/index-x.css'})
             with self.assertRaises(ValueError):
                 MODULE.build(source, output)
             with self.assertRaises(ValueError):
@@ -61,7 +64,7 @@ class PagesBuildTests(unittest.TestCase):
 
     def test_pages_have_metadata_and_no_dead_internal_links(self):
         root = Path(__file__).resolve().parent.parent
-        shipped = set(MODULE.STATIC) | {'jogar/arrumadinho/index.html'}
+        shipped = set(MODULE.STATIC) | {f'jogar/{g}/index.html' for g in MODULE.GAMES}
         for name in (*MODULE.PAGES, '404.html'):
             html = (root / name).read_text(encoding='utf-8')
             self.assertEqual(len(re.findall(r'<title>[^<]{10,}</title>', html)), 1, name)
