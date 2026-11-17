@@ -61,7 +61,7 @@
   };
   let prefs = {};
   try { const saved = JSON.parse(localStorage.getItem('3r-prefs') || '{}'); if (saved && typeof saved === 'object' && !Array.isArray(saved)) prefs = saved; } catch {}
-  const preferred = typeof prefs.lang === 'string' && prefs.lang !== 'auto' ? prefs.lang : navigator.language;
+  const preferred = typeof prefs.lang === 'string' && prefs.lang !== 'auto' ? prefs.lang : 'pt-BR'; // pt-BR unless the visitor picked a language
   let lang = Object.hasOwn(copy, preferred) ? preferred : (preferred.startsWith('pt') ? 'pt-BR' : (Object.hasOwn(copy, preferred.split('-')[0]) ? preferred.split('-')[0] : 'en'));
   const select = document.getElementById('language');
   function translate() {

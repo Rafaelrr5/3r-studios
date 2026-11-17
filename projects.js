@@ -1,5 +1,5 @@
-// Project cards come from projetos.json. The seven original cards keep their artwork and
-// four-language copy through "template"; text typed in the catalog wins over the translation.
+// Project cards for apps.html come from projetos.json. The original cards keep their artwork and
+// translated copy through "template"; text typed in the catalog wins over the translation.
 // Every catalog string is written with textContent; links must be safe http(s) or site-relative paths.
 (() => {
   const s = (l, t, w, h, x = "") => `left:${l}%;top:${t}%;width:${w}%;height:${h}%;${x}`;
@@ -52,8 +52,9 @@
 
   function hash(str) { let h = 0; for (const c of String(str)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h; }
 
-  function render(doc, catalog, I18N) {
-    const en = (I18N && I18N.en) || {};
+  // opts.lang picks the copy (default English); opts.brief drops the long description and topic chips.
+  function render(doc, catalog, I18N, opts = {}) {
+    const en = (I18N && (I18N[opts.lang] || I18N.en)) || {};
     const el = (tag, cls, text) => {
       const e = doc.createElement(tag);
       if (cls) e.className = cls;
@@ -95,8 +96,8 @@
       txt.append(h3);
       const [lnKey, bdKey] = COPY[tpl] || [];
       if (p.tagline) txt.append(el("p", "ln", p.tagline)); else if (lnKey) txt.append(tr("p", "ln", lnKey));
-      if (p.description) txt.append(el("p", "bd", p.description)); else if (bdKey) txt.append(tr("p", "bd", bdKey));
-      if (Array.isArray(p.topics) && p.topics.length) {
+      if (!opts.brief) { if (p.description) txt.append(el("p", "bd", p.description)); else if (bdKey) txt.append(tr("p", "bd", bdKey)); }
+      if (!opts.brief && Array.isArray(p.topics) && p.topics.length) {
         const ul = el("ul", "chips m");
         ul.dataset.i18nLabel = "topics";
         ul.setAttribute("aria-label", en.topics || "Topics");
@@ -123,28 +124,18 @@
   if (typeof module === "object" && module.exports) { module.exports = api; return; }
   window.PROJECTS = api;
 
-  // main.js awaits this before it measures the track, so the cards always exist first.
-  const track = document.getElementById("track"), end = track.querySelector(".end");
-  window.PROJECTS_READY = fetch("projetos.json", { cache: "no-cache" })
+  // apps.html: fill #apps-grid in pt-BR, like the other text pages.
+  const grid = document.getElementById("apps-grid");
+  if (!grid) return;
+  fetch("projetos.json", { cache: "no-cache" })
     .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then((cat) => {
-      const plates = render(document, cat, window.I18N);
-      plates.forEach((p) => track.insertBefore(p, end));
-      const first = plates[0] || end; // skip link target, even with zero projects
-      first.id = "work"; first.tabIndex = -1;
-      return true;
-    })
+    .then((cat) => grid.append(...render(document, cat, window.I18N, { lang: "pt-BR", brief: true })))
     .catch((err) => {
       console.error("projetos.json:", err);
-      const warn = document.createElement("section");
-      warn.className = "load-err";
-      warn.id = "work"; warn.tabIndex = -1;
-      warn.setAttribute("role", "alert");
       const p = document.createElement("p");
-      p.dataset.i18n = "loadErr";
-      p.textContent = (window.I18N && I18N.en.loadErr) || "The project list could not be loaded.";
-      warn.append(p);
-      track.insertBefore(warn, end);
-      return false;
+      p.className = "load-err";
+      p.setAttribute("role", "alert");
+      p.textContent = (window.I18N && I18N["pt-BR"].loadErr) || "Não foi possível carregar a lista de projetos.";
+      grid.append(p);
     });
 })();

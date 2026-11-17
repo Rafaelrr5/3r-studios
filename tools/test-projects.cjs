@@ -45,6 +45,25 @@ t("current editable catalog renders its actual project count", () => {
   assert.equal(P.render(doc, catalog, I18N).length, catalog.projects.length);
 });
 
+t("apps page renders brief pt-BR cards: tagline kept, description and topic chips dropped", () => {
+  const p = catalog.projects.find((x) => x.id === "agent-cortex");
+  const card = P.render(doc, { projects: [p] }, I18N, { lang: "pt-BR", brief: true })[0];
+  assert.equal(card.all((n) => n.className === "ln")[0].textContent, I18N["pt-BR"].p1ln);
+  assert.equal(card.all((n) => n.className === "bd").length, 0);
+  assert.equal(card.all((n) => n.className === "chips m").length, 0);
+  assert.equal(P.render(doc, { projects: [p] }, I18N)[0].all((n) => n.className === "bd").length, 1);
+});
+
+t("the home no longer loads the project catalog; apps.html does", () => {
+  const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
+  const apps = fs.readFileSync(path.join(root, "apps.html"), "utf8");
+  assert.doesNotMatch(home, /projects\.js|id="track"|class="plate/);
+  assert.match(home, /href="apps\.html"/);
+  assert.match(apps, /<script src="projects\.js" defer><\/script>/);
+  assert.match(apps, /id="apps-grid"/);
+  for (const pr of catalog.projects) assert.ok(apps.includes(pr.name), `noscript list misses ${pr.name}`);
+});
+
 t("toggles are independent and unsafe or blank URLs never render", () => {
   const base = { id: "novo", template: "", name: "Novo", kind: "lab", status: "", platform: "Go", year: "2026", tagline: "", description: "", topics: [] };
   const both = { ...base, showCode: true, codeUrl: "https://github.com/x/y", useProject: true, projectUrl: "https://x.example/" };

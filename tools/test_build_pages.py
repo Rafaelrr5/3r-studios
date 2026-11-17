@@ -136,6 +136,45 @@ class PagesBuildTests(unittest.TestCase):
             section = html.split('id="feitos"', 1)[1].split('<h2', 1)[0]
             self.assertIn('<article', section)
 
+    def test_local_css_and_js_get_a_content_hash_version(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / 'source'
+            for name in (*MODULE.STATIC, *(f'jogar/{g}/index.html' for g in MODULE.GAMES)):
+                p = source / name
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text('fixture', encoding='utf-8')
+            (source / 'style.css').write_text('body{color:red}', encoding='utf-8')
+            (source / 'main.js').write_text('console.log(1)', encoding='utf-8')
+            (source / 'index.html').write_text(
+                '<link rel="stylesheet" href="style.css?v=stale"><script src="main.js" defer></script>'
+                '<link href="/page.css"><script src="https://static.example/x.js"></script>'
+                '<script src="//cdn.example/y.js"></script><script src="missing.js"></script>'
+                '<a href="sobre.html">x</a>', encoding='utf-8')
+            def built(n):
+                out = Path(tmp) / f'out{n}'
+                MODULE.build(source, out)
+                return (out / 'index.html').read_text(encoding='utf-8')
+            html = built(1)
+            v = lambda name: hashlib.sha256((source / name).read_bytes()).hexdigest()[:10]
+            self.assertIn(f'href="style.css?v={v("style.css")}"', html)
+            self.assertIn(f'src="main.js?v={v("main.js")}"', html)
+            self.assertIn(f'href="/page.css?v={v("page.css")}"', html)
+            for kept in ('src="https://static.example/x.js"', 'src="//cdn.example/y.js"', 'src="missing.js"', 'href="sobre.html"'):
+                self.assertIn(kept, html)
+            self.assertNotIn('stale', html)
+            (source / 'style.css').write_text('body{color:blue}', encoding='utf-8')
+            self.assertNotEqual(re.search(r'style\.css\?v=(\w+)', html).group(1),
+                                re.search(r'style\.css\?v=(\w+)', built(2)).group(1))
+
+    def test_home_ships_in_portuguese_without_browser_language_detection(self):
+        root = Path(__file__).resolve().parent.parent
+        for name in MODULE.PAGES:
+            html = (root / name).read_text(encoding='utf-8')
+            self.assertIn('<html lang="pt-BR"', html, name)
+            for body in re.findall(r'<script>(.*?)</script>', html, re.S):
+                self.assertNotIn('navigator', body, name)
+        self.assertNotIn('navigator.language', (root / 'main.js').read_text(encoding='utf-8'))
+
     def test_missing_asset_fails_before_copying(self):
         with tempfile.TemporaryDirectory() as tmp:
             source, output = Path(tmp) / 'source', Path(tmp) / 'upload'

@@ -2,7 +2,7 @@
 # <script> on a shipped page has its hash in the CSP below; change one, update the other.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-mXPw7y2jWCDsPY55z14Yc/0zbflKRbWQXiEkyWaFrsE=' 'sha256-Wv9BHM/E+p32ql6CamMrTca6eGLRezPBIx2umpagTpw='; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-JeBJO8j5ki8Ft0yHyEMyhHrYNb6ghiK8maR4DOviN1w=' 'sha256-Wv9BHM/E+p32ql6CamMrTca6eGLRezPBIx2umpagTpw='; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=31536000
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff

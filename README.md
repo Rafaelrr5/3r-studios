@@ -6,7 +6,7 @@ Live: https://3r-studios.pages.dev/
 
 GitHub Pages mirror: https://rafaelrr5.github.io/3r-studios/
 
-The site has no build step and no framework. The home page is `index.html`, `style.css`, `main.js`, `i18n.js`, `projects.js` and `projetos.json`. You can host it on anything that serves files (not `file://`: the project list is fetched).
+The site has no framework. The home page is `index.html`, `style.css`, `main.js` and `i18n.js`; it ships in pt-BR and switches language only when the visitor picks one in Ajustes. The project catalog lives on `apps.html` (`projects.js` + `projetos.json`; not `file://`, the list is fetched). `tools/build-pages.py` stages the upload and stamps every local `.css`/`.js` reference in the shipped HTML with `?v=<content hash>`, so never add version strings by hand.
 
 ## Text pages, sitemap and 404
 - `resenhopolis.html` (live product), `portfolio.html` (UFJF work and client sites, `#ufjf` and `#clientes`; thumbnails in `img/portfolio/`), `sobre.html` (about + `#contato`), `privacidade.html` (this site's privacy policy) and `404.html` share `style.css` + `page.css`. Their text is static pt-BR HTML (`lang="pt-BR"`) and reads fine without JavaScript; they only apply the saved theme/contrast/text-size settings.
@@ -69,7 +69,7 @@ Needs playwright and Chrome. It saves screenshots to `shots/` and reports:
 - an axe-core accessibility audit (WCAG 2.2 AA plus best practices) in light, dark, high contrast and on mobile
 
 ## Projects
-The cards come from `projetos.json`, the public project catalog. `projects.js` builds them and `main.js` waits for it before measuring the track, so the counter, hints, keys and progress bar follow however many projects there are (zero included).
+The cards on `apps.html` come from `projetos.json`, the public project catalog. `projects.js` builds them in pt-BR (tagline only), so the page follows however many projects there are (zero included).
 
 Each project has an `id`, `name`, `kind` (`product` or `lab`), `status` (`live`, `dev` or empty), `platform`, `year`, `topics`, and two independent switches: `showCode` + `codeUrl` and `useProject` + `projectUrl`. A link only appears when its switch is on and the address is a safe `http(s)` URL or site-relative path beginning with `./` (without parent-directory traversal).
 
