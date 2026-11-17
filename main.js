@@ -98,6 +98,7 @@
 
   function tick() {
     if (!horiz) { running = false; return; }
+    root.classList.toggle("pinned", scrollY >= pin.offsetTop - innerHeight / 2 && scrollY <= pin.offsetTop + max + innerHeight / 2);
     const r = reduced();
     const tgt = Math.min(max, Math.max(0, scrollY - pin.offsetTop));
     cur = r ? tgt : cur + (tgt - cur) * 0.12;
@@ -151,21 +152,22 @@
     e.preventDefault();
     const stops = [0, ...plates.map(stopFor), max];
     const now = scrollY - pin.offsetTop;
+    if (now < -5 || now > max + 5) return; // only while the project track is pinned
     const next = e.key === "ArrowRight" ? stops.find((s) => s > now + 5) ?? max : [...stops].reverse().find((s) => s < now - 5) ?? 0;
     goTo(next);
-  });
-
-  // Skip link: land on the first project in either mode.
-  document.querySelector(".skip").addEventListener("click", (e) => {
-    e.preventDefault();
-    const first = $("work");
-    if (horiz) scrollTo({ top: pin.offsetTop + (first.classList.contains("end") ? max : stopFor(first)), behavior: "auto" });
-    first.focus({ preventScroll: horiz });
   });
 
   // Vertical mode: reveal artwork as it enters.
   const io = new IntersectionObserver((es) => es.forEach((en) => en.isIntersecting && en.target.classList.add("in")), { threshold: 0.3 });
   plates.forEach((p) => io.observe(p));
+
+  // Floating WhatsApp button (mobile): hidden while the hero or contact buttons are on screen.
+  const fabHide = new Set();
+  const fio = new IntersectionObserver((es) => {
+    es.forEach((en) => (en.isIntersecting ? fabHide.add(en.target) : fabHide.delete(en.target)));
+    root.classList.toggle("fab-off", fabHide.size > 0);
+  });
+  document.querySelectorAll(".hero .ctas, .contact .ctas, .end .outs").forEach((el) => fio.observe(el));
 
   addEventListener("scroll", kick, { passive: true });
   addEventListener("resize", measure);

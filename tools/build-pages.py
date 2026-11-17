@@ -15,6 +15,7 @@ STATIC = (
     'resenhopolis.html', 'sobre.html', 'privacidade.html', '404.html', 'page.css',
     'sitemap.xml', 'robots.txt', '_headers', 'portfolio.html', 'sites.html',
     'img/portfolio/minds-academy.webp', 'img/portfolio/base-infernal.webp', 'img/portfolio/mariamae.webp',
+    'img/og.png', 'fonts/bricolage-grotesque-latin.woff2', 'fonts/dm-mono-400-latin.woff2', 'fonts/dm-mono-500-latin.woff2',
 )
 # Browser games under jogar/<name>/: index.html plus these (folder, extensions) pairs.
 # varal-veloz is the Vite build output copied from its own project (hashed .js/.css).
