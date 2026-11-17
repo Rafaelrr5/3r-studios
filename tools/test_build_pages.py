@@ -95,7 +95,7 @@ class PagesBuildTests(unittest.TestCase):
             for body in blocks:
                 data = json.loads(body)
                 self.assertEqual(data['@context'], 'https://schema.org', name)
-        for name in ('sites.html', 'whatsapp.html', 'aplicativos.html'):
+        for name in ('sites.html', 'whatsapp.html', 'agentes-ia.html', 'aplicativos.html'):
             html = (root / name).read_text(encoding='utf-8')
             self.assertIn('"@type":"FAQPage"', html, name)
             self.assertIn('<details><summary>', html, name)
