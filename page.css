@@ -36,6 +36,22 @@
 .doc .scores li{margin:0;padding:10px 16px;border:1px solid var(--line);border-radius:12px;font-weight:700;font-variant-numeric:tabular-nums}
 .doc .scores b{display:block;font-family:"DM Mono",ui-monospace,monospace;font-weight:500;font-size:calc(.75rem * var(--s));text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
 .doc .more-cta{margin-top:52px;font-size:calc(1.15rem * var(--s))}
+/* Sites para negócios */
+.doc ol.passos{padding-left:1.4em;margin-top:14px;max-width:68ch}
+.doc ol.passos li{margin-top:8px;padding-left:4px}
+.doc ol.passos li::marker{color:var(--acc);font-weight:700}
+.doc .aviso{padding:14px 18px;border-left:4px solid var(--acc);background:var(--card);border-radius:0 12px 12px 0}
+.doc .amostras{display:grid;gap:18px;margin-top:28px}
+.doc .amostra{padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--card)}
+.doc .amostra .tag{color:var(--mute);font-size:calc(.75rem * var(--s));margin:0}
+.doc .amostra h3{margin-top:4px}
+.doc .pares{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;max-width:none}
+.doc .pares li{margin:0;padding:0}
+.doc .pares a{display:grid;gap:8px;text-decoration:none;color:var(--fg);font-weight:600}
+.doc .pares a span{text-decoration:underline;text-underline-offset:.2em;text-decoration-thickness:.08em;color:var(--acc);min-height:24px}
+.doc .pares img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line)}
+.doc .pares a:hover img{border-color:var(--acc)}
+html[data-contrast="high"] .doc .amostra{border:2px solid var(--fg)}
 html[data-contrast="high"] .doc .work,html[data-contrast="high"] .doc .scores li{border:2px solid var(--fg)}
 html[data-contrast="high"] .doc .contacts li{border:2px solid var(--fg)}
 @media (forced-colors:active){.doc .cta{border:2px solid ButtonText}}

@@ -1,0 +1,107 @@
+/* Direção ousada dos exemplos: título gigante, cor chapada, faixa correndo, lista numerada grande
+   e barra fixa de atalhos no celular. Cada negócio troca só as variáveis (html.t-<tipo>). */
+.t-restaurante{--bg:#2A1610;--ink:#FBEFD9;--muted:#D9C3A5;--acc:#F2B33D;--on-acc:#2A1610;--hi:#F2B33D;--band:#E4572E;--on-band:#2A1610;--line:rgba(251,239,217,.16);--art-a:#E4572E;--art-b:#F2B33D;--art-c:#3D2219;--fd:"Anton",Impact,sans-serif;--fb:"Archivo",system-ui,sans-serif;--h1:clamp(4rem,19vw,11rem)}
+.t-dentista{--bg:#0B1F3A;--ink:#F4F7FB;--muted:#B9C6D8;--acc:#F5C518;--on-acc:#0B1F3A;--hi:#F5C518;--band:#7FD1C7;--on-band:#0B1F3A;--line:rgba(244,247,251,.16);--art-a:#F4F7FB;--art-b:#0B1F3A;--art-c:#F5C518;--fd:"Syne",system-ui,sans-serif;--fb:"DM Sans",system-ui,sans-serif;--h1:clamp(2.6rem,11vw,5.6rem)}
+.t-barbearia{--bg:#111;--ink:#F5F0E6;--muted:#BDB6A8;--acc:#D7263D;--on-acc:#fff;--hi:#FF6B7A;--band:#F5F0E6;--on-band:#111;--line:rgba(245,240,230,.16);--art-a:#F5F0E6;--art-b:#D7263D;--art-c:#1F1F1F;--fd:"Big Shoulders Display",Impact,sans-serif;--fb:"Space Grotesk",system-ui,sans-serif;--h1:clamp(4.2rem,21vw,12rem)}
+.t-academia{--bg:#0D0D0D;--ink:#F2F2F2;--muted:#B5B5B5;--acc:#C6F432;--on-acc:#0D0D0D;--hi:#C6F432;--band:#FF5A1F;--on-band:#0D0D0D;--line:rgba(242,242,242,.16);--art-a:#C6F432;--art-b:#F2F2F2;--art-c:#1C1C1C;--fd:"Unbounded",system-ui,sans-serif;--fb:"Barlow",system-ui,sans-serif;--h1:clamp(3.2rem,14vw,8.5rem)}
+.t-floricultura{--bg:#0E3B2E;--ink:#FFF4F6;--muted:#CFE3D9;--acc:#FF7AA8;--on-acc:#0E3B2E;--hi:#FF9EC0;--band:#FFD23F;--on-band:#0E3B2E;--line:rgba(255,244,246,.18);--art-a:#FF7AA8;--art-b:#FFD23F;--art-c:#164C3B;--fd:"Shrikhand",Georgia,serif;--fb:"Outfit",system-ui,sans-serif;--h1:clamp(3.4rem,15vw,9rem);--up:none}
+.t-oficina{--bg:#FFC400;--ink:#111;--muted:#3B3200;--acc:#111;--on-acc:#FFC400;--hi:#111;--band:#111;--on-band:#FFC400;--line:rgba(17,17,17,.25);--art-a:#111;--art-b:#FFC400;--art-c:#F2B600;--fd:"Saira Condensed",Impact,sans-serif;--fb:"IBM Plex Mono",ui-monospace,monospace;--h1:clamp(3.6rem,17vw,10rem)}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--bg);color:var(--ink)}
+body{font:400 1.0625rem/1.6 var(--fb);font-synthesis:none;-webkit-font-smoothing:antialiased;padding-bottom:64px}
+a{color:inherit}
+h1,h2,h3,.promessa p,.marca{font-family:var(--fd);font-weight:800;line-height:1;text-transform:var(--up,uppercase);letter-spacing:-.01em}
+:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
+
+.exemplo{background:var(--ink);color:var(--bg);font-size:.875rem;line-height:1.45;padding:.6rem 1.25rem;display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;justify-content:space-between;align-items:center}
+.exemplo .links{display:flex;flex-wrap:wrap;gap:0 1.2rem}
+.exemplo a{display:inline-flex;align-items:center;min-height:44px;font-weight:600;text-underline-offset:.2em}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:.8rem 1.5rem;border-radius:4px;background:var(--acc);color:var(--on-acc);font-weight:600;text-decoration:none;text-transform:uppercase;letter-spacing:.06em;font-size:.9rem;border:2px solid var(--acc)}
+.btn.linha{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn:hover{filter:brightness(1.08)}
+
+.topo{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.25rem}
+.marca{display:inline-flex;align-items:center;min-height:44px;font-size:1.5rem;text-decoration:none;line-height:1}
+.topo nav{display:none;gap:1.6rem;font-weight:600;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em}
+.topo nav a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.topo .btn{min-height:44px;padding:.45rem .9rem;font-size:.78rem;flex:none}
+
+.hero{position:relative;overflow:hidden;padding:1rem 1.25rem 3.5rem;display:grid}
+.hero .texto{position:relative;z-index:1}
+.kicker{color:var(--hi);font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase}
+.hero h1{font-size:var(--h1);margin:.8rem 0 1.2rem;overflow-wrap:break-word;hyphens:manual}
+.lead{font-size:1.1rem;max-width:32rem;color:var(--muted)}
+.acoes{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.8rem}
+.art{width:min(78vw,520px);aspect-ratio:1;justify-self:end;margin:-1rem -18vw 0 0;transform:rotate(-8deg)}
+.art .a{fill:var(--art-a)}.art .b{fill:var(--art-b);stroke:var(--art-b)}.art .c{fill:var(--art-c)}
+
+.faixa{background:var(--band);color:var(--on-band);overflow:hidden;white-space:nowrap;padding:.8rem 0}
+.faixa div{display:inline-block;animation:corre 30s linear infinite}
+.faixa span{font-family:var(--fd);font-weight:800;text-transform:var(--up,uppercase);font-size:clamp(1.6rem,5vw,2.6rem);line-height:1}
+.faixa span::after{content:"✦";margin:0 1.1rem;font-size:.6em;vertical-align:middle}
+@keyframes corre{to{transform:translateX(-50%)}}
+
+section{padding:4.5rem 1.25rem}
+.servicos,.como,.onde,.contato{max-width:1180px;margin-inline:auto}
+h2{font-size:clamp(3rem,13vw,7rem);margin-bottom:2rem}
+.servicos ul{list-style:none;border-top:1px solid var(--line)}
+.servicos li{display:grid;grid-template-columns:3rem 1fr;gap:.2rem 1rem;padding:1.6rem 0;border-bottom:1px solid var(--line)}
+.servicos .n{grid-row:span 2;color:var(--hi);font-weight:600;letter-spacing:.08em;padding-top:.4rem}
+.servicos h3{font-size:clamp(2rem,8vw,3.6rem);overflow-wrap:break-word}
+.servicos p{color:var(--muted);max-width:34rem}
+
+.promessa{background:var(--acc);color:var(--on-acc)}
+.promessa p{font-size:clamp(2.6rem,11vw,6.5rem);max-width:1180px;margin-inline:auto}
+
+.como ol{list-style:none;display:grid;gap:2rem;counter-reset:p}
+.como li{counter-increment:p}
+.como li::before{content:counter(p,decimal-leading-zero);display:block;font-family:var(--fd);font-weight:800;font-size:4rem;line-height:1;color:var(--hi)}
+.como h3{font-size:2rem;margin:.6rem 0 .4rem}
+.como p{color:var(--muted)}
+
+.onde{display:grid;gap:2.5rem;border-top:1px solid var(--line)}
+.onde h2{font-size:clamp(2.6rem,10vw,4.5rem);margin-bottom:1rem}
+.end{font-size:1.3rem;font-weight:600}
+.nota{color:var(--muted);font-size:.95rem;margin-top:.5rem}
+dl div{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--line)}
+dt{font-weight:600}
+dd{color:var(--muted);text-align:right}
+
+.contato{border-top:1px solid var(--line)}
+.contato p{max-width:34rem;color:var(--muted)}
+.canais{list-style:none;margin-top:1.6rem;display:grid;gap:.75rem}
+.canais .btn{width:100%;justify-content:flex-start;font-size:1.05rem;min-height:64px}
+.canais .btn::after{content:"→";margin-left:auto;font-size:1.4rem}
+
+.rodape{padding:2rem 1.25rem 2.5rem;text-align:center;font-size:.9rem;color:var(--muted);display:grid;gap:.3rem;border-top:1px solid var(--line)}
+.rodape a{color:var(--ink);font-weight:600}
+
+.fixa{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:1.4fr 1fr 1fr;background:var(--bg);border-top:1px solid var(--line)}
+.fixa a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:60px;padding:.3rem .5rem;font-weight:600;font-size:.78rem;line-height:1.2;text-transform:uppercase;letter-spacing:.05em;text-decoration:none}
+.fixa a:first-child{background:var(--acc);color:var(--on-acc)}
+.fixa a+a{border-left:1px solid var(--line)}
+
+/* Oficina: página amarela, listras de atenção no lugar da faixa simples. */
+.t-oficina .faixa{background:repeating-linear-gradient(-45deg,#111 0 18px,#FFC400 18px 36px);padding:.5rem 0}
+.t-oficina .faixa span{background:#111;color:#FFC400;padding:.2rem .6rem}
+.t-oficina .faixa span::after{content:none}
+.t-oficina .faixa span+span{margin-left:1.2rem}
+
+@media (min-width:760px){
+  body{padding-bottom:0}
+  .fixa{display:none}
+  .topo{padding:1.4rem 2.5rem}
+  .topo nav{display:flex}
+  .hero{grid-template-columns:1.4fr 1fr;align-items:end;min-height:min(86vh,820px);padding:2rem 2.5rem 5rem}
+  .art{width:100%;max-width:520px;margin:0 -4rem 0 0;align-self:center}
+  section{padding:6rem 2.5rem}
+  .servicos li{grid-template-columns:5rem 1fr 1fr;align-items:baseline}
+  .servicos .n{grid-row:auto}
+  .como ol{grid-template-columns:repeat(3,1fr)}
+  .onde{grid-template-columns:1fr 1fr}
+  .canais{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:420px){.topo .btn{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.faixa div{animation:none}}

@@ -21,7 +21,9 @@ class PagesBuildTests(unittest.TestCase):
                          '.env', 'README.md', 'painel/dados.json', 'downloads/private.zip',
                          'jogar/arrumadinho/assets/secret.json', 'jogar/arrumadinho/src/secret.py',
                          'jogar/varal-veloz/index.html', 'jogar/varal-veloz/assets/index-x.js',
-                         'jogar/varal-veloz/assets/index-x.css', 'jogar/varal-veloz/assets/index-x.js.map'):
+                         'jogar/varal-veloz/assets/index-x.css', 'jogar/varal-veloz/assets/index-x.js.map',
+                         'exemplos/ousado.css', 'exemplos/loja/ousado/index.html', 'exemplos/loja/rascunho.md',
+                         'img/sites/loja-ousado.webp', 'img/sites/loja-ousado.png'):
                 p = source / name
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text('fixture', encoding='utf-8')
@@ -31,7 +33,8 @@ class PagesBuildTests(unittest.TestCase):
             self.assertEqual(actual, set(MODULE.STATIC) | {
                 'jogar/arrumadinho/index.html', 'jogar/arrumadinho/assets/player.png',
                 'jogar/arrumadinho/src/game.js', 'jogar/varal-veloz/index.html',
-                'jogar/varal-veloz/assets/index-x.js', 'jogar/varal-veloz/assets/index-x.css'})
+                'jogar/varal-veloz/assets/index-x.js', 'jogar/varal-veloz/assets/index-x.css',
+                'exemplos/ousado.css', 'exemplos/loja/ousado/index.html', 'img/sites/loja-ousado.webp'})
             with self.assertRaises(ValueError):
                 MODULE.build(source, output)
             with self.assertRaises(ValueError):
@@ -65,6 +68,8 @@ class PagesBuildTests(unittest.TestCase):
     def test_pages_have_metadata_and_no_dead_internal_links(self):
         root = Path(__file__).resolve().parent.parent
         shipped = set(MODULE.STATIC) | {f'jogar/{g}/index.html' for g in MODULE.GAMES}
+        shipped |= {p.relative_to(root).as_posix() for folder, exts in MODULE.FOLDERS.items()
+                    for p in (root / folder).rglob('*') if p.suffix in exts}
         for name in (*MODULE.PAGES, '404.html'):
             html = (root / name).read_text(encoding='utf-8')
             self.assertEqual(len(re.findall(r'<title>[^<]{10,}</title>', html)), 1, name)
@@ -97,6 +102,39 @@ class PagesBuildTests(unittest.TestCase):
                 digest = base64.b64encode(hashlib.sha256(body.encode('utf-8')).digest()).decode()
                 hashes.add(f"'sha256-{digest}'")
         self.assertEqual(hashes, set(re.findall(r"'sha256-[A-Za-z0-9+/=]+'", csp)))
+
+    def test_style_samples_are_marked_fictional_and_csp_safe(self):
+        root = Path(__file__).resolve().parent.parent
+        pages = sorted((root / 'exemplos').glob('*/*/index.html'))
+        self.assertEqual(len(pages), 12)
+        sites = (root / 'sites.html').read_text(encoding='utf-8')
+        for page in pages:
+            rel = page.relative_to(root).as_posix()
+            html = page.read_text(encoding='utf-8')
+            self.assertIn('<meta name="robots" content="noindex">', html, rel)
+            self.assertIn('Exemplo de estilo.', html, rel)
+            self.assertIn('Negócio fictício.', html, rel)
+            self.assertNotRegex(html, r'\sstyle="|\son[a-z]+="|<script|<iframe|wa\.me|tel:', rel)
+            self.assertIn(f'href="{rel[:-len("index.html")]}"', sites, rel)
+            for href in re.findall(r'(?:href|src)="([^"]+)"', html):
+                if re.match(r'(https?:|data:|#)', href):
+                    continue
+                target = (page.parent / href.split('#')[0]).resolve()
+                if href.endswith('/'):
+                    target /= 'index.html'
+                self.assertTrue(target.is_file(), (rel, href))
+                folder = target.relative_to(root).parts[0]
+                self.assertTrue(target.suffix in MODULE.FOLDERS.get(folder, set())
+                                or target.relative_to(root).as_posix() in MODULE.STATIC, (rel, href))
+        for src in re.findall(r'src="(img/sites/[^"]+)"', sites):
+            self.assertTrue((root / src).is_file(), src)
+
+    def test_real_work_section_never_ships_empty(self):
+        html = (Path(__file__).resolve().parent.parent / 'sites.html').read_text(encoding='utf-8')
+        html = re.sub(r'<!--.*?-->', '', html, flags=re.S)
+        if 'id="feitos"' in html:
+            section = html.split('id="feitos"', 1)[1].split('<h2', 1)[0]
+            self.assertIn('<article', section)
 
     def test_missing_asset_fails_before_copying(self):
         with tempfile.TemporaryDirectory() as tmp:
