@@ -82,7 +82,7 @@ class PagesBuildTests(unittest.TestCase):
             for href in re.findall(r'(?:href|src)="([^"]+)"', html):
                 if re.match(r'(https?:|mailto:|data:|#)', href):
                     continue
-                target = href.split('#')[0].lstrip('/').removeprefix('./')
+                target = href.split('#')[0].split('?')[0].lstrip('/').removeprefix('./')
                 if target == '' or target.endswith('/'):
                     target += 'index.html'
                 self.assertIn(target, shipped, (name, href))
