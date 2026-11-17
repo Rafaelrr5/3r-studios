@@ -280,3 +280,11 @@ html[data-contrast="high"] .steps li{border:2px solid var(--fg)}
 .show a{position:relative}
 .show .tipo{position:absolute;top:20px;left:20px;box-shadow:0 2px 10px rgba(11,10,15,.35)}
 @media (max-width:420px){.show .tipo{top:14px;left:14px;padding:2px 8px}}
+
+.trust{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.trust li{display:flex;align-items:flex-start;gap:14px;padding:22px 24px;border-radius:22px;background:var(--card)}
+.trust li::before{content:"";flex:0 0 28px;height:28px;border-radius:50%;background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/18px no-repeat}
+.trust h3{font-size:calc(clamp(17px,1.4vw,20px) * var(--s));letter-spacing:-.02em;line-height:1.2}
+html[data-contrast="high"] .trust li{border:2px solid var(--fg)}
+@media (max-width:899px){.trust{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:599px){.trust{grid-template-columns:1fr;gap:10px}.trust li{padding:14px 18px}}
