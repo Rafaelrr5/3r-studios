@@ -1,4 +1,4 @@
-"""Generate the style samples under exemplos/ (fictional Juiz de Fora businesses).
+"""Generate the style samples under exemplos/ (fictional businesses, no city).
 
 Usage: python3 tools/gerar-exemplos.py
 Each business gets two directions from the same text: classico/ and ousado/.
@@ -79,7 +79,7 @@ BIZ = [
     dict(slug='barbearia', nome='Barbearia do Otávio', tipo='Barbearia', bairro='Centro',
          fontes=('Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600', 'Big+Shoulders+Display:wght@800;900&family=Space+Grotesk:wght@400;600'),
          h1c='Corte e barba com hora marcada', h1o='Corte na hora certa.',
-         lead='Cadeira antiga, navalha e toalha quente no Centro de Juiz de Fora. Você marca pelo WhatsApp e é atendido no horário.',
+         lead='Cadeira antiga, navalha e toalha quente no Centro. Você marca pelo WhatsApp e é atendido no horário.',
          cta='Marcar horário', cta2='Ver serviços',
          faixa=['Corte', 'Barba', 'Navalha', 'Toalha quente', 'Pezinho', 'Sobrancelha'],
          servicos=[('Corte', 'Na tesoura ou na máquina, do social ao degradê.'),
@@ -110,7 +110,7 @@ BIZ = [
          horario=[('Segunda a sexta', '5h30 às 22h'), ('Sábado', '8h às 13h'), ('Domingo', 'Fechado')]),
     dict(slug='floricultura', nome='Flor de Maio', tipo='Floricultura', bairro='São Pedro',
          fontes=('Cormorant+Garamond:wght@600;700&family=Nunito+Sans:wght@400;700', 'Shrikhand&family=Outfit:wght@400;600'),
-         h1c='Flores e plantas com entrega em Juiz de Fora', h1o='Mande flores hoje.',
+         h1c='Flores e plantas com entrega no mesmo dia', h1o='Mande flores hoje.',
          lead='Buquês, arranjos e plantas montados na hora. Pedidos feitos até as 14h chegam no mesmo dia.',
          cta='Encomendar flores', cta2='Ver arranjos',
          faixa=['Buquês', 'Arranjos', 'Orquídeas', 'Suculentas', 'Coroas', 'Casamentos'],
@@ -156,7 +156,7 @@ def page(b, d):
     fonts = b['fontes'][0 if d == 'classico' else 1]
     title = f"{b['nome']} ({b['tipo']} em {b['bairro']}, exemplo) · 3R Studios"
     desc = (f"Exemplo de estilo da 3R Studios: site {DIRS[d]} para um negócio fictício, "
-            f"{b['tipo'].lower()} no bairro {b['bairro']}, em Juiz de Fora.")
+            f"{b['tipo'].lower()} no bairro {b['bairro']}.")
     art = f'<svg class="art" viewBox="0 0 200 200" aria-hidden="true" focusable="false">{ART[b["slug"]]}</svg>'
     servicos = '\n'.join(
         f'<li><span class="n">{i:02d}</span><h3>{e(t)}</h3><p>{e(x)}</p></li>' for i, (t, x) in enumerate(b['servicos'], 1))
@@ -197,7 +197,7 @@ def page(b, d):
 <main id="inicio">
 <section class="hero">
 <div class="texto">
-<p class="kicker">{e(b['tipo'])} · {e(b['bairro'])} · Juiz de Fora</p>
+<p class="kicker">{e(b['tipo'])} · {e(b['bairro'])}</p>
 <h1>{e(h1)}</h1>
 <p class="lead">{e(b['lead'])}</p>
 <p class="acoes"><a class="btn" href="#contato">{e(b['cta'])} no WhatsApp</a><a class="btn linha" href="#servicos">{e(b['cta2'])}</a></p>
@@ -221,7 +221,7 @@ def page(b, d):
 <section id="onde" class="onde">
 <div>
 <h2>Onde fica</h2>
-<p class="end">Bairro {e(b['bairro'])}, Juiz de Fora (MG)</p>
+<p class="end">Bairro {e(b['bairro'])}</p>
 <p class="nota">No site de verdade entram o endereço completo, o mapa e o botão de rota.</p>
 </div>
 <div>
@@ -242,7 +242,7 @@ def page(b, d):
 </section>
 </main>
 <footer class="rodape">
-<p>{e(b['nome'])} · {e(b['bairro'])}, Juiz de Fora</p>
+<p>{e(b['nome'])} · {e(b['bairro'])}</p>
 {extra}
 <p>Negócio fictício. Site de exemplo feito pela <a href="../../../sites.html">3R Studios</a>.</p>
 </footer>
