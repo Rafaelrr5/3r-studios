@@ -2,6 +2,7 @@
 import base64
 import hashlib
 import importlib.util
+import json
 import re
 from pathlib import Path
 import tempfile
@@ -86,6 +87,18 @@ class PagesBuildTests(unittest.TestCase):
                 if target == '' or target.endswith('/'):
                     target += 'index.html'
                 self.assertIn(target, shipped, (name, href))
+
+    def test_structured_data_is_valid_json(self):
+        root = Path(__file__).resolve().parent.parent
+        for name in MODULE.PAGES:
+            blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', (root / name).read_text(encoding='utf-8'), re.S)
+            for body in blocks:
+                data = json.loads(body)
+                self.assertEqual(data['@context'], 'https://schema.org', name)
+        for name in ('sites.html', 'whatsapp.html', 'aplicativos.html'):
+            html = (root / name).read_text(encoding='utf-8')
+            self.assertIn('"@type":"FAQPage"', html, name)
+            self.assertIn('<details><summary>', html, name)
 
     def test_csp_allows_exactly_the_shipped_inline_scripts(self):
         root = Path(__file__).resolve().parent.parent
