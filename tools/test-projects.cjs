@@ -150,4 +150,34 @@ t("browser game uses executable .js assets instead of server-only .cjs MIME type
   for (const script of scripts) new vm.Script(fs.readFileSync(path.join(root, "jogar/arrumadinho", script), "utf8"));
 });
 
+t("every project has one type (tipo) from the fixed set, shown as a chip and filterable", () => {
+  const ALLOWED = ["Site", "App", "Jogo", "Automação", "Ferramenta", "Plataforma"];
+  assert.deepEqual(Object.keys(P.TIPOS), ALLOWED);
+  for (const pr of catalog.projects) assert.ok(ALLOWED.includes(pr.tipo), `${pr.id} has tipo ${JSON.stringify(pr.tipo)}`);
+  for (const id of ["blinkninja", "arrumadinho", "varal-veloz"]) assert.equal(catalog.projects.find(p => p.id === id).tipo, "Jogo");
+  for (const L of Object.values(I18N)) for (const { key } of Object.values(P.TIPOS)) assert.ok(L[key], key);
+  const plates = P.render(doc, catalog, I18N, { lang: "pt-BR", brief: true });
+  plates.forEach((pl, i) => {
+    const chip = pl.all(n => n.className === "tipo m")[0];
+    assert.equal(chip.textContent, catalog.projects[i].tipo);
+    assert.equal(pl.dataset.tipo, P.TIPOS[catalog.projects[i].tipo].slug);
+  });
+  const f = P.filters(doc, plates, I18N, { lang: "pt-BR" });
+  assert.equal(f.buttons[0].textContent, "Todos");
+  assert.equal(f.buttons[0].attrs["aria-pressed"], "true");
+  const jogo = f.buttons.find(b => b.dataset.t === "jogo");
+  assert.equal(f.pick("jogo"), 3);
+  assert.equal(jogo.attrs["aria-pressed"], "true");
+  assert.equal(f.buttons[0].attrs["aria-pressed"], "false");
+  assert.ok(plates.every(pl => pl.hidden === (pl.dataset.tipo !== "jogo")));
+  assert.equal(f.pick(""), plates.length);
+  assert.ok(plates.every(pl => !pl.hidden));
+  // A card without a known type renders without a chip and only shows under "Todos".
+  const odd = P.render(doc, { projects: [{ ...catalog.projects[0], tipo: "Outro" }] }, I18N)[0];
+  assert.equal(odd.all(n => n.className === "tipo m").length, 0);
+  // No-JS fallback list names the type of each project too.
+  const apps = fs.readFileSync(path.join(root, "apps.html"), "utf8");
+  for (const pr of catalog.projects) assert.match(apps, new RegExp(`<li>${pr.tipo} · [^\\n]*${pr.name}`), pr.name);
+});
+
 console.log(`${n} tests passed`);

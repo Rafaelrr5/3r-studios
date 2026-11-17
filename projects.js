@@ -24,6 +24,13 @@
   ];
   const COPY = { rp: ["rLn", "rBd"], dj: ["dLn", "dBd"], p1: ["p1ln", "p1bd"], p2: ["p2ln", "p2bd"], p3: ["p3ln", "p3bd"], p4: ["p4ln", "p4bd"], p5: ["p5ln", "p5bd"], qm: ["qmln", "qmbd"], bn: ["bnln", "bnbd"], ar: ["arln", "arbd"], vv: ["vvln", "vvbd"] };
   const STATUS = { live: "rSt", dev: "dSt" };
+  // What each thing is, at a glance. "tipo" in projetos.json is one of these pt-BR labels;
+  // slug drives the chip colour and the filter, key the translation.
+  const TIPOS = {
+    "Site": { slug: "site", key: "tSite" }, "App": { slug: "app", key: "tApp" }, "Jogo": { slug: "jogo", key: "tGame" },
+    "Automação": { slug: "automacao", key: "tAuto" }, "Ferramenta": { slug: "ferramenta", key: "tTool" }, "Plataforma": { slug: "plataforma", key: "tPlat" },
+  };
+  const tipoOf = (p) => (p && Object.prototype.hasOwnProperty.call(TIPOS, p.tipo) ? p.tipo : "");
 
   function safeUrl(u) {
     if (typeof u !== "string" || !u || /[\s\\]/.test(u)) return "";
@@ -91,7 +98,14 @@
       artBox.append(shapes);
 
       const txt = el("div", "txt");
-      if (STATUS[p.status]) txt.append(tr("p", "st m" + (p.status === "live" ? " live" : ""), STATUS[p.status]));
+      const tipo = tipoOf(p);
+      if (tipo) { plate.dataset.tipo = TIPOS[tipo].slug; }
+      if (tipo || STATUS[p.status]) {
+        const meta = el("div", "meta");
+        if (tipo) { const c = tr("p", "tipo m", TIPOS[tipo].key); c.dataset.t = TIPOS[tipo].slug; if (!c.textContent) c.textContent = tipo; meta.append(c); }
+        if (STATUS[p.status]) meta.append(tr("p", "st m" + (p.status === "live" ? " live" : ""), STATUS[p.status]));
+        txt.append(meta);
+      }
       const h3 = el("h3", null, p.name); h3.id = hid;
       txt.append(h3);
       const [lnKey, bdKey] = COPY[tpl] || [];
@@ -120,7 +134,27 @@
     });
   }
 
-  const api = { safeUrl, linksFor, hintText, render };
+  // Filter chips: "Todos" plus each type present, in TIPOS order. Pressing one hides the other cards.
+  function filters(doc, plates, I18N, opts = {}) {
+    const t = (I18N && (I18N[opts.lang] || I18N.en)) || {};
+    const present = Object.keys(TIPOS).filter((k) => plates.some((pl) => pl.dataset.tipo === TIPOS[k].slug));
+    const opts2 = [{ slug: "", label: t.tAll || "Todos" }].concat(present.map((k) => ({ slug: TIPOS[k].slug, label: t[TIPOS[k].key] || k })));
+    const buttons = opts2.map((o) => {
+      const b = doc.createElement("button");
+      b.type = "button"; b.className = "fchip m"; b.textContent = o.label;
+      b.dataset.t = o.slug; b.setAttribute("aria-pressed", o.slug ? "false" : "true");
+      return b;
+    });
+    function pick(slug) {
+      let shown = 0;
+      for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.t === slug));
+      for (const pl of plates) { const on = !slug || pl.dataset.tipo === slug; pl.hidden = !on; if (on) shown++; }
+      return shown;
+    }
+    return { buttons, pick };
+  }
+
+  const api = { safeUrl, linksFor, hintText, render, filters, TIPOS };
   if (typeof module === "object" && module.exports) { module.exports = api; return; }
   window.PROJECTS = api;
 
@@ -129,7 +163,17 @@
   if (!grid) return;
   fetch("projetos.json", { cache: "no-cache" })
     .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then((cat) => grid.append(...render(document, cat, window.I18N, { lang: "pt-BR", brief: true })))
+    .then((cat) => {
+      const plates = render(document, cat, window.I18N, { lang: "pt-BR", brief: true });
+      grid.append(...plates);
+      const bar = document.getElementById("apps-filtros"), count = document.getElementById("apps-count");
+      if (!bar) return;
+      const f = filters(document, plates, window.I18N, { lang: "pt-BR" });
+      const say = (n) => { if (count) count.textContent = n === 1 ? "1 item na lista" : n + " itens na lista"; };
+      for (const b of f.buttons) b.addEventListener("click", () => say(f.pick(b.dataset.t)));
+      bar.append(...f.buttons);
+      bar.hidden = false;
+    })
     .catch((err) => {
       console.error("projetos.json:", err);
       const p = document.createElement("p");

@@ -111,3 +111,16 @@ html[data-contrast="high"] .doc .contacts li{border:2px solid var(--fg)}
 .apps .load-err{grid-column:1/-1;padding:18px;border:2px solid var(--acc);border-radius:14px}
 html[data-contrast="high"] .apps .plate{border:2px solid var(--fg)}
 @media (forced-colors:active){.apps .shape{forced-color-adjust:none}}
+/* Type chips on cards, and the type filter on apps.html */
+.apps .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.filtros[hidden]{display:none}
+.fchip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:99px;border:2px solid var(--line);background:var(--card);color:var(--fg);font-family:"DM Mono",ui-monospace,monospace;font-size:calc(.8125rem * var(--s));letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+.fchip:hover{border-color:var(--fg)}
+.fchip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.fchip[aria-pressed="true"]::before{content:"✓"}
+.fchip:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.apps .plate[hidden]{display:none}
+.doc .work .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0}
+.doc .thumbs a{position:relative}
+.doc .thumbs .tipo{position:absolute;top:10px;left:10px;min-height:0}
