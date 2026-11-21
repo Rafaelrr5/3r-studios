@@ -209,9 +209,9 @@
       "projectUrl": "./jogar/arrumadinho/"
     },
     {
-      "id": "gancho-maluco",
+      "id": "caca-varal",
       "template": "vv",
-      "name": "Gancho Maluco",
+      "name": "Caça-Varal",
       "kind": "product",
       "tipo": "Jogo",
       "status": "dev",
@@ -227,7 +227,7 @@
       "showCode": false,
       "codeUrl": "",
       "useProject": true,
-      "projectUrl": "./jogar/gancho-maluco/"
+      "projectUrl": "./jogar/caca-varal/"
     },
     {
       "id": "do-zero-ao-drop",

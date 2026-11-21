@@ -1,6 +1,8 @@
 # Old portfolio address: its content is now the home page.
 /portfolio /#trabalhos 301
 /portfolio.html /#trabalhos 301
-# Varal Veloz was renamed Gancho Maluco (21/11/2026).
-/jogar/varal-veloz /jogar/gancho-maluco/ 301
-/jogar/varal-veloz/* /jogar/gancho-maluco/ 301
+# The game's earlier names: Varal Veloz, then Gancho Maluco (both 21/11/2026).
+/jogar/varal-veloz /jogar/caca-varal/ 301
+/jogar/varal-veloz/* /jogar/caca-varal/ 301
+/jogar/gancho-maluco /jogar/caca-varal/ 301
+/jogar/gancho-maluco/* /jogar/caca-varal/ 301

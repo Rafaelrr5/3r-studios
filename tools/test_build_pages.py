@@ -23,8 +23,8 @@ class PagesBuildTests(unittest.TestCase):
                          'jogar/arrumadinho/assets/player.png', 'jogar/arrumadinho/src/game.js',
                          '.env', 'README.md', 'painel/dados.json', 'downloads/private.zip',
                          'jogar/arrumadinho/assets/secret.json', 'jogar/arrumadinho/src/secret.py',
-                         'jogar/gancho-maluco/index.html', 'jogar/gancho-maluco/assets/index-x.js',
-                         'jogar/gancho-maluco/assets/index-x.css', 'jogar/gancho-maluco/assets/index-x.js.map',
+                         'jogar/caca-varal/index.html', 'jogar/caca-varal/assets/index-x.js',
+                         'jogar/caca-varal/assets/index-x.css', 'jogar/caca-varal/assets/index-x.js.map',
                          'jogar/blinkninja/index.html', 'jogar/blinkninja/index.js', 'jogar/blinkninja/index.pck',
                          'jogar/blinkninja/index.wasm.gz', 'jogar/blinkninja/web-shell.css', 'jogar/blinkninja/index.wasm',
                          'jogar/blinkninja/source/secret.gd', 'jogar/blinkninja/schema.sql',
@@ -40,8 +40,8 @@ class PagesBuildTests(unittest.TestCase):
             self.assertEqual(count, len(actual))
             self.assertEqual(actual, set(MODULE.STATIC) | {
                 'jogar/arrumadinho/index.html', 'jogar/arrumadinho/assets/player.png',
-                'jogar/arrumadinho/src/game.js', 'jogar/gancho-maluco/index.html',
-                'jogar/gancho-maluco/assets/index-x.js', 'jogar/gancho-maluco/assets/index-x.css',
+                'jogar/arrumadinho/src/game.js', 'jogar/caca-varal/index.html',
+                'jogar/caca-varal/assets/index-x.js', 'jogar/caca-varal/assets/index-x.css',
                 'jogar/blinkninja/index.html', 'jogar/blinkninja/index.js', 'jogar/blinkninja/index.pck',
                 'jogar/blinkninja/index.wasm.gz', 'jogar/blinkninja/web-shell.css',
                 'jogar/do-zero-ao-drop/index.html', 'jogar/do-zero-ao-drop/assets/game.js',

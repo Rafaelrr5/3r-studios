@@ -17,7 +17,7 @@
   Content-Type: application/speculationrules+json
 
 # Browser games: the Arrumadinho prototype is a single HTML file with inline script and styles;
-# Gancho Maluco (Vite build) only needs 'self' plus data: images for its item thumbnails.
+# Caça-Varal (Vite build) only needs 'self' plus data: images for its item thumbnails.
 /jogar/*
   ! Content-Security-Policy
   Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
