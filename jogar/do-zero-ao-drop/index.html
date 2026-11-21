@@ -92,6 +92,7 @@ h1{font-size:46px;line-height:1;margin:0 0 12px;letter-spacing:-.03em;background
 .tile:hover:not(:disabled){border-color:var(--gold)}
 .tile:disabled{opacity:.45;cursor:not-allowed}
 .tile.ok{border-color:rgba(74,222,128,.5)}
+.tile small{display:block;font-weight:500;font-size:11px;color:#a7a2c4;margin-top:2px}
 .tn{font-weight:900;color:#a78bfa;width:20px}.tt{flex:1}.tg{font-weight:900;color:var(--gold)}
 .mbtns{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .grade{font-size:84px;font-weight:900;line-height:1;background:linear-gradient(180deg,#fde68a,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;float:right;margin-left:16px}
@@ -118,7 +119,7 @@ h1{font-size:46px;line-height:1;margin:0 0 12px;letter-spacing:-.03em;background
 <body>
 <div id="app"></div>
 <aside id="side" class="panel gone">
-  <div id="top"><button id="bmenu" title="Menu (Esc)">☰ Menu</button><div id="prog"></div><button id="bkeys" title="Teclas (F1)">⌨️ Teclas</button></div>
+  <div id="top"><button id="bmenu" title="Menu (Esc)">☰ Menu</button><div id="prog"></div><button id="bskip" title="Pular esta lição (você pode voltar depois)" hidden>Pular ⏭</button><button id="bkeys" title="Teclas (F1)">⌨️ Teclas</button></div>
   <h2 id="ltitle"></h2>
   <p id="lbody"></p>
   <div id="ltask"></div>
@@ -141,13 +142,14 @@ h1{font-size:46px;line-height:1;margin:0 0 12px;letter-spacing:-.03em;background
   <h1>Do Zero<br>ao Drop</h1>
   <p class="big">Uma controladora de DJ assusta: <b>71</b> botões, botõezinhos e rodas.</p>
   <p class="big">Pra sua <b>primeira mixagem</b> você precisa de <b>7</b>. O resto libera aos poucos, quando fizer sentido: 17 lições, de bater o pé no ritmo até um set inteiro.</p>
-  <p class="big" style="font-size:14px;color:#a7a2c4">Tudo funciona com <b>mouse</b> ou <b>teclado</b>, e cada movimento mostra como fazer numa controladora de verdade. Use fone ou caixa de som: as músicas são criadas ao vivo pelo jogo, em 9 estilos. Seu progresso fica salvo neste navegador.</p>
+  <p class="big" style="font-size:14px;color:#a7a2c4">Tudo funciona com <b>mouse</b> ou <b>teclado</b>, e cada movimento mostra como fazer numa controladora de verdade. Use fone ou caixa de som: as 22 músicas são originais, criadas ao vivo pelo jogo, em 9 estilos. Seu progresso fica salvo neste navegador.</p>
   <button class="btn" id="start">Ligar a mesa ▶</button>
 </div></div>
 <div id="menu" class="screen" hidden><div class="box panel">
   <h1 style="font-size:38px">Do Zero ao Drop</h1>
   <div id="mprog"></div>
   <div class="mbtns"><button class="btn" id="mcont">Começar ▶</button><button class="btn ghost" id="mfree">Mixar livre</button><button class="btn ghost" id="mkeys">⌨️ Teclas</button><button class="btn ghost" id="mreset">Apagar progresso</button></div>
+  <p style="font-size:13px;color:#a7a2c4;margin:10px 0 0">Já sabe alguma parte? Todas as lições estão abertas: entre em qualquer uma ou use <b>Pular ⏭</b> durante a lição.</p>
   <div id="mchap"></div>
 </div></div>
 <div id="end" class="screen" hidden><div class="box panel">
