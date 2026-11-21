@@ -53,6 +53,10 @@ ${seg('text', 'Tamanho do texto', [['1', 'Normal'], ['1.15', 'Maior'], ['1.3', '
     dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
   }
 
+  // Testimonial carousel arrows (rendered only with 2+ testimonials).
+  document.querySelectorAll('[data-car]').forEach(b => b.addEventListener('click', () => {
+    const t = b.closest('.tst').querySelector('.track'); t.scrollBy({ left: t.clientWidth * +b.dataset.car, behavior: still() ? 'auto' : 'smooth' });
+  }));
   document.querySelectorAll('[data-i]').forEach(el => el.style.setProperty('--i', el.dataset.i));
   document.querySelectorAll('[data-d]').forEach(el => el.style.setProperty('--d', el.dataset.d));
   document.querySelectorAll('.end h2 .wd').forEach((el, i) => el.style.setProperty('--i', i));

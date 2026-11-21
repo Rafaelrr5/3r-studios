@@ -107,6 +107,21 @@ PRODUCTS = [
     ("app", "Aplicativos", "Sua ideia no celular das pessoas, publicada nas lojas, do jeito que você imaginou.", "aplicativos.html"),
     ("vid", "Vídeos e anúncios", "Vídeos de produto e anúncios curtos que param o dedo de quem está rolando a tela.", None),
 ]
+# Client testimonials, verbatim from the client (never invented). One card per entry; the arrows appear from 2 on.
+TESTIMONIALS = [
+    ("3R Studios realizou em nov/26 a repaginação do site da Fundação. Ficou show: muito fluido, fácil de navegar, indo direto ao ponto. Recomendo.",
+     "Carlos Henrique", "Fundação Maria Mãe", "https://mariamae.org.br/"),
+]
+def tcard(q, who, org, url):
+    return (f'<figure class="tq"><span class="stars" role="img" aria-label="5 de 5 estrelas">⭐⭐⭐⭐⭐</span>'
+            f'<blockquote><p>“{q}”</p></blockquote><figcaption>{who}, <a href="{url}" target="_blank" rel="noopener">{org}'
+            f'<span class="sr"> (abre em nova aba)</span></a></figcaption></figure>')
+def testimonials():
+    arrows = ('<div class="tnav"><button type="button" data-car="-1" aria-label="Depoimento anterior">‹</button>'
+              '<button type="button" data-car="1" aria-label="Próximo depoimento">›</button></div>') if len(TESTIMONIALS) > 1 else ''
+    return (f'<section class="tst rv" aria-label="Depoimentos de clientes"><div class="track" tabindex="0">'
+            + ''.join(tcard(*t) for t in TESTIMONIALS) + f'</div>{arrows}</section>')
+
 def prod(i, k, n, d, page):
     more = f'<a class="more" href="{page}">Saiba mais</a>' if page else '<span class="more muted">Sob medida</span>'
     return (f'<article class="p rv" data-i="{i}"><i>{ico(k)}</i><h3>{n}</h3><p>{d}</p>'
@@ -182,6 +197,17 @@ h2{font:400 clamp(30px,3.3vw,48px)/1.05 var(--serif);letter-spacing:-.02em;max-w
 .art .ic svg{width:28px;height:28px;stroke-width:1.6}.item.on .art .ic svg{animation:wig 1.2s var(--ease)}
 .art figcaption{font:italic 400 15px/1.3 var(--serif);color:var(--fg)}
 @keyframes wig{30%{transform:rotate(-10deg) scale(1.1)}60%{transform:rotate(6deg)}}
+.tst{position:relative;margin:0 0 3vh}
+.tst .track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:16px}.tst .track::-webkit-scrollbar{display:none}
+.tst .track:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.tq{flex:0 0 100%;scroll-snap-align:start;margin:0;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px 22px;
+ padding:16px 22px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+.tq .stars{font-size:18px;letter-spacing:2px;white-space:nowrap}
+.tq blockquote{margin:0}.tq p{font:italic 400 clamp(15px,1.15vw,18px)/1.4 var(--serif);color:var(--fg)}
+.tq figcaption{font-size:13.5px;color:var(--mute);white-space:nowrap}.tq figcaption a{color:inherit}
+.tnav{position:absolute;right:10px;top:-46px;display:flex;gap:6px}
+.tnav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:20px;cursor:pointer}
+@media(max-width:980px){.tq{grid-template-columns:1fr;padding:16px 18px}.tq figcaption{white-space:normal}}
 .prods{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .p{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
 .p.in-view:hover{border-color:var(--fg);transform:translateY(-4px);box-shadow:0 16px 30px -20px var(--shadow)}
@@ -205,8 +231,6 @@ h2{font:400 clamp(30px,3.3vw,48px)/1.05 var(--serif);letter-spacing:-.02em;max-w
 .end h2{font-size:clamp(44px,6vw,92px);max-width:none;line-height:1}
 .end h2 .wd{display:inline-block}.js .end h2 .wd{opacity:0;transform:translateY(.4em) rotate(2deg)}
 .end h2.in-view .wd{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i)*90ms)}
-.quote{max-width:46ch;margin:0 auto 5vh}.quote p{font:italic 400 clamp(17px,1.4vw,21px)/1.4 var(--serif)}
-.quote figcaption{margin-top:10px;font-size:14px;color:var(--mute)}.quote figcaption a{color:inherit}
 .end>.in .sub p{margin:18px auto 0;text-align:center}.end>.in .btns{justify-content:center}
 @media(min-width:981px) and (min-height:640px){html.js{scroll-snap-type:y mandatory}.screen{height:100svh;min-height:0;scroll-snap-align:start;overflow:hidden}}
 @media(min-width:981px) and (max-height:960px){.head{margin-bottom:2.5vh}.item p{font-size:14.5px}.screen{padding-top:calc(var(--hd) + 2.5vh)}}
@@ -289,14 +313,14 @@ HTML = f'''<!doctype html>
 
 <section class="screen" id="produtos"><div class="in"><div class="head"><h2 class="rv">O que eu posso fazer por você.</h2>
 <div class="lead rv" data-i="1"><p>Escolha por onde começar.</p><p>Se não souber qual, me conte o problema que eu indico.</p></div></div>
+{testimonials()}
 <div class="prods">{prods}</div></div></section>
 
 <section class="screen" id="trabalhos"><div class="in"><div class="head"><h2 class="rv">Coisas que já estão no ar.</h2>
 <div class="lead rv" data-i="1"><p>Apps, jogos e sites que eu criei, meus e de clientes.</p><p>Tudo funcionando hoje, é só abrir.</p></div></div>
 <div class="grid">{works}</div></div></section>
 
-<section class="screen end" id="contato"><div class="in"><figure class="quote rv"><blockquote><p>“3R Studios realizou em nov/26 a repaginação do site da Fundação. Ficou show: muito fluido, fácil de navegar, indo direto ao ponto. Recomendo.”</p></blockquote><figcaption>Carlos Henrique, <a href="https://mariamae.org.br/" target="_blank" rel="noopener">Fundação Maria Mãe<span class="sr"> (abre em nova aba)</span></a></figcaption></figure>
-<h2>{end_h2}</h2>
+<section class="screen end" id="contato"><div class="in"><h2>{end_h2}</h2>
 <div class="sub rv" data-i="3"><p>Me conte o que você precisa. Eu respondo pessoalmente.</p></div>
 <div class="btns rv" data-i="4"><a class="btn b1" href="{WA}">{WAI} Chamar no WhatsApp</a><a class="btn b2" href="mailto:faelrribeiro3@gmail.com?subject=Vim%20pelo%20site%20da%203R">Mandar um e-mail {ARROW}</a></div></div>
 {chrome.footer('', 'index.html')}

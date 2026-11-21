@@ -211,5 +211,5 @@ html[data-theme="dark"] .apps .shape{background:var(--pa,#F2EFE7)}
 
 /* Client testimonial (sites.html #feitos) */
 .doc .quote{margin:12px 0 4px;padding-left:16px;border-left:3px solid var(--y)}
-.doc .quote blockquote{margin:0}.doc .quote blockquote p{margin:0;font:italic 400 calc(1.15rem * var(--s))/1.4 var(--serif);color:var(--fg)}
+.doc .quote .stars{display:block;font-size:17px;letter-spacing:2px;margin-bottom:6px}.doc .quote blockquote{margin:0}.doc .quote blockquote p{margin:0;font:italic 400 calc(1.15rem * var(--s))/1.4 var(--serif);color:var(--fg)}
 .doc .quote figcaption{margin-top:8px;font-size:calc(.9rem * var(--s));color:var(--mute)}
