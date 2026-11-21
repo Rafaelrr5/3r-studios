@@ -279,11 +279,11 @@ HTML = f'''<!doctype html>
 <meta property="og:url" content="https://3rstudios.com.br/">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="3R Studios">
-<meta property="og:image" content="https://3rstudios.com.br/img/og.png">
+<meta property="og:image" content="https://3rstudios.com.br/img/og-2.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://3rstudios.com.br/img/og.png">
+<meta name="twitter:image" content="https://3rstudios.com.br/img/og-2.png">
 <link rel="icon" href="{FAV}">
 {chrome.PREFS}
 <link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
