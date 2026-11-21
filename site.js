@@ -1,7 +1,8 @@
-// 3R Studios, every page: saved Ajustes (theme, motion, text size, contrast, underline), the Ajustes
-// dialog, header state, section highlight, jump buttons, scroll reveals and the home's timeline/parallax.
+// 3R Studios, every page: saved Ajustes (theme, motion, text size, contrast, underline, Libras), the
+// Ajustes dialog, header state, section highlight, jump buttons, scroll reveals and the home's timeline/parallax.
 // Settings live only in this browser (localStorage "3r-prefs"). Each language is its own page
-// (/, /en/, /es/, /fr/); the dialog's words follow the page's <html lang> and it repeats the language links.
+// (/, /en/, /es/, /fr/); switching language swaps the page content in place (same scroll spot, no reload)
+// and the address changes with it, so links, Back and search engines still see real pages.
 (function () {
   const root = document.documentElement;
   const KEY = '3r-prefs';
@@ -21,38 +22,62 @@
     try { localStorage.setItem(KEY, JSON.stringify(prefs)); localStorage.setItem('3r-theme-v2', '1'); } catch (e) { /* private mode: settings last this visit */ }
   }
   apply();
+  const still = () => prefs.motion === 'reduce' || (prefs.motion !== 'full' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const isPT = () => root.lang === 'pt-BR';
+  root.classList.add('js');
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('ready')));
+
   // Libras (Brazilian Sign Language) via VLibras, the federal government's free widget: loaded only when
   // the visitor turns it on in Ajustes, and only on pt-BR pages (it translates Portuguese text).
-  const PT = root.lang === 'pt-BR';
-  function libras() {
-    if (document.querySelector('[vw]')) return;
+  // Turning it off removes the widget from the page; turning it on again reuses the loaded script.
+  function libras(on) {
+    const w0 = document.querySelector('[vw]');
+    if (!on) { if (w0) w0.remove(); return; }
+    if (w0) return;
     const w = document.createElement('div');
     w.setAttribute('vw', ''); w.className = 'enabled';
     w.innerHTML = '<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>';
     document.body.append(w);
+    const start = () => { new window.VLibras.Widget('https://vlibras.gov.br/app'); if (document.readyState === 'complete') dispatchEvent(new Event('load')); };
+    if (window.VLibras) { start(); return; }
     const s = document.createElement('script');
     s.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
-    s.onload = () => { new window.VLibras.Widget('https://vlibras.gov.br/app'); if (document.readyState === 'complete') dispatchEvent(new Event('load')); };
+    s.onload = start;
     document.body.append(s);
   }
-  if (PT && prefs.libras) addEventListener('DOMContentLoaded', libras);
-  const still = () => prefs.motion === 'reduce' || (prefs.motion !== 'full' && matchMedia('(prefers-reduced-motion: reduce)').matches);
-  root.classList.add('js');
-  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('ready')));
 
-  // Ajustes dialog, built here so every page gets the same one.
-  const gear = document.getElementById('gear');
-  if (gear && window.HTMLDialogElement) {
-    const W = {
-      'pt-BR': ['Ajustes', 'Fechar ajustes', 'Idioma', 'Tema', 'Claro', 'Escuro', 'Automático', 'Animações', 'Do aparelho', 'Reduzidas', 'Completas', 'Tamanho do texto', 'Normal', 'Maior', 'Muito maior', 'Alto contraste', 'Sublinhar links', 'Restaurar padrão'],
-      en: ['Settings', 'Close settings', 'Language', 'Theme', 'Light', 'Dark', 'Automatic', 'Animations', 'Device setting', 'Reduced', 'Full', 'Text size', 'Normal', 'Larger', 'Largest', 'High contrast', 'Underline links', 'Reset to default'],
-      es: ['Ajustes', 'Cerrar ajustes', 'Idioma', 'Tema', 'Claro', 'Oscuro', 'Automático', 'Animaciones', 'Del dispositivo', 'Reducidas', 'Completas', 'Tamaño del texto', 'Normal', 'Más grande', 'Mucho más grande', 'Alto contraste', 'Subrayar enlaces', 'Restablecer'],
-      fr: ['Réglages', 'Fermer les réglages', 'Langue', 'Thème', 'Clair', 'Sombre', 'Automatique', 'Animations', 'Celles de l’appareil', 'Réduites', 'Complètes', 'Taille du texte', 'Normale', 'Plus grande', 'Très grande', 'Contraste élevé', 'Souligner les liens', 'Rétablir par défaut'],
-    };
+  // Colours change with a short blend of the components, not a flash of the whole page.
+  function blend(change) {
+    if (still()) { change(); return; }
+    root.classList.add('swap');
+    change();
+    clearTimeout(blend.t); blend.t = setTimeout(() => root.classList.remove('swap'), 320);
+  }
+  // A text-size change keeps the line you were reading where it was, instead of jumping.
+  function keepPlace(change) {
+    const hdH = (document.querySelector('.hd') || { offsetHeight: 0 }).offsetHeight;
+    const at = document.elementsFromPoint(innerWidth / 2, hdH + 12).find(e => !e.closest('dialog, .hd') && e !== root && e !== document.body);
+    const before = at && at.getBoundingClientRect().top;
+    change();
+    if (at) scrollBy(0, at.getBoundingClientRect().top - before);
+  }
+
+  const W = {
+    'pt-BR': ['Ajustes', 'Fechar ajustes', 'Idioma', 'Tema', 'Claro', 'Escuro', 'Automático', 'Animações', 'Do aparelho', 'Reduzidas', 'Completas', 'Tamanho do texto', 'Normal', 'Maior', 'Muito maior', 'Alto contraste', 'Sublinhar links', 'Restaurar padrão'],
+    en: ['Settings', 'Close settings', 'Language', 'Theme', 'Light', 'Dark', 'Automatic', 'Animations', 'Device setting', 'Reduced', 'Full', 'Text size', 'Normal', 'Larger', 'Largest', 'High contrast', 'Underline links', 'Reset to default'],
+    es: ['Ajustes', 'Cerrar ajustes', 'Idioma', 'Tema', 'Claro', 'Oscuro', 'Automático', 'Animaciones', 'Del dispositivo', 'Reducidas', 'Completas', 'Tamaño del texto', 'Normal', 'Más grande', 'Mucho más grande', 'Alto contraste', 'Subrayar enlaces', 'Restablecer'],
+    fr: ['Réglages', 'Fermer les réglages', 'Langue', 'Thème', 'Clair', 'Sombre', 'Automatique', 'Animations', 'Celles de l’appareil', 'Réduites', 'Complètes', 'Taille du texte', 'Normale', 'Plus grande', 'Très grande', 'Contraste élevé', 'Souligner les liens', 'Rétablir par défaut'],
+  };
+
+  // Ajustes dialog, built here so every page (and every language) gets the same one.
+  function buildDialog() {
+    const gear = document.getElementById('gear');
+    if (!gear || !window.HTMLDialogElement) return;
     const [tTitle, tClose, tLang, tTheme, tLight, tDark, tAuto, tMotion, tDevice, tReduce, tFull, tText, tNormal, tBig, tBigger, tContrast, tUnderline, tReset] = W[root.lang] || W['pt-BR'];
     const seg = (name, label, opts) => `<fieldset><legend>${label}</legend><div class="seg">${opts.map(([v, t]) =>
       `<label><input type="radio" name="${name}" value="${v}"><span>${t}</span></label>`).join('')}</div></fieldset>`;
     const langs = document.querySelector('.hd .langs');
+    const old = document.getElementById('prefs'); if (old) old.remove();
     const dlg = document.createElement('dialog');
     dlg.className = 'prefs'; dlg.id = 'prefs'; dlg.setAttribute('aria-labelledby', 'prefs-h');
     dlg.innerHTML = `<div class="pfh"><h2 id="prefs-h">${tTitle}</h2><button class="x" type="button" aria-label="${tClose}"><span aria-hidden="true">×</span></button></div>
@@ -63,7 +88,7 @@ ${seg('motion', tMotion, [['auto', tDevice], ['reduce', tReduce], ['full', tFull
 ${seg('text', tText, [['1', tNormal], ['1.15', tBig], ['1.3', tBigger]])}
 <label class="tog">${tContrast} <input type="checkbox" name="contrast"></label>
 <label class="tog">${tUnderline} <input type="checkbox" name="underline"></label>
-${PT ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbox" name="libras"></label>' : ''}
+${isPT() ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbox" name="libras"></label>' : ''}
 <button class="reset" type="button">${tReset}</button></form>`;
     document.body.appendChild(dlg);
     const form = dlg.querySelector('form');
@@ -72,47 +97,52 @@ ${PT ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbox" n
       form.contrast.checked = !!prefs.contrast; form.underline.checked = !!prefs.underline;
       if (form.libras) form.libras.checked = !!prefs.libras;
     };
+    const set = (next) => {
+      const textChanged = next.text !== prefs.text;
+      prefs = next;
+      if (textChanged) keepPlace(apply); else blend(apply);
+      save();
+      if (isPT()) libras(prefs.libras);
+    };
     form.addEventListener('change', () => {
       const f = new FormData(form);
-      const was = prefs.libras;
-      prefs = { theme: f.get('theme'), motion: f.get('motion'), text: f.get('text'), contrast: form.contrast.checked, underline: form.underline.checked,
-        libras: form.libras ? form.libras.checked : prefs.libras };
-      // A short cross-fade when colours change, instead of a hard flip (skipped with reduced motion).
-      if (document.startViewTransition && !still()) document.startViewTransition(apply); else apply();
-      save();
-      if (PT && prefs.libras && !was) libras();
-      if (PT && was && !prefs.libras) location.reload(); // the widget has no clean unload
+      set({ theme: f.get('theme'), motion: f.get('motion'), text: f.get('text'), contrast: form.contrast.checked, underline: form.underline.checked,
+        libras: form.libras ? form.libras.checked : prefs.libras });
     });
-    dlg.querySelector('.reset').addEventListener('click', () => {
-      const was = prefs.libras;
-      prefs = Object.assign({}, DEFAULTS); apply(); save(); sync();
-      if (PT && was) location.reload();
-    });
+    dlg.querySelector('.reset').addEventListener('click', () => { set(Object.assign({}, DEFAULTS)); sync(); });
     gear.addEventListener('click', () => { sync(); dlg.showModal(); });
     dlg.querySelector('.x').addEventListener('click', () => dlg.close());
     dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
   }
 
-  // Testimonial carousel arrows (rendered only with 2+ testimonials).
-  document.querySelectorAll('[data-car]').forEach(b => b.addEventListener('click', () => {
-    const t = b.closest('.tst').querySelector('.track'); t.scrollBy({ left: t.clientWidth * +b.dataset.car, behavior: still() ? 'auto' : 'smooth' });
-  }));
-  document.querySelectorAll('[data-i]').forEach(el => el.style.setProperty('--i', el.dataset.i));
-  document.querySelectorAll('[data-d]').forEach(el => el.style.setProperty('--d', el.dataset.d));
-  document.querySelectorAll('.end h2 .wd').forEach((el, i) => el.style.setProperty('--i', i));
-
-  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
-  }), { threshold: .05, rootMargin: '0px 0px -4% 0px' }) : null;
-  document.querySelectorAll('.rv, .end h2').forEach(el => io ? io.observe(el) : el.classList.add('in-view'));
-
-  const hd = document.querySelector('.hd');
-  const items = [...document.querySelectorAll('[data-focus]')];
-  const lines = [...document.querySelectorAll('.ln')];
-  const links = [...document.querySelectorAll('.hd nav a[href*="#"]')].filter(a => a.pathname === location.pathname);
-  const secs = links.map(a => document.getElementById(a.hash.slice(1)));
-  const up = document.querySelector('.jump .up'), down = document.querySelector('.jump .down');
+  // Everything below is bound to the current page content and rebuilt after a language swap.
+  let hd, items = [], lines = [], links = [], secs = [], up, down, fs = [], io;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  function init() {
+    buildDialog();
+    if (isPT() && prefs.libras) libras(true);
+    // Testimonial carousel arrows (rendered only with 2+ testimonials).
+    document.querySelectorAll('[data-car]').forEach(b => b.addEventListener('click', () => {
+      const t = b.closest('.tst').querySelector('.track'); t.scrollBy({ left: t.clientWidth * +b.dataset.car, behavior: still() ? 'auto' : 'smooth' });
+    }));
+    document.querySelectorAll('[data-i]').forEach(el => el.style.setProperty('--i', el.dataset.i));
+    document.querySelectorAll('[data-d]').forEach(el => el.style.setProperty('--d', el.dataset.d));
+    document.querySelectorAll('.end h2 .wd').forEach((el, i) => el.style.setProperty('--i', i));
+    if (io) io.disconnect();
+    io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+    }), { threshold: .05, rootMargin: '0px 0px -4% 0px' }) : null;
+    document.querySelectorAll('.rv, .end h2').forEach(el => io ? io.observe(el) : el.classList.add('in-view'));
+    hd = document.querySelector('.hd');
+    items = [...document.querySelectorAll('[data-focus]')];
+    lines = [...document.querySelectorAll('.ln')];
+    links = [...document.querySelectorAll('.hd nav a[href*="#"]')].filter(a => a.pathname === location.pathname);
+    secs = links.map(a => document.getElementById(a.hash.slice(1)));
+    up = document.querySelector('.jump .up'); down = document.querySelector('.jump .down');
+    const show = document.querySelector('.show');
+    fs = show && matchMedia('(pointer: fine)').matches ? [...show.querySelectorAll('.f')] : [];
+    frame();
+  }
 
   function frame() {
     const vh = innerHeight, y = scrollY, max = root.scrollHeight - vh;
@@ -130,15 +160,63 @@ ${PT ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbox" n
   }
   addEventListener('scroll', () => requestAnimationFrame(frame), { passive: true });
   addEventListener('resize', frame);
-  frame();
+  addEventListener('pointermove', e => {
+    if (still() || !fs.length) return;
+    const x = e.clientX / innerWidth - .5, yy = e.clientY / innerHeight - .5;
+    fs.forEach((f, i) => { const k = (i + 1) * 9; f.style.transform = `translate(${(-x * k).toFixed(1)}px, ${(-yy * k).toFixed(1)}px)`; });
+  }, { passive: true });
 
-  const show = document.querySelector('.show');
-  if (show && matchMedia('(pointer: fine)').matches) {
-    const fs = [...show.querySelectorAll('.f')];
-    addEventListener('pointermove', e => {
-      if (still()) return;
-      const x = e.clientX / innerWidth - .5, yy = e.clientY / innerHeight - .5;
-      fs.forEach((f, i) => { const k = (i + 1) * 9; f.style.transform = `translate(${(-x * k).toFixed(1)}px, ${(-yy * k).toFixed(1)}px)`; });
-    }, { passive: true });
+  // Language switch without a reload: fetch the same page in the other language, swap the body and
+  // keep the reader on the same section. Pages with their own scripts (apps list, downloads) and any
+  // failure fall back to a normal page load.
+  const SOLO = 'script[src*="projects.js"], script[src*="use.js"]';
+  let shownPath = location.pathname;
+  async function swapTo(url, push) {
+    if (document.querySelector(SOLO)) { location.assign(url); return; }
+    const hdH = hd ? hd.offsetHeight : 0;
+    // The section nearest the top of the screen (above or below the header) is the one to keep in view.
+    const spot = [...document.querySelectorAll('main [id]')].reduce((best, e) => {
+      const d = Math.abs(e.getBoundingClientRect().top - hdH); return !best || d < best.d ? { e, d } : best; }, null)?.e;
+    const offset = spot ? spot.getBoundingClientRect().top : 0, atTop = scrollY < 4;
+    let doc;
+    try {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      doc = new DOMParser().parseFromString(await r.text(), 'text/html');
+      if (doc.querySelector(SOLO) || !doc.querySelector('.hd .langs')) throw new Error('needs a full load');
+    } catch (e) { location.assign(url); return; }
+    const dlg = document.getElementById('prefs'); const fromDialog = !!(dlg && dlg.open); if (fromDialog) dlg.close();
+    const swap = () => {
+      if (push) history.pushState(null, '', url);
+      shownPath = location.pathname;
+      root.lang = doc.documentElement.lang;
+      document.title = doc.title;
+      for (const sel of ['meta[name="description"]', 'link[rel="canonical"]']) {
+        const a = document.head.querySelector(sel), b = doc.head.querySelector(sel); if (a && b) a.replaceWith(b.cloneNode());
+      }
+      const keep = [...document.body.children].filter(e => e.matches('[vw], script'));
+      const fresh = [...doc.body.childNodes].filter(n => n.nodeName !== 'SCRIPT').map(n => document.importNode(n, true));
+      document.body.replaceChildren(...fresh, ...keep);
+      if (!isPT()) libras(false);
+      init();
+      const same = spot && document.getElementById(spot.id);
+      if (atTop || !same) { if (atTop) scrollTo(0, 0); } else scrollBy(0, same.getBoundingClientRect().top - offset);
+      // Content already on screen shows at once instead of replaying its entrance.
+      document.querySelectorAll('.rv, .end h2').forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in-view'); });
+      frame();
+    };
+    if (document.startViewTransition && !still()) await document.startViewTransition(swap).updateCallbackDone; else swap();
+    const target = document.querySelector('.hd .langs a[aria-current]');
+    (fromDialog || !target || !target.offsetParent ? document.getElementById('gear') : target).focus({ preventScroll: true });
   }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('.langs a[hreflang], #prefs .lg a[hreflang]');
+    if (!a || e.defaultPrevented || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    if (!a.hasAttribute('aria-current')) swapTo(a.href, true);
+  });
+  // Back/Forward between languages swaps again; in-page anchor jumps keep the same path and are left alone.
+  addEventListener('popstate', () => { if (location.pathname !== shownPath) swapTo(location.href, false); });
+
+  init();
 }());

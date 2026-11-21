@@ -111,6 +111,8 @@ html[data-theme="dark"] .b2{background:transparent;color:var(--fg);border:1.5px 
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.2s;animation-timing-function:ease-out}
 .hd{view-transition-name:hd}
 ::view-transition-old(hd),::view-transition-new(hd){animation-duration:.15s}
+/* Ajustes: colours blend for a moment while the theme or contrast changes (site.js adds .swap). */
+.swap *,.swap *:before,.swap *:after{transition:background-color .3s ease,color .3s ease,border-color .3s ease,fill .3s ease,stroke .3s ease,box-shadow .3s ease!important}
 
 @media(max-width:1180px){.hd nav a.x{display:none}}
 @media(max-width:980px){.hd nav{display:none}.ft .in{grid-template-columns:1fr 1fr}}
