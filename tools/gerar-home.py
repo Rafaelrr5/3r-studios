@@ -205,6 +205,8 @@ h2{font:400 clamp(30px,3.3vw,48px)/1.05 var(--serif);letter-spacing:-.02em;max-w
 .end h2{font-size:clamp(44px,6vw,92px);max-width:none;line-height:1}
 .end h2 .wd{display:inline-block}.js .end h2 .wd{opacity:0;transform:translateY(.4em) rotate(2deg)}
 .end h2.in-view .wd{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i)*90ms)}
+.quote{max-width:46ch;margin:0 auto 5vh}.quote p{font:italic 400 clamp(17px,1.4vw,21px)/1.4 var(--serif)}
+.quote figcaption{margin-top:10px;font-size:14px;color:var(--mute)}.quote figcaption a{color:inherit}
 .end>.in .sub p{margin:18px auto 0;text-align:center}.end>.in .btns{justify-content:center}
 @media(min-width:981px) and (min-height:640px){html.js{scroll-snap-type:y mandatory}.screen{height:100svh;min-height:0;scroll-snap-align:start;overflow:hidden}}
 @media(min-width:981px) and (max-height:960px){.head{margin-bottom:2.5vh}.item p{font-size:14.5px}.screen{padding-top:calc(var(--hd) + 2.5vh)}}
@@ -293,7 +295,8 @@ HTML = f'''<!doctype html>
 <div class="lead rv" data-i="1"><p>Apps, jogos e sites que eu criei, meus e de clientes.</p><p>Tudo funcionando hoje, é só abrir.</p></div></div>
 <div class="grid">{works}</div></div></section>
 
-<section class="screen end" id="contato"><div class="in"><h2>{end_h2}</h2>
+<section class="screen end" id="contato"><div class="in"><figure class="quote rv"><blockquote><p>“3R Studios realizou em nov/26 a repaginação do site da Fundação. Ficou show: muito fluido, fácil de navegar, indo direto ao ponto. Recomendo.”</p></blockquote><figcaption>Carlos Henrique, <a href="https://mariamae.org.br/" target="_blank" rel="noopener">Fundação Maria Mãe<span class="sr"> (abre em nova aba)</span></a></figcaption></figure>
+<h2>{end_h2}</h2>
 <div class="sub rv" data-i="3"><p>Me conte o que você precisa. Eu respondo pessoalmente.</p></div>
 <div class="btns rv" data-i="4"><a class="btn b1" href="{WA}">{WAI} Chamar no WhatsApp</a><a class="btn b2" href="mailto:faelrribeiro3@gmail.com?subject=Vim%20pelo%20site%20da%203R">Mandar um e-mail {ARROW}</a></div></div>
 {chrome.footer('', 'index.html')}

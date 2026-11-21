@@ -73,6 +73,8 @@ h2{font:400 clamp(30px,3.3vw,48px)/1.05 var(--serif);letter-spacing:-.02em;max-w
 .end h2{font-size:clamp(44px,6vw,92px);max-width:none;line-height:1}
 .end h2 .wd{display:inline-block}.js .end h2 .wd{opacity:0;transform:translateY(.4em) rotate(2deg)}
 .end h2.in-view .wd{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i)*90ms)}
+.quote{max-width:46ch;margin:0 auto 5vh}.quote p{font:italic 400 clamp(17px,1.4vw,21px)/1.4 var(--serif)}
+.quote figcaption{margin-top:10px;font-size:14px;color:var(--mute)}.quote figcaption a{color:inherit}
 .end>.in .sub p{margin:18px auto 0;text-align:center}.end>.in .btns{justify-content:center}
 @media(min-width:981px) and (min-height:640px){html.js{scroll-snap-type:y mandatory}.screen{height:100svh;min-height:0;scroll-snap-align:start;overflow:hidden}}
 @media(min-width:981px) and (max-height:960px){.head{margin-bottom:2.5vh}.item p{font-size:14.5px}.screen{padding-top:calc(var(--hd) + 2.5vh)}}
