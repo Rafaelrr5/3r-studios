@@ -251,7 +251,7 @@ html[data-motion="reduce"] .js .hero .e,html[data-motion="reduce"].js .hero .e,h
 BTNS = f'''<div class="btns e" data-d="4"><a class="btn b1" href="#sobre">Conhecer um pouco sobre mim {ARROW}</a>
 <a class="btn b2" href="#trabalhos">Ver meu trabalho {ARROW}</a></div>
 <a class="talk e" data-d="5" href="{WA}">{WAI} Ou fale comigo agora no WhatsApp</a>'''
-FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0A0F'/%3E%3Ccircle cx='21' cy='12' r='6' fill='%23FFD21F'/%3E%3Crect x='6' y='18' width='9' height='9' fill='%2300E5C2'/%3E%3C/svg%3E"
+FAV = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FBFAF6'/%3E%3Ccircle cx='12' cy='16' r='5.5' fill='%23FFD21F'/%3E%3Ccircle cx='21' cy='16' r='5.5' fill='%2300B89C'/%3E%3C/svg%3E"
 DESC = "Rafael Rocha, da 3R Studios: sites, atendimento automático, agentes de IA, aplicativos e vídeos. Conheça a história e os trabalhos no ar."
 END_WORDS = 'Sua ideia é <span class="wd hl">a próxima</span>.'
 end_h2 = " ".join(f'<span class="wd">{w}</span>' for w in "Sua ideia é".split()) + ' <span class="wd"><span class="hl">a próxima</span>.</span>'
