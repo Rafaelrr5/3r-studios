@@ -22,7 +22,7 @@ STATIC = (
     'sitemap.xml', 'robots.txt', '_headers', 'speculation-rules.json', 'sites.html', 'apps.html',
     'whatsapp.html', 'agentes-ia.html', 'aplicativos.html', 'img/whatsapp-demo.webp', 'img/portfolio/resenhopolis.webp',
     'img/portfolio/minds-academy.webp', 'img/portfolio/base-infernal.webp', 'img/portfolio/mariamae.webp',
-    'img/og.png', 'img/og-2.png', 'img/apple-touch-icon.png', 'site.css', 'site.js', 'home.css', '_redirects', 'fonts/fraunces-latin.woff2', 'fonts/fraunces-italic-latin.woff2',
+    'img/og.png', 'img/og-2.png', 'img/apple-touch-icon.png', 'img/favicon-48.png', 'site.css', 'site.js', 'home.css', '_redirects', 'fonts/fraunces-latin.woff2', 'fonts/fraunces-italic-latin.woff2',
     'fonts/instrument-sans-latin.woff2', 'img/portfolio/resenhopolis-m.webp', 'img/portfolio/varal.webp',
     'img/portfolio/blinkninja.webp', 'img/portfolio/do-zero-ao-drop.webp', 'img/portfolio/qualmonmovie.webp', 'img/portfolio/arrumadinho.webp',
     'fonts/bricolage-grotesque-latin.woff2', 'fonts/dm-mono-400-latin.woff2', 'fonts/dm-mono-500-latin.woff2',
