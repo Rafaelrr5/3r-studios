@@ -109,9 +109,9 @@ t("count hints follow the number of projects in all four languages", () => {
 });
 
 t("safe site-relative destinations and browser-only projects", () => {
-  for (const u of ["./usar.html#extrato-claro", "./usar.html#claude-autosend", "./jogar/arrumadinho/", "./jogar/varal-veloz/", "./jogar/do-zero-ao-drop/"]) assert.equal(P.safeUrl(u), u);
+  for (const u of ["./usar.html#extrato-claro", "./usar.html#claude-autosend", "./jogar/arrumadinho/", "./jogar/gancho-maluco/", "./jogar/do-zero-ao-drop/"]) assert.equal(P.safeUrl(u), u);
   for (const u of ["./../private", "./x/../secret", "./x/../../secret", "./x/%2e%2e/private", "./x//evil", "./x/..", "./x\\\\evil", "/private", "//evil.example", "./usar.html#<svg>"]) assert.equal(P.safeUrl(u), "", u);
-  for (const id of ["qual-mon-movie", "blinkninja", "arrumadinho", "varal-veloz", "do-zero-ao-drop"]) {
+  for (const id of ["qual-mon-movie", "blinkninja", "arrumadinho", "gancho-maluco", "do-zero-ao-drop"]) {
     const p = catalog.projects.find(p => p.id === id);
     assert.ok(p, id); assert.equal(p.showCode, false); assert.equal(p.codeUrl, "");
     assert.deepEqual(P.linksFor(p).map(l => l.key), ["open"]);
@@ -154,7 +154,7 @@ t("every project has one type (tipo) from the fixed set, shown as a chip and fil
   const ALLOWED = ["Site", "App", "Jogo", "Automação", "Ferramenta", "Plataforma"];
   assert.deepEqual(Object.keys(P.TIPOS), ALLOWED);
   for (const pr of catalog.projects) assert.ok(ALLOWED.includes(pr.tipo), `${pr.id} has tipo ${JSON.stringify(pr.tipo)}`);
-  for (const id of ["blinkninja", "arrumadinho", "varal-veloz", "do-zero-ao-drop"]) assert.equal(catalog.projects.find(p => p.id === id).tipo, "Jogo");
+  for (const id of ["blinkninja", "arrumadinho", "gancho-maluco", "do-zero-ao-drop"]) assert.equal(catalog.projects.find(p => p.id === id).tipo, "Jogo");
   for (const L of Object.values(I18N)) for (const { key } of Object.values(P.TIPOS)) assert.ok(L[key], key);
   const plates = P.render(doc, catalog, I18N, { lang: "pt-BR", brief: true });
   plates.forEach((pl, i) => {

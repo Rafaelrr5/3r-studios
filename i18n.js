@@ -159,7 +159,7 @@ Object.assign(window.I18N.en, {
   arln: "Clean, decorate and make a little house your own.",
   arbd: "Play the Arrumadinho prototype right here in your browser. Use the arrow keys or WASD to walk, Space to clean and the mouse to decorate. Touch controls work on phones. Progress stays in this browser.",
   vvln: "Hook clothes off the lines from the roof of a moving car.",
-  vvbd: "Play the Varal Veloz 3D prototype in your browser. Aim with the mouse and click to throw the hook, and press Space to duck under low cables. Rare pieces glow; dress the character with what you catch. Your wardrobe stays in this browser.",
+  vvbd: "Play Gancho Maluco, a 3D game for all ages, in your browser. Click a piece of clothing to throw the hook and press Space to duck under wires and birds. Grab superpowers, clocks and rare pieces, and see how far down the street you get. Your wardrobe stays in this browser.",
   dzln: "Learn to DJ for real, from the beat to a full set.",
   dzbd: "Play Do Zero ao Drop in your browser: 17 short lessons on a 3D controller, from finding the beat to mixing a three-track set, across 9 music styles made live by the game. Every move works with mouse or keyboard and shows how to do it on real gear. Your progress stays in this browser."
 });
@@ -175,7 +175,7 @@ Object.assign(window.I18N["pt-BR"], {
   arln: "Limpe, decore e deixe uma casinha com a sua cara.",
   arbd: "Jogue o protótipo de Arrumadinho aqui mesmo no navegador. Ande com as setas ou WASD, limpe com Espaço e decore com o mouse. No celular, use os controles de toque. O progresso fica neste navegador.",
   vvln: "Do teto do carro, pegue as roupas dos varais com um gancho.",
-  vvbd: "Jogue o protótipo 3D de Varal Veloz no navegador. Mire com o mouse e clique para lançar o gancho, e aperte Espaço para abaixar nos fios baixos. As peças raras brilham; vista o personagem com o que pegar. O guarda-roupa fica neste navegador.",
+  vvbd: "Jogue Gancho Maluco no navegador, um jogo 3D para todas as idades. Clique numa roupa para lançar o gancho e aperte Espaço para abaixar nos fios e passarinhos. Pegue superpoderes, relógios e peças raras e veja até onde você chega na rua. O guarda-roupa fica neste navegador.",
   dzln: "Aprenda a discotecar de verdade, do pulso ao set completo.",
   dzbd: "Jogue Do Zero ao Drop no navegador: 17 lições curtas numa controladora 3D, de achar o pulso da música a mixar um set de três faixas, em 9 estilos musicais criados ao vivo pelo jogo. Tudo funciona com mouse ou teclado e mostra como fazer num equipamento de verdade. O progresso fica neste navegador."
 });
@@ -191,7 +191,7 @@ Object.assign(window.I18N.es, {
   arln: "Limpia, decora y haz tuya una casita.",
   arbd: "Juega al prototipo de Arrumadinho aquí en el navegador. Camina con las flechas o WASD, limpia con Espacio y decora con el ratón. En el móvil usa los controles táctiles. El progreso se guarda en este navegador.",
   vvln: "Desde el techo del coche, atrapa la ropa de los tendederos con un gancho.",
-  vvbd: "Juega al prototipo 3D de Varal Veloz en el navegador. Apunta con el ratón y haz clic para lanzar el gancho, y pulsa Espacio para agacharte bajo los cables. Las prendas raras brillan; viste al personaje con lo que atrapes. El armario se guarda en este navegador.",
+  vvbd: "Juega a Gancho Maluco en el navegador, un juego 3D para todas las edades. Haz clic en una prenda para lanzar el gancho y pulsa Espacio para agacharte bajo cables y pájaros. Atrapa superpoderes, relojes y prendas raras, y mira hasta dónde llegas. El armario se queda en este navegador.",
   dzln: "Aprende a pinchar de verdad, del pulso al set completo.",
   dzbd: "Juega a Do Zero ao Drop en el navegador: 17 lecciones cortas en un controlador 3D, desde encontrar el pulso hasta mezclar un set de tres temas, en 9 estilos musicales creados en vivo por el juego. Todo funciona con ratón o teclado y muestra cómo hacerlo en un equipo real. El progreso se guarda en este navegador."
 });
@@ -207,7 +207,7 @@ Object.assign(window.I18N.fr, {
   arln: "Nettoyez, décorez et faites d’une petite maison la vôtre.",
   arbd: "Jouez au prototype d’Arrumadinho ici dans le navigateur. Marchez avec les flèches ou WASD, nettoyez avec Espace et décorez avec la souris. Sur téléphone, utilisez les commandes tactiles. La progression reste dans ce navigateur.",
   vvln: "Depuis le toit de la voiture, attrapez le linge des étendoirs avec un grappin.",
-  vvbd: "Jouez au prototype 3D de Varal Veloz dans le navigateur. Visez avec la souris et cliquez pour lancer le grappin, appuyez sur Espace pour passer sous les câbles bas. Les pièces rares brillent ; habillez le personnage avec ce que vous attrapez. La garde-robe reste dans ce navigateur.",
+  vvbd: "Jouez à Gancho Maluco dans le navigateur, un jeu 3D pour tous les âges. Cliquez sur un vêtement pour lancer le grappin et appuyez sur Espace pour passer sous les câbles et les oiseaux. Attrapez des super-pouvoirs, des horloges et des pièces rares, et voyez jusqu'où vous allez. La garde-robe reste dans ce navigateur.",
   dzln: "Apprenez à mixer pour de vrai, du tempo au set complet.",
   dzbd: "Jouez à Do Zero ao Drop dans le navigateur : 17 leçons courtes sur un contrôleur 3D, du tempo à un set de trois morceaux, dans 9 styles musicaux créés en direct par le jeu. Tout se joue à la souris ou au clavier et montre le geste sur un vrai matériel. La progression reste dans ce navigateur."
 });

@@ -114,7 +114,7 @@ def prod(i, k, n, d, page):
 
 WORKS = [
     ("img/portfolio/resenhopolis-m.webp", "Resenhópolis", "O mapa dos rolês, nas lojas.", "App meu", "https://resenhopolis.3rstudios.com.br/"),
-    ("img/portfolio/varal.webp", "Varal Veloz", "Jogo 3D no navegador.", "Jogo meu", "jogar/varal-veloz/"),
+    ("img/portfolio/varal.webp", "Gancho Maluco", "Jogo 3D com superpoderes.", "Jogo meu", "jogar/gancho-maluco/"),
     ("img/portfolio/do-zero-ao-drop.webp", "Do Zero ao Drop", "Aprenda a ser DJ, em 3D.", "Jogo meu", "jogar/do-zero-ao-drop/"),
     ("img/portfolio/blinkninja.webp", "BlinkNinja", "Desvie, colete, bata recordes.", "Jogo meu", "jogar/blinkninja/"),
     ("img/portfolio/qualmonmovie.webp", "Qual Mon Movie", "Indica filmes com IA.", "App meu", "https://qualmonmovie.netlify.app/"),

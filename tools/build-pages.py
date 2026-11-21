@@ -25,10 +25,10 @@ STATIC = (
     'fonts/bricolage-grotesque-latin.woff2', 'fonts/dm-mono-400-latin.woff2', 'fonts/dm-mono-500-latin.woff2',
 )
 # Browser games under jogar/<name>/: index.html plus these (folder, extensions) pairs.
-# varal-veloz is the Vite build output copied from its own project (hashed .js/.css).
+# gancho-maluco is the Vite build output copied from its own project (hashed .js/.css).
 GAMES = {
     'arrumadinho': [('assets', {'.png'}), ('src', {'.js'})],
-    'varal-veloz': [('assets', {'.js', '.css'})],
+    'gancho-maluco': [('assets', {'.js', '.css'})],
     # BlinkNinja: Godot web export moved from Netlify (built by ~/.hermes/work/blinkninja-3r/build.py);
     # index.wasm ships gzipped (.gz) because the raw file is over the 25 MiB Pages limit.
     'blinkninja': [('.', {'.js', '.css', '.png', '.ico', '.pck', '.gz'})],

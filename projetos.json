@@ -209,13 +209,13 @@
       "projectUrl": "./jogar/arrumadinho/"
     },
     {
-      "id": "varal-veloz",
+      "id": "gancho-maluco",
       "template": "vv",
-      "name": "Varal Veloz",
+      "name": "Gancho Maluco",
       "kind": "product",
       "tipo": "Jogo",
       "status": "dev",
-      "platform": "Web · protótipo 3D",
+      "platform": "Web · jogo 3D",
       "year": "2026",
       "tagline": "",
       "description": "",
@@ -227,7 +227,7 @@
       "showCode": false,
       "codeUrl": "",
       "useProject": true,
-      "projectUrl": "./jogar/varal-veloz/"
+      "projectUrl": "./jogar/gancho-maluco/"
     },
     {
       "id": "do-zero-ao-drop",
