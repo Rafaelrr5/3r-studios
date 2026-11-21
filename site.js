@@ -15,6 +15,7 @@
     root.dataset.theme = prefs.theme;
     root.dataset.motion = prefs.motion;
     root.style.setProperty('--scale', prefs.text);
+    root.dataset.text = prefs.text;
     if (prefs.contrast) root.dataset.contrast = 'high'; else delete root.dataset.contrast;
     if (prefs.underline) root.dataset.underline = 'on'; else delete root.dataset.underline;
   }
@@ -53,13 +54,31 @@
     change();
     clearTimeout(blend.t); blend.t = setTimeout(() => root.classList.remove('swap'), 320);
   }
-  // A text-size change keeps the line you were reading where it was, instead of jumping.
-  function keepPlace(change) {
+  // Section snapping (desktop home) would re-align the page after a text-size or language change and
+  // move what you were reading. It pauses until your next scroll gesture, which snaps as usual.
+  function holdSnap() {
+    if (root.classList.contains('free')) return;
+    root.classList.add('free');
+    const release = () => { root.classList.remove('free'); for (const t of ['wheel', 'touchstart', 'keydown']) removeEventListener(t, release, true); };
+    for (const t of ['wheel', 'touchstart', 'keydown']) addEventListener(t, release, { capture: true, passive: true });
+  }
+  // A text-size change keeps the line you were reading where it was, instead of jumping. The anchor is
+  // taken when Ajustes opens, because the open dialog covers the page for hit-testing.
+  let mark = null;
+  function findAnchor() {
     const hdH = (document.querySelector('.hd') || { offsetHeight: 0 }).offsetHeight;
-    const at = document.elementsFromPoint(innerWidth / 2, hdH + 12).find(e => !e.closest('dialog, .hd') && e !== root && e !== document.body);
+    for (let y = hdH + 12; y < innerHeight * .7; y += 40) for (const x of [.5, .3, .7, .15, .85]) {
+      const at = document.elementsFromPoint(innerWidth * x, y).find(e => !e.closest('dialog, .hd') && /^(H[1-4]|P|LI|IMG|A|BLOCKQUOTE|FIGURE|B|SUMMARY)$/.test(e.tagName));
+      if (at) return at;
+    }
+    return null;
+  }
+  function keepPlace(change) {
+    holdSnap();
+    const at = (mark && mark.isConnected) ? mark : findAnchor();
     const before = at && at.getBoundingClientRect().top;
     change();
-    if (at) scrollBy(0, at.getBoundingClientRect().top - before);
+    if (at) scrollTo({ top: scrollY + at.getBoundingClientRect().top - before, behavior: 'instant' });
   }
 
   const W = {
@@ -110,7 +129,7 @@ ${isPT() ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbo
         libras: form.libras ? form.libras.checked : prefs.libras });
     });
     dlg.querySelector('.reset').addEventListener('click', () => { set(Object.assign({}, DEFAULTS)); sync(); });
-    gear.addEventListener('click', () => { sync(); dlg.showModal(); });
+    gear.addEventListener('click', () => { mark = findAnchor(); sync(); dlg.showModal(); });
     dlg.querySelector('.x').addEventListener('click', () => dlg.close());
     dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
   }
@@ -187,6 +206,7 @@ ${isPT() ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbo
     } catch (e) { location.assign(url); return; }
     const dlg = document.getElementById('prefs'); const fromDialog = !!(dlg && dlg.open); if (fromDialog) dlg.close();
     const swap = () => {
+      holdSnap();
       if (push) history.pushState(null, '', url);
       shownPath = location.pathname;
       root.lang = doc.documentElement.lang;
@@ -200,7 +220,7 @@ ${isPT() ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbo
       if (!isPT()) libras(false);
       init();
       const same = spot && document.getElementById(spot.id);
-      if (atTop || !same) { if (atTop) scrollTo(0, 0); } else scrollBy(0, same.getBoundingClientRect().top - offset);
+      if (atTop) scrollTo(0, 0); else if (same) scrollBy(0, same.getBoundingClientRect().top - offset);
       // Content already on screen shows at once instead of replaying its entrance.
       document.querySelectorAll('.rv, .end h2').forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in-view'); });
       frame();

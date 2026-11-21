@@ -1,10 +1,10 @@
 /* Downloads guide (usar.html). Tokens, header and footer: site.css. */
-main{width:min(100% - 2 * var(--pad),900px);margin:auto;padding:calc(var(--hd) + 40px) 0 64px;font-size:1.0625rem;line-height:1.65}
-.eyebrow{font:italic 400 16px var(--serif);color:var(--mute);letter-spacing:0;text-transform:none}
-main h1{font:400 clamp(40px,6vw,72px)/1.04 var(--serif);letter-spacing:-.03em;margin:10px 0 20px}
-main h2{font:400 clamp(26px,3vw,36px)/1.1 var(--serif);margin:4px 0}
-main h3{font:400 21px/1.2 var(--serif);margin:0 0 8px}
-main p{max-width:68ch}.intro{font-size:20px;color:var(--mute)}
+main{width:min(100% - 2 * var(--pad),900px);margin:auto;padding:calc(var(--hd) + 40px) 0 64px;font-size:calc(1.0625rem * var(--s));line-height:1.65}
+.eyebrow{font:italic 400 calc(16px * var(--s)) var(--serif);color:var(--mute);letter-spacing:0;text-transform:none}
+main h1{font:400 calc(clamp(40px,6vw,72px) * var(--s))/1.04 var(--serif);letter-spacing:-.03em;margin:10px 0 20px}
+main h2{font:400 calc(clamp(26px,3vw,36px) * var(--s))/1.1 var(--serif);margin:4px 0}
+main h3{font:400 calc(21px * var(--s))/1.2 var(--serif);margin:0 0 8px}
+main p{max-width:68ch}.intro{font-size:calc(20px * var(--s));color:var(--mute)}
 main a{color:var(--fg);text-decoration-color:var(--y);text-decoration-thickness:.18em;text-underline-offset:.18em}
 #apps{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}
 #apps a{display:inline-flex;align-items:center;min-height:44px;padding:8px 18px;border:1px solid var(--line);border-radius:99px;text-decoration:none;background:var(--card)}
@@ -12,14 +12,14 @@ main a{color:var(--fg);text-decoration-color:var(--y);text-decoration-thickness:
 .app{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;margin:22px 0;scroll-margin-top:calc(var(--hd) + 16px)}
 .app:target{border-color:var(--fg)}
 .heading{display:flex;align-items:center;gap:18px}.heading p{margin:0}
-.number{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--y);color:#111;font:400 20px var(--serif);flex:none}
+.number{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--y);color:#111;font:400 calc(20px * var(--s)) var(--serif);flex:none}
 .download{display:inline-flex;align-items:center;justify-content:center;min-height:54px;margin:14px 0;padding:12px 26px;border-radius:99px;background:var(--acc);color:var(--on-acc)!important;font-weight:600;text-decoration:none!important}
 .download:hover{filter:brightness(1.15)}
-.meta{font-size:13px;color:var(--mute);overflow-wrap:anywhere}.meta:empty{display:none}
+.meta{font-size:calc(13px * var(--s));color:var(--mute);overflow-wrap:anywhere}.meta:empty{display:none}
 main ol{padding-left:24px}main li{padding:6px 0 6px 6px}
 .note{border-left:3px solid var(--y);padding:8px 0 8px 20px;margin-top:24px}.note p:last-child{color:var(--mute)}
 .note a{display:inline-flex;align-items:center;min-height:44px}
-.warning{padding:24px 0}.warning h2{font-size:26px}
+.warning{padding:24px 0}.warning h2{font-size:calc(26px * var(--s))}
 summary{cursor:pointer;min-height:44px;padding:10px 0}
-#hashes p{font-size:13px;overflow-wrap:anywhere;border-bottom:1px solid var(--line);padding-bottom:14px}
-@media(max-width:600px){.app{padding:22px 18px}.download{width:100%}.intro{font-size:18px}}
+#hashes p{font-size:calc(13px * var(--s));overflow-wrap:anywhere;border-bottom:1px solid var(--line);padding-bottom:14px}
+@media(max-width:600px){.app{padding:22px 18px}.download{width:100%}.intro{font-size:calc(18px * var(--s))}}

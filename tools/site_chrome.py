@@ -19,7 +19,7 @@ GEAR = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11M19 7h2M3 1
 PREFS = ('<script>(function(){var d=document.documentElement,s={};try{s=JSON.parse(localStorage.getItem("3r-prefs")||"{}")}catch(e){}'
          'var t=s.theme||"light";try{if(t==="auto"&&!localStorage.getItem("3r-theme-v2"))t="light"}catch(e){}'
          'd.dataset.theme=t;d.dataset.motion=s.motion||"auto";if(s.contrast)d.dataset.contrast="high";'
-         'if(s.underline)d.dataset.underline="on";if(s.text)d.style.setProperty("--scale",s.text)})();</script>')
+         'if(s.underline)d.dataset.underline="on";if(s.text){d.style.setProperty("--scale",s.text);d.dataset.text=s.text}})();</script>')
 PAGES_NAV = [('sites.html', 'Sites'), ('whatsapp.html', 'Atendimento automático'), ('agentes-ia.html', 'Agentes de IA'),
              ('aplicativos.html', 'Aplicativos'), ('apps.html', 'Apps e jogos'), ('resenhopolis.html', 'Resenhópolis'),
              ('sobre.html', 'Sobre'), ('sobre.html#contato', 'Contato'), ('privacidade.html', 'Privacidade')]
