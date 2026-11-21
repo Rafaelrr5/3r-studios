@@ -2,6 +2,7 @@
 
 Usage: python3 tools/build-pages.py <empty-output-directory>
 ZIPs live on GitHub Releases, not in this deployment or Git history.
+Pages are also written in English, Spanish and French (tools/i18n_pages.py, catalogs in i18n/).
 Shipped HTML gets ?v=<content hash> on every local .css/.js reference (cache busting).
 """
 from pathlib import Path
@@ -9,6 +10,8 @@ import hashlib
 import re
 import shutil
 import sys
+
+import i18n_pages
 
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = (
@@ -67,11 +70,11 @@ def build(source, output):
         dest = output / p.relative_to(source)
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(p, dest)
-    for p in files:
-        if p.suffix == '.html':
-            dest = output / p.relative_to(source)
-            dest.write_text(version_assets(dest.read_text(encoding='utf-8'), dest.parent, output), encoding='utf-8')
-    return len(files)
+    # English, Spanish and French copies of every page (<out>/en/, es/, fr/) plus their hreflang links.
+    translated = i18n_pages.build(source, output) if (source / 'i18n').is_dir() else []
+    for dest in [output / p.relative_to(source) for p in files if p.suffix == '.html'] + translated:
+        dest.write_text(version_assets(dest.read_text(encoding='utf-8'), dest.parent, output), encoding='utf-8')
+    return len(files) + len(translated)
 
 
 ASSET_REF = re.compile(r'((?:href|src)=")([^"?#:]+\.(?:css|js))(?:\?[^"#]*)?(")')

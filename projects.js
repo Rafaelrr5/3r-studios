@@ -159,18 +159,21 @@
   if (typeof module === "object" && module.exports) { module.exports = api; return; }
   window.PROJECTS = api;
 
-  // apps.html: fill #apps-grid in pt-BR, like the other text pages.
+  // apps.html: fill #apps-grid in the page's language (each language has its own copy of the page).
   const grid = document.getElementById("apps-grid");
   if (!grid) return;
-  fetch("projetos.json", { cache: "no-cache" })
+  const lang = window.I18N && I18N[document.documentElement.lang] ? document.documentElement.lang : "pt-BR";
+  const T = (window.I18N && I18N[lang]) || {};
+  // Same folder as this script, so /en/apps.html still reads the one catalog at the site root.
+  fetch(new URL("projetos.json", document.currentScript.src), { cache: "no-cache" })
     .then((r) => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
     .then((cat) => {
-      const plates = render(document, cat, window.I18N, { lang: "pt-BR", brief: true });
+      const plates = render(document, cat, window.I18N, { lang, brief: true });
       grid.append(...plates);
       const bar = document.getElementById("apps-filtros"), count = document.getElementById("apps-count");
       if (!bar) return;
-      const f = filters(document, plates, window.I18N, { lang: "pt-BR" });
-      const say = (n) => { if (count) count.textContent = n === 1 ? "1 item na lista" : n + " itens na lista"; };
+      const f = filters(document, plates, window.I18N, { lang });
+      const say = (n) => { if (count) count.textContent = (n === 1 ? T.items1 : T.itemsN || "{n}").replace("{n}", n); };
       for (const b of f.buttons) b.addEventListener("click", () => say(f.pick(b.dataset.t)));
       bar.append(...f.buttons);
       bar.hidden = false;
@@ -180,7 +183,7 @@
       const p = document.createElement("p");
       p.className = "load-err";
       p.setAttribute("role", "alert");
-      p.textContent = (window.I18N && I18N["pt-BR"].loadErr) || "Não foi possível carregar a lista de projetos.";
+      p.textContent = T.loadErr || "Não foi possível carregar a lista de projetos.";
       grid.append(p);
     });
 })();

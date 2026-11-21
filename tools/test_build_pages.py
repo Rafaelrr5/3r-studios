@@ -3,6 +3,7 @@ import base64
 import hashlib
 import importlib.util
 import json
+import os
 import re
 from pathlib import Path
 import tempfile
@@ -11,6 +12,7 @@ import unittest
 SPEC = importlib.util.spec_from_file_location('build_pages', Path(__file__).with_name('build-pages.py'))
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
+import i18n_pages as I18N  # noqa: E402  (tools/ is on sys.path: build-pages.py imports it too)
 
 
 class PagesBuildTests(unittest.TestCase):
@@ -77,6 +79,7 @@ class PagesBuildTests(unittest.TestCase):
     def test_pages_have_metadata_and_no_dead_internal_links(self):
         root = Path(__file__).resolve().parent.parent
         shipped = set(MODULE.STATIC) | {f'jogar/{g}/index.html' for g in MODULE.GAMES}
+        shipped |= {f'{lang}/{page}' for lang in I18N.LANGS for page in I18N.PAGES}  # written by the build
         shipped |= {p.relative_to(root).as_posix() for folder, exts in MODULE.FOLDERS.items()
                     for p in (root / folder).rglob('*') if p.suffix in exts}
         for name in (*MODULE.PAGES, '404.html'):
@@ -112,7 +115,10 @@ class PagesBuildTests(unittest.TestCase):
         root = Path(__file__).resolve().parent.parent
         headers = (root / '_headers').read_text(encoding='utf-8')
         csp = re.search(r'^/\*\n  Content-Security-Policy: (.+)$', headers, re.M).group(1)
-        self.assertNotIn("'unsafe-inline'", csp)
+        script_src = re.search(r"script-src ([^;]+)", csp).group(1)
+        self.assertNotIn("'unsafe-inline'", script_src)
+        self.assertNotIn("'unsafe-eval'", script_src)
+        self.assertNotRegex(script_src, r'https://cdn\.jsdelivr\.net(?:\s|$)', 'jsdelivr only under the VLibras path')
         hashes = set()
         for name in (*MODULE.PAGES, '404.html'):
             html = (root / name).read_text(encoding='utf-8')
@@ -195,6 +201,47 @@ class PagesBuildTests(unittest.TestCase):
             for body in re.findall(r'<script>(.*?)</script>', html, re.S):
                 self.assertNotIn('navigator', body, name)
         self.assertNotIn('navigator.language', (root / 'main.js').read_text(encoding='utf-8'))
+
+    def test_every_page_ships_translated_with_working_links(self):
+        root = Path(__file__).resolve().parent.parent
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / 'site'
+            MODULE.build(root, out)
+            files = {p.relative_to(out).as_posix() for p in out.rglob('*') if p.is_file()}
+            xml = (out / 'sitemap.xml').read_text(encoding='utf-8')
+            for lang, tag in (('en', 'en'), ('es', 'es'), ('fr', 'fr')):
+                for page in I18N.PAGES:
+                    html = (out / lang / page).read_text(encoding='utf-8')
+                    self.assertIn(f'<html lang="{tag}"', html, (lang, page))
+                    self.assertIn(f'<nav class="langs"', html, (lang, page))
+                    self.assertRegex(html, r'<a [^>]*aria-current="true"[^>]*lang="' + tag + '"|<a [^>]*lang="' + tag + '"[^>]*aria-current="true"')
+                    if page != '404.html':
+                        slug = '' if page == 'index.html' else page[:-5]
+                        self.assertIn(f'<link rel="canonical" href="{MODULE.SITE}{lang}/{slug}">', html, (lang, page))
+                        self.assertIn(f'hreflang="pt-BR" href="{MODULE.SITE}{slug}"', html, (lang, page))
+                        self.assertIn(f'<loc>{MODULE.SITE}{lang}/{slug}</loc>', xml)
+                    # Every local link resolves to a shipped file, from inside /<lang>/.
+                    for href in re.findall(r'(?:href|src)="([^"]+)"', html):
+                        if re.match(r'(https?:|mailto:|data:|#)', href):
+                            continue
+                        path = href.split('#')[0].split('?')[0]
+                        rel = path.lstrip('/') if path.startswith('/') else f'{lang}/{path}'
+                        target = os.path.normpath(rel or '.').replace(os.sep, '/')
+                        if path.endswith('/') or path == '':
+                            target = 'index.html' if target == '.' else target + '/index.html'
+                        self.assertIn(target, files, (lang, page, href))
+            pt = (out / 'index.html').read_text(encoding='utf-8')
+            self.assertIn(f'<link rel="alternate" hreflang="fr" href="{MODULE.SITE}fr/">', pt)
+
+    def test_translation_keeps_tags_and_fails_on_missing_text(self):
+        tr = I18N.Translator({'Olá <b>mundo</b>.': 'Hello <b>world</b>.', 'Oi': 'Hi', 'Imagem': 'Picture'})
+        out = tr.text('<p>Olá <b>mundo</b>.</p><h2>Oi</h2><p>Sem tradução</p>')
+        self.assertEqual(out, '<p>Hello <b>world</b>.</p><h2>Hi</h2><p>Sem tradução</p>')
+        self.assertEqual(list(tr.missing), ['Sem tradução'])
+        self.assertIn('alt="Picture"', tr.attrs('<img src="a.png" alt="Imagem">'))
+        bad = I18N.Translator({'Olá <b>mundo</b>.': 'Hello world.'})
+        bad.text('<p>Olá <b>mundo</b>.</p>')
+        self.assertEqual(bad.bad, ['Olá <b>mundo</b>.'])
 
     def test_missing_asset_fails_before_copying(self):
         with tempfile.TemporaryDirectory() as tmp:

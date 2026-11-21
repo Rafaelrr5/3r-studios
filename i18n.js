@@ -223,3 +223,8 @@ Object.assign(window.I18N["en"], {"tSite": "Website", "tApp": "App", "tGame": "G
 Object.assign(window.I18N["pt-BR"], {"tSite": "Site", "tApp": "App", "tGame": "Jogo", "tAuto": "Automação", "tTool": "Ferramenta", "tPlat": "Plataforma", "tAll": "Todos", "tFilter": "Filtrar por tipo"});
 Object.assign(window.I18N["es"], {"tSite": "Sitio web", "tApp": "App", "tGame": "Juego", "tAuto": "Automatización", "tTool": "Herramienta", "tPlat": "Plataforma", "tAll": "Todos", "tFilter": "Filtrar por tipo"});
 Object.assign(window.I18N["fr"], {"tSite": "Site web", "tApp": "App", "tGame": "Jeu", "tAuto": "Automatisation", "tTool": "Outil", "tPlat": "Plateforme", "tAll": "Tous", "tFilter": "Filtrer par type"});
+// apps.html item count (projects.js)
+Object.assign(window.I18N["pt-BR"], { items1: "1 item na lista", itemsN: "{n} itens na lista" });
+Object.assign(window.I18N.en, { items1: "1 item in the list", itemsN: "{n} items in the list" });
+Object.assign(window.I18N.es, { items1: "1 elemento en la lista", itemsN: "{n} elementos en la lista" });
+Object.assign(window.I18N.fr, { items1: "1 élément dans la liste", itemsN: "{n} éléments dans la liste" });

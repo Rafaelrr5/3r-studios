@@ -8,6 +8,8 @@ from pathlib import Path
 import re
 import sys
 
+from i18n_pages import langs_nav
+
 ROOT = Path(__file__).resolve().parent.parent
 WA = 'https://wa.me/5532988767327?text=Oi%20Rafael%2C%20vim%20pelo%20site%20da%203R%20Studios!'
 WAI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>'
@@ -23,13 +25,15 @@ PAGES_NAV = [('sites.html', 'Sites'), ('whatsapp.html', 'Atendimento automático
              ('sobre.html', 'Sobre'), ('sobre.html#contato', 'Contato'), ('privacidade.html', 'Privacidade')]
 
 
-def header(p, home=False):
+def header(p, home=False, page='index.html'):
     h = '#' if home else f'{p or "./"}#'
     end = '#contato' if home else '#rodape'
     return (f'<header class="hd"><div class="in"><a class="logo" href="{p or "./"}">3R Studios</a>\n'
             f'<nav aria-label="Principal"><a href="{h}sobre">Sobre mim</a><a href="{h}produtos">Produtos</a>'
             f'<a href="{h}trabalhos">Trabalhos</a><a class="x" href="{p}apps.html">Apps e jogos</a><a href="{end}">Contato</a></nav>\n'
-            f'<button class="gear" id="gear" type="button" aria-haspopup="dialog" aria-controls="prefs">{GEAR}<span>Ajustes</span></button>\n'
+            f'{langs_nav("pt", page, p == "/")}\n'
+            f'<button class="gear" id="gear" type="button" aria-haspopup="dialog" aria-controls="prefs">{GEAR}<span>Ajustes</span>'
+            f'<b class="lc" aria-hidden="true">PT</b></button>\n'
             f'<a class="pill" href="{WA}">{WAI}<span>WhatsApp</span><span class="sr"> (falar com o Rafael)</span></a></div></header>')
 
 
@@ -51,14 +55,14 @@ JUMP = ('<nav class="jump" aria-label="Atalhos"><a class="up" href="#topo" aria-
         '<a class="down" href="#rodape" aria-label="Ir para o final"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a></nav>')
 
 INNER = ('sites.html', 'whatsapp.html', 'agentes-ia.html', 'aplicativos.html', 'apps.html', 'resenhopolis.html',
-         'sobre.html', 'privacidade.html', '404.html')
+         'sobre.html', 'privacidade.html', 'usar.html', '404.html')
 
 
 def apply_inner(name):
     path = ROOT / name
     html = path.read_text(encoding='utf-8')
     p = '/' if name == '404.html' else ''
-    html = re.sub(r'<header class="(?:top m|hd)">.*?</header>', lambda m: header(p), html, count=1, flags=re.S)
+    html = re.sub(r'<header class="(?:top m|hd)">.*?</header>', lambda m: header(p, page=name), html, count=1, flags=re.S)
     html = re.sub(r'<footer class="(?:foot|ft)"[^>]*>.*?</footer>', lambda m: footer(p, name), html, count=1, flags=re.S)
     html = re.sub(r'<a class="fab"[^>]*>.*?</a>\s*', '', html, flags=re.S)
     html = re.sub(r'<script>\(function\(\)\{var d=document\.documentElement.*?</script>', lambda m: PREFS, html, count=1, flags=re.S)

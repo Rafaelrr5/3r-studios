@@ -1,8 +1,5 @@
 /* Downloads guide (usar.html). Tokens, header and footer: site.css. */
 main{width:min(100% - 2 * var(--pad),900px);margin:auto;padding:calc(var(--hd) + 40px) 0 64px;font-size:1.0625rem;line-height:1.65}
-main .lang{display:flex;justify-content:flex-end;margin:0}
-.lang-pick{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--mute)}
-.lang-pick select{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:8px 10px;font:inherit}
 .eyebrow{font:italic 400 16px var(--serif);color:var(--mute);letter-spacing:0;text-transform:none}
 main h1{font:400 clamp(40px,6vw,72px)/1.04 var(--serif);letter-spacing:-.03em;margin:10px 0 20px}
 main h2{font:400 clamp(26px,3vw,36px)/1.1 var(--serif);margin:4px 0}

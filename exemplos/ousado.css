@@ -47,9 +47,9 @@ section{padding:4.5rem 1.25rem}
 .servicos,.como,.onde,.contato{max-width:1180px;margin-inline:auto}
 h2{font-size:clamp(3rem,13vw,7rem);margin-bottom:2rem}
 .servicos ul{list-style:none;border-top:1px solid var(--line)}
-.servicos li{display:grid;grid-template-columns:3rem 1fr;gap:.2rem 1rem;padding:1.6rem 0;border-bottom:1px solid var(--line)}
+.servicos li{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:.2rem 1rem;padding:1.6rem 0;border-bottom:1px solid var(--line)}
 .servicos .n{grid-row:span 2;color:var(--hi);font-weight:600;letter-spacing:.08em;padding-top:.4rem}
-.servicos h3{font-size:clamp(2rem,8vw,3.6rem);overflow-wrap:break-word}
+.servicos h3{font-size:clamp(1.7rem,7vw,3.6rem);overflow-wrap:break-word;hyphens:auto}
 .servicos p{color:var(--muted);max-width:34rem}
 
 .promessa{background:var(--acc);color:var(--on-acc)}
