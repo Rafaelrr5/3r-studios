@@ -109,7 +109,7 @@ CSS = r"""/* Home sections (index.html). Tokens, header, footer, buttons: site.c
 .screen>.in{max-width:var(--max);width:100%;margin:auto;padding:0 var(--pad)}
 .hero .in{display:grid;grid-template-columns:1.05fr .95fr;gap:4vw;align-items:center}
 .k{font-size:14px;letter-spacing:.02em;display:flex;align-items:center;gap:30px}
-h1{font:400 clamp(38px,4.4vw,66px)/1.04 var(--serif);letter-spacing:-.025em;margin:20px 0 22px;max-width:13ch}
+h1{font:400 clamp(38px,4.4vw,66px)/1.04 var(--serif);letter-spacing:-.025em;margin:0 0 22px;max-width:13ch}
 .hero .hl,.end .hl{background-size:0% 36%;transition:background-size 1s .9s var(--ease)}
 .ready .hero .hl,.end h2.in-view .hl{background-size:100% 36%}
 .sub p{font-size:clamp(16px,1.25vw,19px);max-width:42ch;color:var(--mute)}.sub p+p{margin-top:10px;color:var(--fg);font-weight:600}
@@ -239,7 +239,6 @@ HTML = f'''<!doctype html>
 
 <main id="conteudo">
 <section class="screen hero" aria-label="Apresentação"><div class="in"><div>
-<p class="k e" data-d="0">Rafael Rocha · 3R Studios</p>
 <h1 class="e" data-d="1">Eu faço a tecnologia trabalhar <span class="hl">para o seu negócio</span>.</h1>
 <div class="sub e" data-d="2"><p>Sites que encantam, atendimento automático que não dorme e apps feitos com o cuidado de quem programa por paixão.</p>
 <p>Do primeiro rascunho ao ar, você fala direto comigo.</p></div>{BTNS}</div>

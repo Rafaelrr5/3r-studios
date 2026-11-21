@@ -26,7 +26,7 @@ PAGES_NAV = [('sites.html', 'Sites'), ('whatsapp.html', 'Atendimento automático
 def header(p, home=False):
     h = '#' if home else f'{p or "./"}#'
     end = '#contato' if home else '#rodape'
-    return (f'<header class="hd"><div class="in"><a class="logo" href="{p or "./"}">Rafael Rocha</a>\n'
+    return (f'<header class="hd"><div class="in"><a class="logo" href="{p or "./"}">3R Studios</a>\n'
             f'<nav aria-label="Principal"><a href="{h}sobre">Sobre mim</a><a href="{h}produtos">Produtos</a>'
             f'<a href="{h}trabalhos">Trabalhos</a><a class="x" href="{p}apps.html">Apps e jogos</a><a href="{end}">Contato</a></nav>\n'
             f'<button class="gear" id="gear" type="button" aria-haspopup="dialog" aria-controls="prefs">{GEAR}<span>Ajustes</span></button>\n'

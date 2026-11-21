@@ -3,7 +3,7 @@
 .screen>.in{max-width:var(--max);width:100%;margin:auto;padding:0 var(--pad)}
 .hero .in{display:grid;grid-template-columns:1.05fr .95fr;gap:4vw;align-items:center}
 .k{font-size:14px;letter-spacing:.02em;display:flex;align-items:center;gap:30px}
-h1{font:400 clamp(38px,4.4vw,66px)/1.04 var(--serif);letter-spacing:-.025em;margin:20px 0 22px;max-width:13ch}
+h1{font:400 clamp(38px,4.4vw,66px)/1.04 var(--serif);letter-spacing:-.025em;margin:0 0 22px;max-width:13ch}
 .hero .hl,.end .hl{background-size:0% 36%;transition:background-size 1s .9s var(--ease)}
 .ready .hero .hl,.end h2.in-view .hl{background-size:100% 36%}
 .sub p{font-size:clamp(16px,1.25vw,19px);max-width:42ch;color:var(--mute)}.sub p+p{margin-top:10px;color:var(--fg);font-weight:600}
