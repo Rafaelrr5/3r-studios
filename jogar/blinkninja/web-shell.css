@@ -1,0 +1,396 @@
+:root {
+  color-scheme: dark;
+  --shell-bg: #050816;
+  --shell-panel: rgba(7, 12, 28, 0.88);
+  --shell-panel-border: rgba(127, 166, 255, 0.2);
+  --shell-copy: #e8eefc;
+  --shell-muted: #9aa7c7;
+  --shell-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+  --game-frame-size: 800px;
+  --shell-padding: clamp(12px, 2.4vmin, 28px);
+  --shell-gap: clamp(14px, 2.4vmin, 28px);
+  --footnote-height: 28px;
+  --ad-left-column-width: 320px;
+  --ad-right-column-width: 320px;
+  --ad-desktop-width: 160px;
+  --ad-desktop-height: 600px;
+  --ad-secondary-height: 300px;
+  --ad-rectangle-width: 300px;
+  --ad-rectangle-height: 250px;
+  --ad-billboard-width: 728px;
+  --ad-billboard-height: 90px;
+  --ad-leaderboard-width: 468px;
+  --ad-leaderboard-height: 60px;
+  --ad-mobile-width: 320px;
+  --ad-mobile-strip-height: 50px;
+  --ad-mobile-height: 250px;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--shell-copy);
+  background:
+    radial-gradient(circle at top, rgba(41, 74, 166, 0.32), transparent 38%),
+    linear-gradient(180deg, #0b1120 0%, #050816 68%, #02040b 100%);
+  overflow-x: hidden;
+  overflow-y: auto;
+  touch-action: auto;
+}
+
+body.shell-has-ads {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.site-shell {
+  min-height: 100dvh;
+  height: auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--shell-padding);
+  overflow: visible;
+}
+
+.shell-main {
+  --game-size: min(
+    var(--game-frame-size),
+    calc(100dvh - (2 * var(--shell-padding)) - 12px),
+    calc(100vw - (2 * var(--shell-padding)) - var(--ad-left-column-width) - var(--ad-right-column-width) - (2 * var(--shell-gap)))
+  );
+  width: min(100%, calc(var(--game-size) + var(--ad-left-column-width) + var(--ad-right-column-width) + (2 * var(--shell-gap))));
+  display: grid;
+  grid-template-columns: var(--ad-left-column-width) minmax(0, var(--game-size)) var(--ad-right-column-width);
+  gap: var(--shell-gap);
+  align-items: start;
+}
+
+.game-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 18px;
+}
+
+.game-frame {
+  width: var(--game-size);
+  max-width: 100%;
+}
+
+.game-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(127, 166, 255, 0.22);
+  background: #000;
+  box-shadow: var(--shell-shadow);
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+  background: #000;
+}
+
+#canvas:focus {
+  outline: none;
+}
+
+#status,
+#status-splash,
+#status-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+#status,
+#status-splash {
+  top: 0;
+  bottom: 0;
+}
+
+.shell-ad-column {
+  display: flex;
+  justify-content: center;
+}
+
+.shell-ad-column--left .shell-ad-panel {
+  width: var(--ad-left-column-width);
+}
+
+.shell-ad-column--right .shell-ad-panel {
+  width: var(--ad-right-column-width);
+}
+
+.shell-ad-panel {
+  position: relative;
+  max-height: calc(100dvh - (2 * var(--shell-padding)));
+  box-sizing: border-box;
+  padding: 14px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--shell-panel-border);
+  background: var(--shell-panel);
+  box-shadow: var(--shell-shadow);
+  overflow: visible;
+}
+
+.shell-ad-stack {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+}
+
+.shell-ad-stack--left {
+  align-content: start;
+}
+
+.shell-ad-stack--right {
+  align-content: start;
+}
+
+.shell-inline-ad {
+  width: min(100%, var(--game-size));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--shell-panel-border);
+  background: var(--shell-panel);
+  box-shadow: var(--shell-shadow);
+}
+
+.shell-ad-label {
+  margin: 0 0 12px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  color: var(--shell-muted);
+}
+
+.shell-ad-slot {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.shell-ad-slot[data-slot="desktop"] {
+  min-height: var(--ad-desktop-height);
+}
+
+.shell-ad-slot[data-slot="leftSkyscraper"],
+.shell-ad-slot[data-slot="desktopPrimary"] {
+  min-height: var(--ad-desktop-height);
+}
+
+.shell-ad-slot[data-slot="leftHalfPage"],
+.shell-ad-slot[data-slot="desktopSecondary"] {
+  min-height: var(--ad-secondary-height);
+}
+
+.shell-ad-slot[data-slot="rightRectangle"] {
+  min-height: var(--ad-rectangle-height);
+}
+
+.shell-ad-slot[data-slot="billboard"] {
+  min-height: var(--ad-billboard-height);
+}
+
+.shell-ad-slot[data-slot="leaderboard"] {
+  min-height: var(--ad-leaderboard-height);
+}
+
+.shell-ad-slot[data-slot="smartlink"] {
+  min-height: 52px;
+}
+
+.shell-ad-slot[data-slot="mobileBanner"] {
+  width: min(100%, var(--ad-mobile-width));
+  min-height: var(--ad-mobile-strip-height);
+}
+
+.shell-ad-slot[data-slot="native"],
+.shell-ad-slot[data-slot="mobile"] {
+  width: min(100%, var(--ad-mobile-width));
+  min-height: var(--ad-mobile-height);
+}
+
+.shell-ad-slot.is-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  padding: 16px;
+  border: 1px dashed rgba(154, 167, 199, 0.35);
+  border-radius: 16px;
+  color: var(--shell-muted);
+  text-align: center;
+  font-size: 13px;
+}
+
+.shell-ad-frame {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.shell-smartlink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(127, 166, 255, 0.24);
+  background: linear-gradient(135deg, rgba(30, 54, 124, 0.68), rgba(13, 24, 56, 0.96));
+  color: var(--shell-copy);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+}
+
+.shell-smartlink:hover {
+  border-color: rgba(127, 166, 255, 0.46);
+}
+
+.shell-inline-ad--billboard,
+.shell-inline-ad--mobile-strip {
+  display: none;
+}
+
+.shell-inline-ad--billboard {
+  max-width: min(100%, calc(var(--ad-billboard-width) + 32px));
+}
+
+.shell-inline-ad--leaderboard {
+  max-width: min(100%, calc(var(--ad-leaderboard-width) + 32px));
+}
+
+.shell-inline-ad--native {
+  max-width: min(100%, calc(var(--ad-mobile-width) + 32px));
+}
+
+.shell-inline-ad--native,
+.shell-inline-ad--mobile-strip {
+  max-width: min(100%, calc(var(--ad-mobile-width) + 32px));
+}
+
+.shell-footnote {
+  width: min(100%, var(--game-frame-size));
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--shell-muted);
+}
+
+noscript {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  color: var(--shell-muted);
+}
+
+#pwa-install-button {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1200;
+}
+
+@media (min-width: 1201px) {
+  .shell-inline-ad--billboard {
+    display: flex;
+  }
+
+  .shell-inline-ad--leaderboard,
+  .shell-inline-ad--native,
+  .shell-inline-ad--mobile-strip {
+    display: none;
+  }
+}
+
+@media (max-width: 1460px) {
+  .site-shell {
+    align-items: flex-start;
+  }
+
+  .shell-main {
+    --game-size: min(
+      var(--game-frame-size),
+      calc(100dvh - (2 * var(--shell-padding)) - 12px),
+      calc(100vw - (2 * var(--shell-padding)))
+    );
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, var(--game-size));
+    justify-items: center;
+  }
+
+  .shell-ad-column {
+    display: none;
+  }
+
+  .shell-inline-ad--billboard {
+    display: none;
+  }
+
+  .shell-inline-ad--leaderboard,
+  .shell-inline-ad--native {
+    display: flex;
+  }
+}
+
+@media (max-width: 560px) {
+  .shell-inline-ad--billboard,
+  .shell-inline-ad--leaderboard {
+    display: none;
+  }
+
+  .shell-inline-ad--mobile-strip {
+    display: flex;
+  }
+}
+
+@media (max-width: 860px) {
+  .game-stage {
+    border-radius: 18px;
+  }
+
+  .game-column {
+    gap: 14px;
+  }
+
+  .shell-inline-ad {
+    padding: 12px;
+  }
+
+  .shell-footnote {
+    display: none;
+  }
+
+  #pwa-install-button {
+    top: auto;
+    right: 14px;
+    bottom: 14px;
+  }
+}

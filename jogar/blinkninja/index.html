@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>BlinkNinja · jogo grátis no navegador · 3R Studios</title>
+		<meta name="description" content="BlinkNinja: desvie dos blocos, junte moedas e bata recordes. Jogo grátis no navegador, no computador ou no celular.">
+		<link rel="canonical" href="https://3rstudios.com.br/jogar/blinkninja/">
+		<style>
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	color: white;
+	background-color: black;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+	display: block;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#status, #status-splash, #status-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+#status, #status-splash {
+	top: 0;
+	bottom: 0;
+}
+
+#status {
+	background-color: #242424;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	visibility: hidden;
+}
+
+#status-splash {
+	max-height: 100%;
+	max-width: 100%;
+	margin: auto;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-progress, #status-notice {
+	display: none;
+}
+
+#status-progress {
+	bottom: 10%;
+	width: 50%;
+	margin: 0 auto;
+}
+
+#status-notice {
+	background-color: #5b3943;
+	border-radius: 0.5rem;
+	border: 1px solid #9b3943;
+	color: #e0e0e0;
+	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+	line-height: 1.3;
+	margin: 0 2rem;
+	overflow: hidden;
+	padding: 1rem;
+	text-align: center;
+	z-index: 1;
+}
+		</style>
+		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
+<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+
+
+	
+		<!-- BlinkNinja web integration (auto-injected by export-and-copy.ps1) -->
+		<link rel="stylesheet" href="mobile.css">
+        <link rel="stylesheet" href="web-shell.css">
+		<script>
+		var SUPABASE_CONFIG = {
+			url: "https://iriqkrwtasxjlkkviujs.supabase.co",
+			anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyaXFrcnd0YXN4amxra3ZpdWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODEwNzEsImV4cCI6MjA4ODU1NzA3MX0.DEtxz5Br4K-0SR7O6Ggy9zJA8NbvW2Bcp8kpIwQ8DUU"
+		};
+		</script>
+		<script src="web-auth.js"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5017691799936042" crossorigin="anonymous"></script>
+        <script src="ads.js" defer></script>
+        <script src="game-shell.js"></script>
+		<style>.shell-inline-ad--billboard,.shell-inline-ad--native,.shell-inline-ad--mobile-strip{display:none!important}.shell-ad-slot ins{display:block}ins.adsbygoogle[data-ad-status=unfilled]{display:none!important}.back3r{position:fixed;left:10px;bottom:10px;z-index:1300;font:600 13px system-ui,sans-serif;color:#fff;background:#0009;padding:6px 12px;border-radius:99px;text-decoration:none}</style>
+	</head>
+	<body class="shell-has-ads">
+        <a class="back3r" href="/portfolio">← 3R Studios</a>
+        <div class="site-shell">
+            <main class="shell-main">
+                <aside class="shell-ad-column shell-ad-column--left" aria-label="Publicidade">
+                    <div class="shell-ad-panel">
+                        <p class="shell-ad-label">Publicidade</p>
+                        <div class="shell-ad-stack shell-ad-stack--left">
+                            <div class="shell-ad-slot" id="left-skyscraper-ad-slot" data-slot="leftSkyscraper"></div>
+                            
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="game-column">
+                    <div class="game-frame">
+                        <div class="game-stage">
+                            <canvas id="canvas">
+                                Your browser does not support the canvas tag.
+                            </canvas>
+
+                            <div id="status">
+                                <img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="index.png" alt="">
+                                <progress id="status-progress"></progress>
+                                <div id="status-notice"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="shell-inline-ad shell-inline-ad--billboard" aria-label="Publicidade">
+                        <p class="shell-ad-label">Publicidade</p>
+                        <div class="shell-ad-slot" id="billboard-ad-slot" data-slot="billboard"></div>
+                    </section>
+
+                    <section class="shell-inline-ad shell-inline-ad--leaderboard" aria-label="Publicidade">
+                        <p class="shell-ad-label">Publicidade</p>
+                        <div class="shell-ad-slot" id="leaderboard-ad-slot" data-slot="leaderboard"></div>
+                    </section>
+
+                    <section class="shell-inline-ad shell-inline-ad--native" aria-label="Publicidade">
+                        <p class="shell-ad-label">Publicidade</p>
+                        <div class="shell-ad-slot" id="native-ad-slot" data-slot="native"></div>
+                    </section>
+
+                    <section class="shell-inline-ad shell-inline-ad--mobile-strip" aria-label="Publicidade">
+                        <p class="shell-ad-label">Publicidade</p>
+                        <div class="shell-ad-slot" id="mobile-banner-ad-slot" data-slot="mobileBanner"></div>
+                    </section>
+                </section>
+
+                <aside class="shell-ad-column shell-ad-column--right" aria-label="Publicidade">
+                    <div class="shell-ad-panel">
+                        <p class="shell-ad-label">Publicidade</p>
+                        <div class="shell-ad-stack shell-ad-stack--right">
+                            <div class="shell-ad-slot" id="right-rectangle-ad-slot" data-slot="rightRectangle"></div>
+                            
+                            
+                        </div>
+                    </div>
+                </aside>
+            </main>
+
+            <noscript>
+                Your browser does not support JavaScript.
+            </noscript>
+        </div>
+
+<script>
+// index.wasm ships gzipped (Pages 25 MiB limit): unzip it here, the Godot loader sees a normal .wasm.
+(function () {
+  const realFetch = window.fetch.bind(window);
+  window.fetch = function (input, init) {
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    if (/(^|\/)index\.wasm(\?|$)/.test(url) && 'DecompressionStream' in window) {
+      return realFetch(url.replace('index.wasm', 'index.wasm.gz'), init).then(function (r) {
+        if (!r.ok) return r;
+        return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': 'application/wasm' } });
+      });
+    }
+    return realFetch(input, init);
+  };
+}());
+</script>
+		<script src="index.js"></script>
+		<script>
+const gameCanvas = document.getElementById('canvas');
+const gameStage = document.querySelector('.game-stage');
+const adAccess = window.BlinkNinjaAds && window.BlinkNinjaAds.waitForAccess
+    ? window.BlinkNinjaAds.waitForAccess()
+    : Promise.resolve(true);
+
+if (window.BlinkNinjaShell) {
+	window.BlinkNinjaShell.prepareCanvas(gameCanvas, gameStage);
+}
+
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":0,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9525724,"index.wasm":38057390},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":""};
+const GODOT_THREADS_ENABLED = false;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusNotice = document.getElementById('status-notice');
+
+	let initializing = true;
+	let statusMode = '';
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		if (err instanceof Error) {
+			setStatusNotice(err.message);
+		} else if (typeof err === 'string') {
+			setStatusNotice(err);
+		} else {
+			setStatusNotice('An unknown error occurred.');
+		}
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+
+	if (missing.length !== 0) {
+		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
+			let serviceWorkerRegistrationPromise;
+			try {
+				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+			} catch (err) {
+				serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
+			}
+			// There's a chance that installing the service worker would fix the issue
+			Promise.race([
+				serviceWorkerRegistrationPromise.then((registration) => {
+					if (registration != null) {
+						return Promise.reject(new Error('Service worker already exists.'));
+					}
+					return registration;
+				}).then(() => engine.installServiceWorker()),
+				// For some reason, `getRegistration()` can stall
+				new Promise((resolve) => {
+					setTimeout(() => resolve(), 2000);
+				}),
+			]).then(() => {
+				// Reload if there was no error.
+				window.location.reload();
+			}).catch((err) => {
+				console.error('Error while registering service worker:', err);
+			});
+		} else {
+			// Display the message as usual
+			const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+			displayFailureNotice(missingMsg + missing.join('\n'));
+		}
+	} else {
+		setStatusMode('progress');
+		engine.startGame({
+			'onProgress': function (current, total) {
+				if (current > 0 && total > 0) {
+					statusProgress.value = current;
+					statusProgress.max = total;
+				} else {
+					statusProgress.removeAttribute('value');
+					statusProgress.removeAttribute('max');
+				}
+			},
+		}).then(() => {
+			setStatusMode('hidden');
+		}, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>
+
