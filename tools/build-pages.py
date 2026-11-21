@@ -19,7 +19,7 @@ STATIC = (
     'projetos.json', 'usar.html', 'use.css', 'use.js', 'downloads/releases.json',
     'ads.txt', 'app-ads.txt', '7b7d6fa04b8474720a413a98e120bb1a.txt',
     'resenhopolis.html', 'sobre.html', 'privacidade.html', '404.html', 'page.css',
-    'sitemap.xml', 'robots.txt', '_headers', 'sites.html', 'apps.html',
+    'sitemap.xml', 'robots.txt', '_headers', 'speculation-rules.json', 'sites.html', 'apps.html',
     'whatsapp.html', 'agentes-ia.html', 'aplicativos.html', 'img/whatsapp-demo.webp', 'img/portfolio/resenhopolis.webp',
     'img/portfolio/minds-academy.webp', 'img/portfolio/base-infernal.webp', 'img/portfolio/mariamae.webp',
     'img/og.png', 'site.css', 'site.js', 'home.css', '_redirects', 'fonts/fraunces-latin.woff2', 'fonts/fraunces-italic-latin.woff2',

@@ -104,8 +104,13 @@ html[data-theme="dark"] .b2{background:transparent;color:var(--fg);border:1.5px 
 .prefs .tog input{width:22px;height:22px;accent-color:var(--fg)}
 
 /* Scroll reveal (site.js adds .in-view) */
-.js .rv{opacity:0;transform:translateY(26px)}
-.rv.in-view{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0)*70ms)}
+.js .rv{opacity:0;transform:translateY(10px)}
+.rv.in-view{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i,0)*40ms)}
+/* Page to page (and language to language): a short cross-fade instead of a blank reload; the header stays put. */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.2s;animation-timing-function:ease-out}
+.hd{view-transition-name:hd}
+::view-transition-old(hd),::view-transition-new(hd){animation-duration:.15s}
 
 @media(max-width:1180px){.hd nav a.x{display:none}}
 @media(max-width:980px){.hd nav{display:none}.ft .in{grid-template-columns:1fr 1fr}}
@@ -116,6 +121,8 @@ html[data-theme="dark"] .b2{background:transparent;color:var(--fg);border:1.5px 
 /* Reduced motion: system setting on "auto", or chosen in Ajustes. "Full" overrides the system. */
 html[data-motion="reduce"] *,html[data-motion="reduce"] *:before,html[data-motion="reduce"] *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 html[data-motion="reduce"] .rv{opacity:1;transform:none}
+html[data-motion="reduce"]::view-transition-group(*),html[data-motion="reduce"]::view-transition-old(*),html[data-motion="reduce"]::view-transition-new(*){animation:none!important}
 @media (prefers-reduced-motion:reduce){
   html[data-motion="auto"] *,html[data-motion="auto"] *:before,html[data-motion="auto"] *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  html[data-motion="auto"] .rv{opacity:1;transform:none}}
+  html[data-motion="auto"] .rv{opacity:1;transform:none}
+  html[data-motion="auto"]::view-transition-group(*),html[data-motion="auto"]::view-transition-old(*),html[data-motion="auto"]::view-transition-new(*){animation:none!important}}

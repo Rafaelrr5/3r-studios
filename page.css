@@ -199,7 +199,7 @@ html[data-theme="dark"] .doc .band{border:1px solid var(--line)}
 .tipo[data-t="site"]{background:#111;color:#fff}.tipo[data-t="app"]{background:#00B89C;color:#06221c}
 .tipo[data-t="jogo"]{background:#FFD21F;color:#111}.tipo[data-t="automacao"]{background:#F3F1EA;color:#111}
 .tipo[data-t="ferramenta"]{background:#e3e0d6;color:#111}.tipo[data-t="plataforma"]{background:#cfe9e2;color:#111}
-.doc .rv{transition-delay:calc(var(--i,0)*60ms)}
+.doc .rv{transition-delay:calc(var(--i,0)*35ms)}
 .apps .art{background:var(--soft);border-bottom:1px solid var(--line)}
 .apps .art::before{color:var(--fg);opacity:.14}
 .apps .shape{background:var(--pa,#111)}.apps .shape:nth-child(2){background:var(--t);opacity:.9}

@@ -77,7 +77,9 @@ ${PT ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbox" n
       const was = prefs.libras;
       prefs = { theme: f.get('theme'), motion: f.get('motion'), text: f.get('text'), contrast: form.contrast.checked, underline: form.underline.checked,
         libras: form.libras ? form.libras.checked : prefs.libras };
-      apply(); save();
+      // A short cross-fade when colours change, instead of a hard flip (skipped with reduced motion).
+      if (document.startViewTransition && !still()) document.startViewTransition(apply); else apply();
+      save();
       if (PT && prefs.libras && !was) libras();
       if (PT && was && !prefs.libras) location.reload(); // the widget has no clean unload
     });

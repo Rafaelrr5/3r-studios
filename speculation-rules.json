@@ -1,0 +1,1 @@
+{"prefetch": [{"source": "document", "where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": "/jogar/*"}}, {"not": {"href_matches": "/downloads/*"}}, {"not": {"href_matches": "/*\\?*"}}]}, "eagerness": "moderate"}]}

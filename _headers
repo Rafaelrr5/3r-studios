@@ -10,6 +10,11 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
+  Speculation-Rules: "/speculation-rules.json"
+
+# Prefetch rules (pages load while the pointer rests on a link); browsers require this MIME type.
+/speculation-rules.json
+  Content-Type: application/speculationrules+json
 
 # Browser games: the Arrumadinho prototype is a single HTML file with inline script and styles;
 # Gancho Maluco (Vite build) only needs 'self' plus data: images for its item thumbnails.
