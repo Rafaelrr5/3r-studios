@@ -38,6 +38,12 @@ h2{font:400 clamp(30px,3.3vw,48px)/1.05 var(--serif);letter-spacing:-.02em;max-w
 .item.on .ph{transform:translateY(-3px) rotate(-.6deg)}
 .shot{background:var(--soft);box-shadow:0 14px 30px -18px var(--shadow)}.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
 .shot.tall img{object-position:center 30%}
+.fotos{--fh:clamp(84px,12.5vh,140px);height:auto;aspect-ratio:auto;display:flex;gap:6px;overflow:visible;border-radius:0}
+.fotos a{display:block;border-radius:10px;overflow:hidden;background:var(--soft);box-shadow:0 14px 30px -18px var(--shadow);min-width:0}
+.fotos img{display:block;width:100%;height:100%}
+.fotos a:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+@media(min-width:761px){#sobre .fotos{--fh:clamp(90px,17vh,180px)}}
+@media(max-width:760px){.fotos{--fh:150px}}
 .art{display:flex;align-items:center;gap:14px;padding:0 20px;border:1px solid var(--line);aspect-ratio:auto;width:min(330px,100%)}
 .art0{background:var(--tint0)}.art1{background:var(--tint1)}.art2{background:var(--tint2)}
 .art .ic{width:52px;height:52px;border-radius:14px;background:var(--card);display:grid;place-items:center;flex:none;box-shadow:0 6px 14px -8px var(--shadow)}
@@ -80,3 +86,16 @@ html[data-motion="reduce"] .item{opacity:1;transform:none}html[data-motion="redu
 html[data-motion="reduce"] .js .hero .e,html[data-motion="reduce"].js .hero .e,html[data-motion="reduce"].js .hero .f,html[data-motion="reduce"].js .end h2 .wd{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){html[data-motion="auto"] .item{opacity:1;transform:none}html[data-motion="auto"] .hl{background-size:100% 36%}
  html[data-motion="auto"].js .hero .e,html[data-motion="auto"].js .hero .f,html[data-motion="auto"].js .end h2 .wd{opacity:1;transform:none}}
+.ft-infancia{aspect-ratio:296/320;flex:296 1 0}
+.ft-sangue-bom{aspect-ratio:711/320;flex:711 1 0}
+.ft-ufjf{aspect-ratio:180/320;flex:180 1 0}
+.ft-rotary-tribuna{aspect-ratio:180/320;flex:180 1 0}
+.ft-rotary-certificado{aspect-ratio:427/320;flex:427 1 0}
+.ft-minds-turma{aspect-ratio:385/320;flex:385 1 0}
+.ft-experience-2024{aspect-ratio:480/320;flex:480 1 0}
+.ft-premio-2025{aspect-ratio:480/320;flex:480 1 0}
+.item .ph.fs0{width:min(100%,calc(3.207 * var(--fh)))}
+.item .ph.fs1{width:min(100%,calc(0.562 * var(--fh)))}
+.item .ph.fs2{width:min(100%,calc(1.957 * var(--fh)))}
+.item .ph.fs3{width:min(100%,calc(2.763 * var(--fh)))}
+.item .ph.fs4{width:min(100%,calc(1.500 * var(--fh)))}

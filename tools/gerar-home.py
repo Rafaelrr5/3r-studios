@@ -55,21 +55,47 @@ def ico(k, cls=""): return f'<svg{(" class=" + chr(34) + cls + chr(34)) if cls e
 ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 WAI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>'
 
-# Visual for each timeline moment: a real screenshot where one exists, otherwise an illustrated card.
-VIS = [("i", "code", "Lógica, web e banco de dados desde o técnico."),
-       ("i", "sci", "Método antes de código."),
-       ("i", "team", "Gente, projetos e prazos."),
-       ("img", "img/portfolio/minds-academy.webp", "A plataforma de cursos que eu construí para o Minds."),
-       ("i", "flow", "Processos automatizados de ponta a ponta."),
+# Visual for each timeline moment: real photos (uncropped, img/historia/<n>-p.webp + full size <n>.webp),
+# a real screenshot, or an illustrated card. Photo sizes (w, h of the -p file) keep every photo whole.
+FOTO = {"infancia": (296, 320, "Pequeno, de fone e microfone no computador de casa."),
+        "sangue-bom": (711, 320, "Equipe do projeto Sangue Bom na apresentação."),
+        "ufjf": (180, 320, "No seminário da FACC, na UFJF."),
+        "rotary-tribuna": (180, 320, "Discursando na tribuna do Rotary."),
+        "rotary-certificado": (427, 320, "Entrega de certificado no Rotary."),
+        "minds-turma": (385, 320, "Turma do Minds of the Future."),
+        "experience-2024": (480, 320, "Falando para a plateia no eXperience 2024."),
+        "premio-2025": (480, 320, "Recebendo o prêmio de excelência operacional em IA, em 2025.")}
+VIS = [("f", ["infancia", "sangue-bom"]),
+       ("f", ["ufjf"]),
+       ("f", ["rotary-tribuna", "rotary-certificado"]),
+       ("f", ["minds-turma", "experience-2024"]),
+       ("f", ["premio-2025"]),
        ("img", "img/whatsapp-demo.webp", "Atendimento automático no WhatsApp, feito pela 3R."),
        ("img", "img/portfolio/resenhopolis-m.webp", "O Resenhópolis, publicado no Android e no iPhone.")]
+
+def fotos(i, ns):
+    links = "".join(f'<a class="ft-{n}" href="img/historia/{n}.webp" target="_blank" rel="noopener" aria-label="Ver foto inteira: {FOTO[n][2]}">'
+                    f'<img src="img/historia/{n}-p.webp" alt="{FOTO[n][2]}" width="{FOTO[n][0]}" height="{FOTO[n][1]}" loading="lazy"></a>' for n in ns)
+    return f'<figure class="ph fotos fs{i}">{links}</figure>'
+
+def fotos_css():
+    r = [f".ft-{n}{{aspect-ratio:{w}/{h};flex:{w} 1 0}}" for n, (w, h, _) in FOTO.items()]
+    for i, v in enumerate(VIS):
+        if v[0] == "f":
+            k = sum(FOTO[n][0] / FOTO[n][1] for n in v[1]) + .06 * (len(v[1]) - 1)
+            r.append(f".item .ph.fs{i}{{width:min(100%,calc({k:.3f} * var(--fh)))}}")
+    return "\n".join(r) + "\n"
 
 def item(i):
     m, t, x, tags, hi = TL[i]
     lead, _, rest = x.partition(". ")
-    kind, v, cap = VIS[i]
-    vis = (f'<figure class="ph shot{" tall" if "resenhopolis" in v else ""}"><img src="{v}" alt="{cap}" loading="lazy"></figure>' if kind == "img"
-           else f'<figure class="ph art art{i % 3}"><span class="ic">{ico(v)}</span><figcaption>{cap}</figcaption></figure>')
+    v = VIS[i]
+    if v[0] == "f":
+        vis = fotos(i, v[1])
+    else:
+        kind, src, cap = v
+        vis = (f'<figure class="ph shot{" tall" if "resenhopolis" in src else ""}"><img src="{src}" alt="{cap}" loading="lazy"></figure>' if kind == "img"
+               else f'<figure class="ph art art{i % 3}"><span class="ic">{ico(src)}</span><figcaption>{cap}</figcaption></figure>')
     return f'''<article class="item{' hi' if hi else ''} {'l' if i % 2 == 0 else 'r'}" data-focus data-m="{m}">
 <div class="dot"></div><div class="txt"><span class="mk">{m}</span><h3>{t}</h3><p><b>{lead}.</b> {rest}</p><span class="tags">{tags}</span></div>
 {vis}</article>'''
@@ -144,6 +170,12 @@ h2{font:400 clamp(30px,3.3vw,48px)/1.05 var(--serif);letter-spacing:-.02em;max-w
 .item.on .ph{transform:translateY(-3px) rotate(-.6deg)}
 .shot{background:var(--soft);box-shadow:0 14px 30px -18px var(--shadow)}.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
 .shot.tall img{object-position:center 30%}
+.fotos{--fh:clamp(84px,12.5vh,140px);height:auto;aspect-ratio:auto;display:flex;gap:6px;overflow:visible;border-radius:0}
+.fotos a{display:block;border-radius:10px;overflow:hidden;background:var(--soft);box-shadow:0 14px 30px -18px var(--shadow);min-width:0}
+.fotos img{display:block;width:100%;height:100%}
+.fotos a:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+@media(min-width:761px){#sobre .fotos{--fh:clamp(90px,17vh,180px)}}
+@media(max-width:760px){.fotos{--fh:150px}}
 .art{display:flex;align-items:center;gap:14px;padding:0 20px;border:1px solid var(--line);aspect-ratio:auto;width:min(330px,100%)}
 .art0{background:var(--tint0)}.art1{background:var(--tint1)}.art2{background:var(--tint2)}
 .art .ic{width:52px;height:52px;border-radius:14px;background:var(--card);display:grid;place-items:center;flex:none;box-shadow:0 6px 14px -8px var(--shadow)}
@@ -272,5 +304,5 @@ HTML = f'''<!doctype html>
 </html>
 '''
 (REPO / "index.html").write_text(HTML, encoding="utf-8")
-(REPO / "home.css").write_text(CSS, encoding="utf-8")
+(REPO / "home.css").write_text(CSS + fotos_css(), encoding="utf-8")
 print("home written")
