@@ -228,6 +228,28 @@
       "codeUrl": "",
       "useProject": true,
       "projectUrl": "./jogar/varal-veloz/"
+    },
+    {
+      "id": "do-zero-ao-drop",
+      "template": "dz",
+      "name": "Do Zero ao Drop",
+      "kind": "product",
+      "tipo": "Jogo",
+      "status": "dev",
+      "platform": "Web · jogo 3D",
+      "year": "2026",
+      "tagline": "",
+      "description": "",
+      "topics": [
+        "jogo",
+        "3D",
+        "música",
+        "DJ"
+      ],
+      "showCode": false,
+      "codeUrl": "",
+      "useProject": true,
+      "projectUrl": "./jogar/do-zero-ao-drop/"
     }
   ]
 }

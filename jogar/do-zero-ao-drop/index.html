@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Do Zero ao Drop · aprenda a ser DJ</title>
+<meta name="description" content="Jogo 3D no navegador que ensina a discotecar de verdade: BPM, frases, beatmatching, EQ, fone, filtro, loop, eco, hot cues, tom e um set completo. Funciona com mouse ou teclado.">
+<style>
+:root{--a:#22d3ee;--b:#f472b6;--m:#a78bfa;--gold:#fbbf24;--ok:#4ade80;--bad:#fb7185;--side:372px}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#06060c;color:#ece9f8;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+#app canvas{display:block;touch-action:none}
+.labels{position:absolute;inset:0;pointer-events:none;z-index:1}
+.lbl{font:700 10.5px/1 system-ui;letter-spacing:.07em;padding:4px 6px;border-radius:7px;background:rgba(8,8,18,.8);border:1px solid rgba(255,255,255,.22);color:#fff;white-space:nowrap;margin-top:-26px;display:flex;gap:3px;align-items:center}
+.lbl kbd{font-size:9.5px;padding:1px 4px}
+.lbl.a{border-color:var(--a)} .lbl.b{border-color:var(--b)} .lbl.m{border-color:var(--m)}
+.lbl.target{background:var(--gold);color:#1d1400;border-color:#fff;box-shadow:0 0 22px rgba(251,191,36,.85);z-index:2;font-size:12px}
+.lbl.target kbd{background:#1d1400;color:var(--gold);border-color:#1d1400}
+.panel{background:rgba(13,12,27,.88);backdrop-filter:blur(10px);border:1px solid rgba(167,139,250,.22);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+kbd{font:700 11px system-ui;padding:2px 6px;border-radius:5px;background:#2a2740;border:1px solid #4a4566;color:#fff;white-space:nowrap}
+small{color:#a7a2c4}
+.gold{color:var(--gold)}
+/* lateral */
+#side{position:absolute;left:12px;top:12px;bottom:12px;width:var(--side);padding:14px 16px;z-index:3;display:flex;flex-direction:column;gap:9px;overflow-y:auto;transition:transform .35s,opacity .35s}
+#side.gone{transform:translateX(-110%);opacity:0;pointer-events:none}
+#top{display:flex;gap:6px;align-items:center}
+#top button{background:#221f38;border:1px solid #3b3660;color:#ddd;border-radius:9px;padding:6px 10px;font:700 12px system-ui;cursor:pointer}
+#prog{display:flex;gap:3px;flex:1}
+#prog i{flex:1;height:5px;border-radius:9px;background:rgba(255,255,255,.12)}
+#prog i.done{background:var(--ok)} #prog i.now{background:var(--gold)}
+#ltitle{font-size:19px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.2}
+.chap{display:block;font-size:11px;font-weight:700;color:#a7a2c4;letter-spacing:.06em;margin-bottom:3px}
+#lbody{font-size:13.5px;line-height:1.45;color:#cfcbe4;margin:0}
+#lbody b{color:#fff}
+#ltask{font-size:13.5px;line-height:1.45;padding:9px 11px;border-radius:10px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3)}
+#ltask ol{margin:0;padding-left:18px} #ltask li{margin:2px 0;color:#8f8aa8} #ltask li.now{color:#fff;font-weight:600} #ltask li.ok{color:var(--ok);text-decoration:line-through}
+#lfb{font-size:13px;min-height:18px;color:#bdb8d6}
+#lfb.good{color:var(--ok)} #lfb.bad{color:var(--bad)}
+#how{font-size:12.5px;line-height:1.4;padding:9px 11px;border-radius:10px;background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.25)}
+#how::before{content:"COMO FAZER";display:block;font:800 10.5px system-ui;letter-spacing:.1em;color:#67e8f9;margin-bottom:5px}
+.how1+.how1{margin-top:7px;padding-top:7px;border-top:1px dashed rgba(255,255,255,.12)}
+.hgear{font-size:13.5px;color:#fff;margin-bottom:3px}
+.hrow{color:#c9c5df;margin:2px 0} .hrow.dim{color:#8d88a8}
+.hlast{margin-top:7px;padding:5px 8px;border-radius:7px;background:rgba(251,191,36,.14);color:#fde68a}
+#monitor{font-size:12px;padding:8px 11px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.mrow{display:grid;grid-template-columns:62px 1fr 74px;align-items:center;gap:7px;margin:3px 0}
+.mbar{height:8px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}.mbar i{display:block;height:100%;width:0;background:var(--ok);transition:width .08s}
+#mfone{background:var(--m)!important}
+.stylechips{display:flex;flex-wrap:wrap;gap:5px}.stylechips span{padding:3px 8px;border-radius:99px;border:1px solid var(--c);color:var(--c);font-size:12px}
+/* grade de batidas */
+#beat{position:absolute;left:calc(var(--side) + 24px);right:12px;top:12px;padding:8px 10px;z-index:3;transition:opacity .4s}
+#beat canvas{display:block;width:100%;height:auto;max-height:128px}
+#counter{display:flex;align-items:center;gap:12px;margin-top:4px;font-size:12px;color:#a7a2c4;flex-wrap:wrap}
+#bars{display:flex;gap:4px} #bars i{width:20px;height:11px;border-radius:3px;background:rgba(255,255,255,.1)}
+#bars i.on{background:var(--a)} #bars i.cur{background:#fff}
+#dots{display:flex;gap:5px} #dots i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.12)}
+#dots i.on{background:var(--gold)}
+#nextp{margin-left:auto;color:#fde68a}
+.hidden{opacity:0;pointer-events:none}
+#tip{position:absolute;pointer-events:none;max-width:280px;padding:10px 12px;border-radius:10px;background:rgba(6,6,14,.95);border:1px solid rgba(255,255,255,.2);font-size:13px;line-height:1.4;display:none;z-index:9}
+#tip b{display:block;font-size:12px;letter-spacing:.06em;margin-bottom:4px}
+#tip .lk{color:#9a96b5;font-size:12px;margin-top:5px}
+#tap{position:absolute;right:28px;bottom:28px;width:124px;height:124px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(circle,#2b2310,#120f05);color:var(--gold);font:800 15px system-ui;cursor:pointer;display:none;box-shadow:0 0 30px rgba(251,191,36,.35);z-index:4}
+#tap.hit{transform:scale(.94);background:var(--gold);color:#1d1400}
+#tap small{display:block;font-weight:600;font-size:11px;opacity:.85;margin-top:3px;color:inherit}
+#toast{position:absolute;left:calc(50% + var(--side)/2);bottom:22px;transform:translate(-50%,30px);padding:11px 18px;border-radius:12px;background:rgba(20,40,28,.96);border:1px solid var(--ok);font-weight:700;font-size:14px;opacity:0;transition:.35s;max-width:560px;text-align:center;z-index:8;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)} #toast.warn{background:rgba(48,20,26,.96);border-color:var(--bad)}
+/* caixote */
+#crate{position:absolute;right:16px;bottom:16px;width:min(520px,calc(100vw - var(--side) - 48px));max-height:70vh;overflow:auto;padding:14px 16px;z-index:6}
+#crateT{font-size:15px;font-weight:700;margin-bottom:10px;line-height:1.4}
+#crateT canvas{display:block;margin:10px auto 0;width:170px;height:170px}
+.crit{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);border-left:4px solid var(--c);margin-bottom:6px}
+.crit.on{background:rgba(255,255,255,.07)}
+.crtx{flex:1;min-width:0}.crtx b{display:block;font-size:14px}.crtx small{font-size:12px}
+.crit button{background:#221f38;border:1px solid #3b3660;color:#fff;border-radius:8px;padding:7px 11px;font:700 12px system-ui;cursor:pointer}
+.crit button:hover{border-color:var(--c)}
+#crateX{position:absolute;right:10px;top:8px;background:none;border:0;color:#aaa;font-size:20px;cursor:pointer}
+/* telas */
+.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;background:radial-gradient(ellipse at 30% 20%,rgba(76,29,149,.5),rgba(6,6,12,.55) 60%)}
+.screen[hidden]{display:none}
+.box{max-width:620px;padding:30px 34px;max-height:92vh;overflow:auto}
+h1{font-size:46px;line-height:1;margin:0 0 12px;letter-spacing:-.03em;background:linear-gradient(90deg,var(--a),var(--m),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.big{font-size:16.5px;line-height:1.5;color:#d6d2ea}.big b{color:#fff}
+.btn{margin-top:16px;padding:13px 24px;border-radius:12px;border:0;background:linear-gradient(90deg,#7c3aed,#db2777);color:#fff;font:800 15px system-ui;cursor:pointer;box-shadow:0 8px 30px rgba(219,39,119,.4)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.3);box-shadow:none}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+#menu .box{max-width:760px;width:calc(100vw - 40px)}
+#mprog{color:#a7a2c4;font-size:14px}
+#menu section h3{font-size:13px;letter-spacing:.08em;color:#a7a2c4;margin:16px 0 7px;text-transform:uppercase}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px}
+.tile{display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;border:1px solid #34305a;background:#17152b;color:#fff;font:600 13px system-ui;cursor:pointer;text-align:left}
+.tile:hover:not(:disabled){border-color:var(--gold)}
+.tile:disabled{opacity:.45;cursor:not-allowed}
+.tile.ok{border-color:rgba(74,222,128,.5)}
+.tn{font-weight:900;color:#a78bfa;width:20px}.tt{flex:1}.tg{font-weight:900;color:var(--gold)}
+.mbtns{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grade{font-size:84px;font-weight:900;line-height:1;background:linear-gradient(180deg,#fde68a,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;float:right;margin-left:16px}
+.stats{margin:12px 0;font-size:15px;line-height:1.7}
+/* teclas */
+#keys{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(900px,96vw);padding:18px 20px;z-index:11}
+#keys h2{margin:0 0 10px;font-size:18px}
+#keysBody{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.kcol h4{margin:0 0 6px;font-size:12px;letter-spacing:.08em;color:#a7a2c4;text-transform:uppercase}
+.krow{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.krow i{color:#8d88a8}
+.kfoot{grid-column:1/-1;font-size:12.5px;color:#c9c5df;margin-top:6px}
+#keys button{position:absolute;right:12px;top:10px;background:none;border:0;color:#aaa;font-size:20px;cursor:pointer}
+@media (max-width:900px){
+  :root{--side:auto}
+  #side{left:8px;right:8px;width:auto;bottom:auto;max-height:44vh}
+  #beat{left:8px;right:8px;top:auto;bottom:8px}
+  #keysBody{grid-template-columns:repeat(2,1fr)}
+  #toast{left:50%}
+  #crate{left:8px;right:8px;width:auto}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<aside id="side" class="panel gone">
+  <div id="top"><button id="bmenu" title="Menu (Esc)">☰ Menu</button><div id="prog"></div><button id="bkeys" title="Teclas (F1)">⌨️ Teclas</button></div>
+  <h2 id="ltitle"></h2>
+  <p id="lbody"></p>
+  <div id="ltask"></div>
+  <div id="lfb"></div>
+  <div id="how"></div>
+  <div id="monitor" hidden>
+    <div class="mrow"><span>Público</span><div class="mbar"><i id="mpub"></i></div><b id="mpubt"></b></div>
+    <div class="mrow"><span>🎧 Fone</span><div class="mbar"><i id="mfone"></i></div><b id="mfonet"></b></div>
+  </div>
+</aside>
+<div id="beat" class="panel hidden">
+  <canvas id="grid" width="1200" height="236"></canvas>
+  <div id="counter"><span>FRASE DO <b id="cref">A</b>: COMPASSO</span><div id="bars"></div><span>TEMPO</span><div id="dots"></div><span id="nextp"></span></div>
+</div>
+<div id="crate" class="panel" hidden><button id="crateX" title="Fechar">×</button><div id="crateT"></div><div id="crateL"></div></div>
+<button id="tap">TOQUE<small>ou ESPAÇO</small></button>
+<div id="tip"></div>
+<div id="toast"></div>
+<div id="intro" class="screen"><div class="box panel">
+  <h1>Do Zero<br>ao Drop</h1>
+  <p class="big">Uma controladora de DJ assusta: <b>71</b> botões, botõezinhos e rodas.</p>
+  <p class="big">Pra sua <b>primeira mixagem</b> você precisa de <b>7</b>. O resto libera aos poucos, quando fizer sentido: 17 lições, de bater o pé no ritmo até um set inteiro.</p>
+  <p class="big" style="font-size:14px;color:#a7a2c4">Tudo funciona com <b>mouse</b> ou <b>teclado</b>, e cada movimento mostra como fazer numa controladora de verdade. Use fone ou caixa de som: as músicas são criadas ao vivo pelo jogo, em 9 estilos. Seu progresso fica salvo neste navegador.</p>
+  <button class="btn" id="start">Ligar a mesa ▶</button>
+</div></div>
+<div id="menu" class="screen" hidden><div class="box panel">
+  <h1 style="font-size:38px">Do Zero ao Drop</h1>
+  <div id="mprog"></div>
+  <div class="mbtns"><button class="btn" id="mcont">Começar ▶</button><button class="btn ghost" id="mfree">Mixar livre</button><button class="btn ghost" id="mkeys">⌨️ Teclas</button><button class="btn ghost" id="mreset">Apagar progresso</button></div>
+  <div id="mchap"></div>
+</div></div>
+<div id="end" class="screen" hidden><div class="box panel">
+  <div class="grade" id="grade">A</div>
+  <h1 style="font-size:32px" id="endT">Lição</h1>
+  <div class="stats" id="stats"></div>
+  <div class="mbtns"><button class="btn" id="endNext">Próxima lição ▶</button><button class="btn ghost" id="endAgain">Tentar de novo</button><button class="btn ghost" id="endMenu">Menu</button></div>
+</div></div>
+<div id="keys" class="panel" hidden><button id="keysX" title="Fechar">×</button><h2>Teclado ↔ controladora</h2><div id="keysBody"></div></div>
+<script type="module" src="assets/game.js"></script>
+</body>
+</html>

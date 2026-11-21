@@ -15,6 +15,7 @@
     bn: [s(18, 20, 64, 64, "border-radius:50%"), s(10, 42, 80, 16, "border-radius:8px"), s(62, 14, 18, 18, "rotate:45deg")],
     ar: [s(14, 38, 72, 48, "border-radius:4px"), s(14, 8, 72, 40, "clip-path:polygon(50% 0,100% 100%,0 100%)"), s(42, 54, 18, 32)],
     vv: [s(10, 58, 80, 24, "border-radius:14px 14px 6px 6px"), s(34, 30, 16, 28, "border-radius:8px 8px 0 0"), s(50, 12, 40, 6, "border-radius:99px;rotate:-28deg")],
+    dz: [s(8, 30, 40, 40, "border-radius:50%"), s(52, 30, 40, 40, "border-radius:50%"), s(44, 76, 12, 14, "border-radius:3px")],
   };
   // Cards added later get one of these, picked from the id so the art stays put between visits.
   const GENERIC = [
@@ -22,7 +23,7 @@
     [s(20, 20, 60, 60, "border-radius:18px;rotate:12deg"), s(40, 40, 20, 20, "border-radius:50%"), s(70, 10, 12, 12, "border-radius:50%")],
     [s(10, 50, 80, 30, "border-radius:999px 999px 0 0"), s(38, 22, 24, 24, "border-radius:50%"), s(12, 14, 14, 14)],
   ];
-  const COPY = { rp: ["rLn", "rBd"], dj: ["dLn", "dBd"], p1: ["p1ln", "p1bd"], p2: ["p2ln", "p2bd"], p3: ["p3ln", "p3bd"], p4: ["p4ln", "p4bd"], p5: ["p5ln", "p5bd"], qm: ["qmln", "qmbd"], bn: ["bnln", "bnbd"], ar: ["arln", "arbd"], vv: ["vvln", "vvbd"] };
+  const COPY = { rp: ["rLn", "rBd"], dj: ["dLn", "dBd"], p1: ["p1ln", "p1bd"], p2: ["p2ln", "p2bd"], p3: ["p3ln", "p3bd"], p4: ["p4ln", "p4bd"], p5: ["p5ln", "p5bd"], qm: ["qmln", "qmbd"], bn: ["bnln", "bnbd"], ar: ["arln", "arbd"], vv: ["vvln", "vvbd"], dz: ["dzln", "dzbd"] };
   const STATUS = { live: "rSt", dev: "dSt" };
   // What each thing is, at a glance. "tipo" in projetos.json is one of these pt-BR labels;
   // slug drives the chip colour and the filter, key the translation.

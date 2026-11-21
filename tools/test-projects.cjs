@@ -109,9 +109,9 @@ t("count hints follow the number of projects in all four languages", () => {
 });
 
 t("safe site-relative destinations and browser-only projects", () => {
-  for (const u of ["./usar.html#extrato-claro", "./usar.html#claude-autosend", "./jogar/arrumadinho/", "./jogar/varal-veloz/"]) assert.equal(P.safeUrl(u), u);
+  for (const u of ["./usar.html#extrato-claro", "./usar.html#claude-autosend", "./jogar/arrumadinho/", "./jogar/varal-veloz/", "./jogar/do-zero-ao-drop/"]) assert.equal(P.safeUrl(u), u);
   for (const u of ["./../private", "./x/../secret", "./x/../../secret", "./x/%2e%2e/private", "./x//evil", "./x/..", "./x\\\\evil", "/private", "//evil.example", "./usar.html#<svg>"]) assert.equal(P.safeUrl(u), "", u);
-  for (const id of ["qual-mon-movie", "blinkninja", "arrumadinho", "varal-veloz"]) {
+  for (const id of ["qual-mon-movie", "blinkninja", "arrumadinho", "varal-veloz", "do-zero-ao-drop"]) {
     const p = catalog.projects.find(p => p.id === id);
     assert.ok(p, id); assert.equal(p.showCode, false); assert.equal(p.codeUrl, "");
     assert.deepEqual(P.linksFor(p).map(l => l.key), ["open"]);
@@ -120,7 +120,7 @@ t("safe site-relative destinations and browser-only projects", () => {
 });
 
 t("new products have four-language copy and art", () => {
-  for (const tpl of ["qm", "bn", "ar", "vv"]) {
+  for (const tpl of ["qm", "bn", "ar", "vv", "dz"]) {
     for (const L of Object.values(I18N)) { assert.ok(L[tpl + "ln"]); assert.ok(L[tpl + "bd"]); }
     const p = catalog.projects.find(p => p.template === tpl);
     const card = P.render(doc, {projects:[p]}, I18N)[0];
@@ -154,7 +154,7 @@ t("every project has one type (tipo) from the fixed set, shown as a chip and fil
   const ALLOWED = ["Site", "App", "Jogo", "Automação", "Ferramenta", "Plataforma"];
   assert.deepEqual(Object.keys(P.TIPOS), ALLOWED);
   for (const pr of catalog.projects) assert.ok(ALLOWED.includes(pr.tipo), `${pr.id} has tipo ${JSON.stringify(pr.tipo)}`);
-  for (const id of ["blinkninja", "arrumadinho", "varal-veloz"]) assert.equal(catalog.projects.find(p => p.id === id).tipo, "Jogo");
+  for (const id of ["blinkninja", "arrumadinho", "varal-veloz", "do-zero-ao-drop"]) assert.equal(catalog.projects.find(p => p.id === id).tipo, "Jogo");
   for (const L of Object.values(I18N)) for (const { key } of Object.values(P.TIPOS)) assert.ok(L[key], key);
   const plates = P.render(doc, catalog, I18N, { lang: "pt-BR", brief: true });
   plates.forEach((pl, i) => {
@@ -166,7 +166,7 @@ t("every project has one type (tipo) from the fixed set, shown as a chip and fil
   assert.equal(f.buttons[0].textContent, "Todos");
   assert.equal(f.buttons[0].attrs["aria-pressed"], "true");
   const jogo = f.buttons.find(b => b.dataset.t === "jogo");
-  assert.equal(f.pick("jogo"), 3);
+  assert.equal(f.pick("jogo"), 4);
   assert.equal(jogo.attrs["aria-pressed"], "true");
   assert.equal(f.buttons[0].attrs["aria-pressed"], "false");
   assert.ok(plates.every(pl => pl.hidden === (pl.dataset.tipo !== "jogo")));

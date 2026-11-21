@@ -21,6 +21,7 @@ The site has no framework. The home page is `index.html`, `style.css`, `main.js`
 `_headers` sets the Cloudflare Pages response headers: a Content-Security-Policy, HSTS, `X-Frame-Options: DENY`, `Permissions-Policy`, `Cross-Origin-Opener-Policy`, and `noindex` on the `*.pages.dev` addresses.
 - The CSP has no `'unsafe-inline'` for the site pages. The small settings script in each page's `<head>` is allowed by its SHA-256 hash, so keep it on one line (a CRLF checkout would change a multi-line hash) and update the hash in `_headers` when you change it. `tools/test_build_pages.py` fails if a hash is missing or stale, or if a page gains a `style="…"` or `on…="…"` attribute.
 - `/jogar/*` swaps in a looser CSP because the Arrumadinho build is one HTML file with inline script and styles.
+- `jogar/do-zero-ao-drop/` is the esbuild bundle of the Do Zero ao Drop DJ game (source in the private repo `Rafaelrr5/do-zero-ao-drop`; run `./build.sh` there and copy `dist/` here to update).
 - `jogar/varal-veloz/` is the Vite build output of the Varal Veloz prototype (developed in its own project; copy `dist/` here to update). `GAMES` in `tools/build-pages.py` lists which files of each game ship.
 - `python tools/check.py` runs axe with `preload: false`; otherwise axe fetches the Google Fonts CSS itself and the CSP logs that as an error.
 

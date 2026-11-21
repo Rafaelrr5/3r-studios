@@ -26,6 +26,8 @@ class PagesBuildTests(unittest.TestCase):
                          'jogar/blinkninja/index.html', 'jogar/blinkninja/index.js', 'jogar/blinkninja/index.pck',
                          'jogar/blinkninja/index.wasm.gz', 'jogar/blinkninja/web-shell.css', 'jogar/blinkninja/index.wasm',
                          'jogar/blinkninja/source/secret.gd', 'jogar/blinkninja/schema.sql',
+                         'jogar/do-zero-ao-drop/index.html', 'jogar/do-zero-ao-drop/assets/game.js',
+                         'jogar/do-zero-ao-drop/assets/game.js.map', 'jogar/do-zero-ao-drop/main.js',
                          'exemplos/ousado.css', 'exemplos/loja/ousado/index.html', 'exemplos/loja/rascunho.md',
                          'img/sites/loja-ousado.webp', 'img/sites/loja-ousado.png'):
                 p = source / name
@@ -40,6 +42,7 @@ class PagesBuildTests(unittest.TestCase):
                 'jogar/varal-veloz/assets/index-x.js', 'jogar/varal-veloz/assets/index-x.css',
                 'jogar/blinkninja/index.html', 'jogar/blinkninja/index.js', 'jogar/blinkninja/index.pck',
                 'jogar/blinkninja/index.wasm.gz', 'jogar/blinkninja/web-shell.css',
+                'jogar/do-zero-ao-drop/index.html', 'jogar/do-zero-ao-drop/assets/game.js',
                 'exemplos/ousado.css', 'exemplos/loja/ousado/index.html', 'img/sites/loja-ousado.webp'})
             with self.assertRaises(ValueError):
                 MODULE.build(source, output)
