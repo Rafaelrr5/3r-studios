@@ -12,17 +12,19 @@
   <meta property="og:image" content="https://3rstudios.com.br/img/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0A0F'/%3E%3Ccircle cx='21' cy='12' r='6' fill='%23FFD21F'/%3E%3Crect x='6' y='18' width='9' height='9' fill='%2300E5C2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="site.css">
   <link rel="stylesheet" href="use.css">
+  <script src="site.js" defer></script>
   <script src="use.js" defer></script>
 </head>
-<body>
+<body id="topo">
   <a class="skip" href="#main" data-copy="skip">Pular para as instruções</a>
-  <header>
-    <a class="brand" href="./">3R<span>STUDIOS</span></a>
-    <nav class="site" id="site" aria-label="Principal"><a href="./#produtos" data-copy="navProducts">Produtos</a><a href="portfolio.html" data-copy="navPortfolio">Portfólio</a><a href="sobre.html" data-copy="navAbout">Sobre</a><a class="talk" href="https://wa.me/5532988767327?text=Ol%C3%A1%21%20Vi%20o%20site%20da%203R%20Studios%20e%20quero%20saber%20mais." data-copy="talk">Fale conosco</a></nav>
-    <label><span data-copy="language">Idioma</span><select id="language"><option value="pt-BR">Português</option><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label>
-  </header>
+  <header class="hd"><div class="in"><a class="logo" href="./">Rafael Rocha</a>
+<nav aria-label="Principal"><a href="./#sobre">Sobre mim</a><a href="./#produtos">Produtos</a><a href="./#trabalhos">Trabalhos</a><a class="x" href="apps.html">Apps e jogos</a><a href="#rodape">Contato</a></nav>
+<button class="gear" id="gear" type="button" aria-haspopup="dialog" aria-controls="prefs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11M19 7h2M3 17h2M10 17h11"/><circle cx="16.5" cy="7" r="2.3"/><circle cx="7.5" cy="17" r="2.3"/></svg><span>Ajustes</span></button>
+<a class="pill" href="https://wa.me/5532988767327?text=Oi%20Rafael%2C%20vim%20pelo%20site%20da%203R%20Studios!"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg><span>WhatsApp</span><span class="sr"> (falar com o Rafael)</span></a></div></header>
   <main id="main">
+    <p class="lang"><label class="lang-pick"><span data-copy="language">Idioma</span><select id="language"><option value="pt-BR">Português</option><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option></select></label></p>
     <p class="eyebrow" data-copy="eyebrow">PARA COMEÇAR</p>
     <h1 data-copy="title">Baixe. Abra. Use.</h1>
     <p class="intro" data-copy="intro">Aplicativos que rodam no seu computador. Você não precisa clonar um repositório nem abrir o terminal.</p>
@@ -46,6 +48,14 @@
     <aside class="warning"><h2 data-copy="warningTitle">Antes de abrir um programa</h2><p data-copy="warning">Estes pacotes ainda não têm assinatura digital. O Windows pode mostrar um alerta. Só execute se reconhecer a origem; não desligue seu antivírus. Confira o nome e o hash do arquivo abaixo.</p><details><summary data-copy="hashTitle">Identificação dos downloads</summary><div id="hashes"></div></details></aside>
     <noscript><p>Os downloads e as instruções funcionam sem JavaScript. As verificações dos arquivos estão em <a href="downloads/releases.json">releases.json</a>.</p></noscript>
   </main>
-  <footer><nav class="site" id="site-foot" aria-label="Rodapé"><a href="apps.html" data-copy="back">Voltar aos projetos</a><a href="portfolio.html" data-copy="navPortfolio">Portfólio</a><a href="resenhopolis.html">Resenhópolis</a><a href="sobre.html" data-copy="navAbout">Sobre</a><a href="sobre.html#contato" data-copy="navContact">Contato</a><a href="privacidade.html" data-copy="navPrivacy">Privacidade</a></nav><span>3R Studios · Juiz de Fora</span></footer>
+  <footer class="ft" id="rodape"><div class="in">
+<div><span class="me">Rafael Rocha</span><small>3R Studios · Juiz de Fora (MG), Brasil</small></div>
+<div><b>WhatsApp</b><a href="https://wa.me/5532988767327?text=Oi%20Rafael%2C%20vim%20pelo%20site%20da%203R%20Studios!">(32) 98876-7327</a></div>
+<div><b>E-mail</b><a href="mailto:faelrribeiro3@gmail.com">faelrribeiro3@gmail.com</a></div>
+<div><b>LinkedIn</b><a href="https://www.linkedin.com/in/rafael-rocha-ribeiro-581bb2202/" rel="me">Rafael Rocha Ribeiro</a></div>
+<div><b>GitHub</b><a href="https://github.com/Rafaelrr5" rel="me">Rafaelrr5</a></div>
+</div>
+<nav aria-label="Rodapé"><a href="./">Início</a><a href="./#trabalhos">Trabalhos</a><a href="sites.html">Sites</a><a href="whatsapp.html">Atendimento automático</a><a href="agentes-ia.html">Agentes de IA</a><a href="aplicativos.html">Aplicativos</a><a href="apps.html">Apps e jogos</a><a href="resenhopolis.html">Resenhópolis</a><a href="sobre.html">Sobre</a><a href="sobre.html#contato">Contato</a><a href="privacidade.html">Privacidade</a></nav>
+</footer>
 </body>
 </html>

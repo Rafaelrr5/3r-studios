@@ -71,8 +71,8 @@
     document.querySelectorAll('[data-copy]').forEach(el => { el.textContent = copy[lang][el.dataset.copy] || pt[el.dataset.copy]; });
     document.getElementById('apps').setAttribute('aria-label', lang === 'pt-BR' ? 'Aplicativos' : 'Apps');
     const navLabels = {'pt-BR': ['Principal', 'Rodapé'], en: ['Main', 'Footer'], es: ['Principal', 'Pie de página'], fr: ['Principale', 'Pied de page']}[lang] || ['Main', 'Footer'];
-    document.getElementById('site').setAttribute('aria-label', navLabels[0]);
-    document.getElementById('site-foot').setAttribute('aria-label', navLabels[1]);
+    
+    
   }
   select.addEventListener('change', () => {
     lang = select.value;

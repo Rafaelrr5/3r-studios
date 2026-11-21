@@ -163,3 +163,48 @@ html[data-contrast="high"] .doc .formato,html[data-contrast="high"] .doc .pecas 
 .doc .conversa .eu{justify-self:end;background:var(--acc);color:var(--on-acc);border-bottom-right-radius:4px}
 .doc .conversa .ia{justify-self:start;background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:4px}
 html[data-contrast="high"] .doc .agente{border:2px solid var(--fg)}
+
+/* ===== Redesign (Nov/2026): same look as the home (site.css tokens, Fraunces + Instrument Sans). ===== */
+.doc{padding-top:calc(var(--hd) + 48px);font-size:1.0625rem}
+.doc .kicker{font:italic 400 18px var(--serif);color:var(--mute);display:flex;align-items:center;gap:30px}
+.doc .kicker:before{content:"";width:12px;height:12px;border-radius:50%;background:var(--y);box-shadow:16px 0 0 -2px var(--t);flex:none}
+.doc h1{font:400 clamp(40px,6vw,76px)/1.02 var(--serif);letter-spacing:-.03em}
+.doc .lede{font-size:clamp(18px,1.6vw,22px);color:var(--mute);line-height:1.5}
+.doc h2{font:400 clamp(28px,3vw,40px)/1.08 var(--serif);letter-spacing:-.02em}
+.doc h3{font:400 clamp(21px,1.8vw,26px)/1.15 var(--serif);letter-spacing:-.01em}
+.doc li::marker{color:var(--fg)}
+.doc a:not(.cta){color:var(--fg);text-decoration-color:var(--y);text-decoration-thickness:.18em;text-underline-offset:.18em}
+.doc a:not(.cta):hover{background:linear-gradient(var(--y),var(--y)) 0 100%/100% 40% no-repeat;color:var(--on-y)}
+.doc .cta{min-height:56px;padding:14px 28px;background:var(--acc);color:var(--on-acc);font-weight:600;font-size:1.0625rem;text-decoration:none;
+  transition:transform .25s var(--ease),filter .2s;box-shadow:0 10px 24px -12px var(--shadow)}
+.doc .cta:hover,.doc .cta:focus-visible{background:var(--acc);color:var(--on-acc);transform:translateY(-3px)}
+.doc .cta.ghost{background:var(--y);color:var(--on-y);border:0}
+.doc .cta.ghost:hover,.doc .cta.ghost:focus-visible{background:var(--y);color:var(--on-y)}
+html[data-theme="dark"] .doc .cta.ghost{background:none;color:var(--fg);border:1.5px solid var(--y)}
+.doc .contacts b,.doc .scores b{font-family:var(--sans);text-transform:none;letter-spacing:0;font-size:.85rem}
+.doc .feats li{background:var(--card);border:1px solid var(--line)}
+.doc .feats li::before{background:var(--y) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23111' stroke-width='3' d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+.doc ol.passos li::marker{color:var(--fg);font-family:var(--serif)}
+.doc .aviso{border-left-color:var(--y)}
+.doc .band{background:var(--art);border-radius:20px}
+html[data-theme="dark"] .doc .band{border:1px solid var(--line)}
+.doc .band h2{font:400 clamp(32px,4vw,52px)/1.02 var(--serif);letter-spacing:-.02em}
+.doc .band .cta.ghost{background:none;color:#F3EFFA;border:1.5px solid rgba(243,239,250,.5)}
+.doc .work,.doc .amostra,.doc .formato,.doc .agente,.doc .pecas li,.doc .contacts li{border-radius:16px}
+.doc .work .tag,.doc .amostra .tag{text-transform:none;letter-spacing:0;font:italic 400 15px var(--serif)}
+.apps .art::before{font-family:var(--serif);font-weight:400}
+.fchip{font-family:var(--sans);text-transform:none;letter-spacing:0;font-size:.9rem;font-weight:600}
+.fchip[aria-pressed="true"]{background:var(--acc);color:var(--on-acc);border-color:var(--acc)}
+.tipo{display:inline-flex;align-items:center;width:max-content;padding:3px 10px;border-radius:99px;font:600 .72rem/1.5 var(--sans);background:var(--y);color:#111}
+.tipo[data-t="site"]{background:#111;color:#fff}.tipo[data-t="app"]{background:#00B89C;color:#06221c}
+.tipo[data-t="jogo"]{background:#FFD21F;color:#111}.tipo[data-t="automacao"]{background:#F3F1EA;color:#111}
+.tipo[data-t="ferramenta"]{background:#e3e0d6;color:#111}.tipo[data-t="plataforma"]{background:#cfe9e2;color:#111}
+.doc .rv{transition-delay:calc(var(--i,0)*60ms)}
+.apps .art{background:var(--soft);border-bottom:1px solid var(--line)}
+.apps .art::before{color:var(--fg);opacity:.14}
+.apps .shape{background:var(--pa,#111)}.apps .shape:nth-child(2){background:var(--t);opacity:.9}
+html[data-theme="dark"] .apps .shape{background:var(--pa,#F2EFE7)}
+.apps .plate[data-p="rp"],.apps .plate[data-p="bn"],.apps .plate[data-p="vv"]{--pa:#FFD21F}
+.apps .plate[data-p="dj"],.apps .plate[data-p="qm"]{--pa:#00B89C}
+.doc .formato{border:1px solid var(--line);border-top:4px solid var(--y)}
+.doc .pecas li{border:1px solid var(--line)}

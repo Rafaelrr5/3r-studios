@@ -86,8 +86,8 @@ class PagesBuildTests(unittest.TestCase):
             if name != '404.html':
                 slug = '' if name == 'index.html' else name[:-5]
                 self.assertIn(f'<link rel="canonical" href="{MODULE.SITE}{slug}">', html, name)
-            for nav in ('sobre.html', 'sobre.html#contato', 'privacidade.html', 'resenhopolis.html', 'portfolio.html'):
-                self.assertIn(f'href="{"/" if name == "404.html" else ""}{nav}"', html, (name, nav))
+            for nav in ('sobre.html', 'sobre.html#contato', 'privacidade.html', 'resenhopolis.html', '#trabalhos'):
+                self.assertIn(f'href="{"/" if name == "404.html" else ("./" if nav.startswith("#") else "")}{nav}"', html, (name, nav))
             for href in re.findall(r'(?:href|src)="([^"]+)"', html):
                 if re.match(r'(https?:|mailto:|data:|#)', href):
                     continue
