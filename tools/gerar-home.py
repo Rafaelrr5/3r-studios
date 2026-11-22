@@ -19,7 +19,7 @@ TL = [
      "Ciências Exatas na UFJF me deu método: entender o problema antes de sair fazendo. É assim que eu começo cada projeto seu.",
      "Matemática · Método", False),
     ("Gente", "Liderar antes de programar",
-     "Presidi o Rotaract Juiz de Fora. Aprendi a ouvir, organizar gente e entregar o combinado. Isso vale mais que qualquer linguagem.",
+     "Presidi o Interact de Leopoldina e o Rotaract Juiz de Fora. Aprendi a ouvir, organizar gente e entregar o combinado. Isso vale mais que qualquer linguagem.",
      "Liderança · Projetos", False),
     ("Ensinar", "Ensinar o que eu amo",
      "No Minds of the Future eu ensino programação e robótica pra alunos. Explicar tecnologia simples é parte do meu dia, e do nosso papo também.",
@@ -60,7 +60,7 @@ WAI = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 
 FOTO = {"infancia": (296, 320, "Pequeno, de fone e microfone no computador de casa."),
         "sangue-bom": (711, 320, "Equipe do projeto Sangue Bom na apresentação."),
         "ufjf": (180, 320, "No seminário da FACC, na UFJF."),
-        "rotary-tribuna": (180, 320, "Discursando na tribuna do Rotary."),
+        "rotary-tribuna": (240, 320, "Discursando na tribuna, no Rotaract Juiz de Fora."),
         "rotary-certificado": (427, 320, "Entrega de certificado no Rotary."),
         "minds-turma": (385, 320, "Turma do Minds of the Future."),
         "experience-2024": (480, 320, "Falando para a plateia no eXperience 2024."),
@@ -277,7 +277,7 @@ html[data-motion="reduce"] .js .hero .e,html[data-motion="reduce"].js .hero .e,h
  html[data-motion="auto"].js .hero .e,html[data-motion="auto"].js .hero .f,html[data-motion="auto"].js .end h2 .wd{opacity:1;transform:none}}
 """
 
-BTNS = f'''<div class="btns e" data-d="4"><a class="btn b1" href="#produtos">Ver o que eu faço {ARROW}</a>
+BTNS = f'''<div class="btns e" data-d="4"><a class="btn b1" href="#sobre">Conhecer um pouco sobre mim {ARROW}</a>
 <a class="btn b2" href="#trabalhos">Ver meu trabalho {ARROW}</a></div>
 <a class="talk e" data-d="5" href="{WA}">{WAI} Ou fale comigo agora no WhatsApp</a>'''
 FAV = "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23FFD21F'/%3E%3Ctext%20x='32'%20y='45'%20text-anchor='middle'%20font-family='Fraunces%2CGeorgia%2Cserif'%20font-style='italic'%20font-size='36'%20fill='%23111'%3E3R%3C/text%3E%3C/svg%3E"
@@ -290,7 +290,7 @@ prods = "".join(prod(i, *p) for i, p in enumerate(PRODUCTS))
 works = "".join(work(i, *w) for i, w in enumerate(WORKS))
 more_works = "".join(work(0, *w) for w in MORE_WORKS) + (f'<a class="w all" href="apps.html"><div>{ARROW}</div>'
     '<b>Todos os apps e jogos</b><span>O catálogo completo do estúdio.</span></a>')
-PEEK = ["premio-2025", "minds-turma", "experience-2024", "rotary-certificado"]
+PEEK = ["rotary-tribuna", "minds-turma", "experience-2024", "premio-2025"]
 peek = "".join(f'<img src="img/historia/{n}-p.webp" alt="{FOTO[n][2]}" width="{FOTO[n][0]}" height="{FOTO[n][1]}" loading="lazy">' for n in PEEK)
 VIDEO = wa("Oi Rafael, quero saber sobre vídeos e anúncios.")
 
@@ -337,6 +337,11 @@ HTML = f'''<!doctype html>
 <div class="show" aria-hidden="true"><span class="f s1" data-d="0"><img src="img/hero/caixinha-da-lia.webp" alt=""></span><span class="f s2" data-d="1"><img src="img/hero/quintal-das-dalias.webp" alt=""></span><span class="f s3" data-d="2"><img src="img/hero/trequim-m.webp" alt=""></span></div>
 </div></section>
 
+<section class="sec" id="sobre"><div class="in"><div class="head"><h2 class="rv">Prazer, eu sou o Rafael.</h2>
+<div class="lead rv" data-i="1"><p>Programar é o que eu faria mesmo se ninguém pagasse.</p><p>Essa é a história de como virou o meu trabalho, e o seu atalho.</p></div></div>
+<div class="peek rv" data-i="2">{peek}</div>
+<details class="story"><summary>Ver minha história {ARROW}</summary><div class="tl"><i class="ln"></i>{tl}</div></details></div></section>
+
 <section class="sec" id="produtos"><div class="in"><div class="head"><h2 class="rv">O que eu posso fazer por você.</h2>
 <div class="lead rv" data-i="1"><p>Escolha por onde começar.</p><p>Se não souber qual, me conte o problema que eu indico.</p></div></div>
 {testimonials()}
@@ -347,11 +352,6 @@ HTML = f'''<!doctype html>
 <div class="lead rv" data-i="1"><p>Apps, jogos e sites que eu criei, meus e de clientes.</p><p>Tudo funcionando hoje, é só abrir.</p></div></div>
 <div class="grid">{works}</div>
 <details class="mw"><summary>Ver mais trabalhos {ARROW}</summary><div class="grid sm">{more_works}</div></details></div></section>
-
-<section class="sec" id="sobre"><div class="in"><div class="head"><h2 class="rv">Prazer, eu sou o Rafael.</h2>
-<div class="lead rv" data-i="1"><p>Programar é o que eu faria mesmo se ninguém pagasse.</p><p>Essa é a história de como virou o meu trabalho, e o seu atalho.</p></div></div>
-<div class="peek rv" data-i="2">{peek}</div>
-<details class="story"><summary>Ver minha história {ARROW}</summary><div class="tl"><i class="ln"></i>{tl}</div></details></div></section>
 
 <section class="sec end" id="contato"><div class="in"><h2>{end_h2}</h2>
 <div class="sub rv" data-i="3"><p>Me conte o que você precisa. Eu respondo pessoalmente.</p></div>

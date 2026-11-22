@@ -124,13 +124,13 @@ html[data-motion="reduce"] .js .hero .e,html[data-motion="reduce"].js .hero .e,h
 .ft-infancia{aspect-ratio:296/320;flex:296 1 0}
 .ft-sangue-bom{aspect-ratio:711/320;flex:711 1 0}
 .ft-ufjf{aspect-ratio:180/320;flex:180 1 0}
-.ft-rotary-tribuna{aspect-ratio:180/320;flex:180 1 0}
+.ft-rotary-tribuna{aspect-ratio:240/320;flex:240 1 0}
 .ft-rotary-certificado{aspect-ratio:427/320;flex:427 1 0}
 .ft-minds-turma{aspect-ratio:385/320;flex:385 1 0}
 .ft-experience-2024{aspect-ratio:480/320;flex:480 1 0}
 .ft-premio-2025{aspect-ratio:480/320;flex:480 1 0}
 .item .ph.fs0{width:min(100%,calc(3.207 * var(--fh)))}
 .item .ph.fs1{width:min(100%,calc(0.562 * var(--fh)))}
-.item .ph.fs2{width:min(100%,calc(1.957 * var(--fh)))}
+.item .ph.fs2{width:min(100%,calc(2.144 * var(--fh)))}
 .item .ph.fs3{width:min(100%,calc(2.763 * var(--fh)))}
 .item .ph.fs4{width:min(100%,calc(1.500 * var(--fh)))}
