@@ -122,6 +122,7 @@ ${isPT() ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbo
       if (textChanged) keepPlace(apply); else blend(apply);
       save();
       if (isPT()) libras(prefs.libras);
+      clips();
     };
     form.addEventListener('change', () => {
       const f = new FormData(form);
@@ -137,8 +138,19 @@ ${isPT() ? '<label class="tog">Tradutor de Libras (VLibras) <input type="checkbo
   // Everything below is bound to the current page content and rebuilt after a language swap.
   let hd, items = [], lines = [], links = [], secs = [], up, down, fs = [], io;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  // Hero video clips (/sites): Portuguese captions, so they play only on pt-BR pages. Loops muted;
+  // with reduced motion (Ajustes or the device) it stays on its poster with controls to play it on demand.
+  function clips() {
+    document.querySelectorAll('video[data-src]').forEach(v => {
+      if (!isPT()) return;
+      if (!v.getAttribute('src')) v.src = v.dataset.src;
+      if (still()) { v.pause(); v.controls = true; }
+      else { v.controls = false; v.play().catch(() => { v.controls = true; }); }
+    });
+  }
   function init() {
     buildDialog();
+    clips();
     if (isPT() && prefs.libras) libras(true);
     // Testimonial carousel arrows (rendered only with 2+ testimonials).
     document.querySelectorAll('[data-car]').forEach(b => b.addEventListener('click', () => {

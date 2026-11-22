@@ -26,6 +26,7 @@ STATIC = (
     'fonts/instrument-sans-latin.woff2', 'img/portfolio/resenhopolis-m.webp', 'img/portfolio/varal.webp',
     'img/portfolio/blinkninja.webp', 'img/portfolio/do-zero-ao-drop.webp', 'img/portfolio/qualmonmovie.webp', 'img/portfolio/arrumadinho.webp',
     'fonts/bricolage-grotesque-latin.woff2', 'fonts/dm-mono-400-latin.woff2', 'fonts/dm-mono-500-latin.woff2',
+    'video/sites.mp4', 'video/sites.jpg',
 )
 # Browser games under jogar/<name>/: index.html plus these (folder, extensions) pairs.
 # caca-varal is the Vite build output copied from its own project (hashed .js/.css).

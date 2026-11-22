@@ -213,3 +213,9 @@ html[data-theme="dark"] .apps .shape{background:var(--pa,#F2EFE7)}
 .doc .quote{margin:12px 0 4px;padding-left:16px;border-left:3px solid var(--y)}
 .doc .quote .stars{display:block;font-size:calc(17px * var(--s));letter-spacing:2px;margin-bottom:6px}.doc .quote blockquote{margin:0}.doc .quote blockquote p{margin:0;font:italic 400 calc(1.15rem * var(--s))/1.4 var(--serif);color:var(--fg)}
 .doc .quote figcaption{margin-top:8px;font-size:calc(.9rem * var(--s));color:var(--mute)}
+
+/* /sites hero video: loops muted on pt-BR pages (its captions are Portuguese); site.js starts it unless motion is reduced */
+.doc .sh{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,300px);gap:56px;align-items:center}
+.doc .sv{margin:0}.doc .sv video{display:block;width:100%;height:auto;aspect-ratio:9/16;border-radius:28px;background:var(--soft);box-shadow:0 30px 60px -30px var(--shadow);border:1px solid var(--line)}
+@media (max-width:860px){.doc .sh{display:block}.doc .sv{width:min(64%,300px);margin:32px auto 0}}
+html:not([lang="pt-BR"]) .doc .sh{display:block}html:not([lang="pt-BR"]) .doc .sv{display:none}
