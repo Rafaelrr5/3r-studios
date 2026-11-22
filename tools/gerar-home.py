@@ -101,11 +101,14 @@ def item(i):
 {vis}</article>'''
 
 PRODUCTS = [
-    ("site", "Sites", "Seu negócio bonito, rápido e fácil de achar no Google. Feito para transformar visita em cliente.", "sites.html"),
-    ("wa", "Atendimento automático", "Responde na hora no WhatsApp, Instagram e Messenger: horários, agendamentos, dúvidas. Você só entra quando precisa.", "whatsapp.html"),
-    ("ia", "Agentes de IA", "Um assistente que conhece o seu negócio e resolve dúvidas, contratos e triagens no seu lugar.", "agentes-ia.html"),
-    ("app", "Aplicativos", "Sua ideia no celular das pessoas, publicada nas lojas, do jeito que você imaginou.", "aplicativos.html"),
-    ("vid", "Vídeos e anúncios", "Vídeos de produto e anúncios curtos que param o dedo de quem está rolando a tela.", None),
+    ("site", "Sites", "Seu negócio bonito, rápido e fácil de achar no Google. Feito para transformar visita em cliente.", "sites.html",
+     '<img src="img/portfolio/mariamae.webp" alt="" width="960" height="540" loading="lazy">'),
+    ("wa", "Atendimento automático", "Responde na hora no WhatsApp, Instagram e Messenger: horários, agendamentos, dúvidas. Você só entra quando precisa.", "whatsapp.html",
+     '<img src="img/whatsapp-demo.webp" alt="" width="342" height="641" loading="lazy">'),
+    ("ia", "Agentes de IA", "Um assistente que conhece o seu negócio e resolve dúvidas, contratos e triagens no seu lugar.", "agentes-ia.html",
+     '<div class="conversa"><p class="eu">Posso levar meu cachorro na área da piscina?</p><p class="ia">Pelo regulamento do condomínio, animais não entram na área da piscina (artigo 22). Quer falar com a administração?</p></div>'),
+    ("app", "Aplicativos", "Sua ideia no celular das pessoas, publicada nas lojas, do jeito que você imaginou.", "aplicativos.html",
+     '<img class="d" src="img/portfolio/resenhopolis.webp" alt="" width="960" height="540" loading="lazy"><img class="m" src="img/portfolio/resenhopolis-m.webp" alt="" width="390" height="780" loading="lazy">'),
 ]
 # Client testimonials, verbatim from the client (never invented). One card per entry; the arrows appear from 2 on.
 TESTIMONIALS = [
@@ -122,23 +125,26 @@ def testimonials():
     return (f'<section class="tst rv" aria-label="Depoimentos de clientes"><div class="track" tabindex="0">'
             + ''.join(tcard(*t) for t in TESTIMONIALS) + f'</div>{arrows}</section>')
 
-def prod(i, k, n, d, page):
-    more = f'<a class="more" href="{page}">Saiba mais<span class="sr"> sobre {n}</span></a>' if page else '<span class="more muted">Sob medida</span>'
-    return (f'<article class="p rv" data-i="{i}"><i>{ico(k)}</i><h3>{n}</h3><p>{d}</p>'
-            f'<div class="pl">{more}<a class="want" href="{wa("Oi Rafael, quero saber sobre " + n.lower() + ".")}">Quero esse {ARROW}</a></div></article>')
+def prod(i, k, n, d, page, vis):
+    return (f'<article class="p rv" data-i="{i}"><div class="pv pv-{k}" aria-hidden="true">{vis}</div><div class="pb"><i>{ico(k)}</i><h3>{n}</h3><p>{d}</p>'
+            f'<div class="pl"><a class="want" href="{wa("Oi Rafael, quero saber sobre " + n.lower() + ".")}">Quero esse {ARROW}</a>'
+            f'<a class="more" href="{page}">Saiba mais<span class="sr"> sobre {n}</span></a></div></div></article>')
 
+# The six that sell first (client work, samples, the bot, apps); the rest opens on request.
 WORKS = [
-    ("img/portfolio/resenhopolis-m.webp", "Resenhópolis", "O mapa dos rolês, nas lojas.", "App meu", "https://resenhopolis.3rstudios.com.br/"),
+    ("img/portfolio/mariamae.webp", "Fundação Maria Mãe", "Site novo, nota 100 em SEO.", "Cliente", "https://mariamae.org.br/"),
+    ("img/sites/restaurante-ousado.webp", "Sites de exemplo", "22 modelos para se inspirar.", "Exemplo", "sites.html#exemplos"),
+    ("img/whatsapp-demo.webp", "Atendimento no WhatsApp", "Veja uma conversa de exemplo.", "Exemplo", "whatsapp.html"),
+    ("img/portfolio/resenhopolis.webp", "Resenhópolis", "O mapa dos rolês, nas lojas.", "App meu", "https://resenhopolis.3rstudios.com.br/"),
     ("img/portfolio/varal.webp", "Caça-Varal", "Jogo 3D com superpoderes.", "Jogo meu", "jogar/caca-varal/"),
+    ("img/portfolio/qualmonmovie.webp", "Qual Mon Movie", "Indica filmes com IA.", "App meu", "https://qualmonmovie.netlify.app/"),
+]
+MORE_WORKS = [
     ("img/portfolio/do-zero-ao-drop.webp", "Do Zero ao Drop", "Aprenda a ser DJ, em 3D.", "Jogo meu", "jogar/do-zero-ao-drop/"),
     ("img/portfolio/blinkninja.webp", "BlinkNinja", "Desvie, colete, bata recordes.", "Jogo meu", "jogar/blinkninja/"),
-    ("img/portfolio/qualmonmovie.webp", "Qual Mon Movie", "Indica filmes com IA.", "App meu", "https://qualmonmovie.netlify.app/"),
     ("img/portfolio/arrumadinho.webp", "Arrumadinho", "Jogo de arrumar a casa.", "Jogo meu", "jogar/arrumadinho/"),
     ("img/portfolio/base-infernal.webp", "Base Infernal", "Tiro em 3D, do zero.", "Jogo meu", "https://rafaelrr5.github.io/TrabalhoCG/T2/"),
-    ("img/portfolio/mariamae.webp", "Fundação Maria Mãe", "Site novo, nota 100 em SEO.", "Cliente", "https://mariamae.org.br/"),
     ("img/portfolio/minds-academy.webp", "Minds Academy", "Cursos de robótica.", "UFJF", "https://mindsofthefuture.com.br/"),
-    ("img/whatsapp-demo.webp", "Atendimento no WhatsApp", "Veja uma conversa de exemplo.", "Exemplo", "whatsapp.html"),
-    ("img/sites/restaurante-ousado.webp", "Sites de exemplo", "22 modelos para se inspirar.", "Exemplo", "sites.html#exemplos"),
 ]
 def work(i, im, n, d, tag, href):
     ext = href.startswith("http")
@@ -147,8 +153,10 @@ def work(i, im, n, d, tag, href):
             f'{"<span class=" + chr(34) + "sr" + chr(34) + "> (abre em nova aba)</span>" if ext else ""}</a>')
 
 CSS = r"""/* Home sections (index.html). Tokens, header, footer, buttons: site.css. Generated by tools/gerar-home.py. */
-.screen{min-height:100svh;padding:calc(var(--hd) + 4vh) 0 4vh;display:flex;flex-direction:column;justify-content:center}
-.screen>.in{max-width:var(--max);width:100%;margin:auto;padding:0 var(--pad)}
+.sec{padding:clamp(56px,9vh,104px) 0}
+.sec>.in{max-width:var(--max);width:100%;margin:auto;padding:0 var(--pad)}
+.hero{min-height:min(100svh,920px);padding-top:calc(var(--hd) + 4vh);display:flex;flex-direction:column;justify-content:center}
+.hero>.in{max-width:var(--max);width:100%;margin:auto;padding:0 var(--pad)}
 .hero .in{display:grid;grid-template-columns:1.05fr .95fr;gap:4vw;align-items:center}
 .k{font-size:calc(14px * var(--s));letter-spacing:.02em;display:flex;align-items:center;gap:30px}
 h1{font:400 calc(clamp(38px,4.4vw,66px) * var(--s))/1.04 var(--serif);letter-spacing:-.025em;margin:0 0 22px;max-width:13ch}
@@ -209,17 +217,41 @@ h2{font:400 calc(clamp(30px,3.3vw,48px) * var(--s))/1.05 var(--serif);letter-spa
 .tnav{position:absolute;right:10px;top:-46px;display:flex;gap:6px}
 .tnav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:calc(20px * var(--s));cursor:pointer}
 @media(max-width:980px){.tq{grid-template-columns:1fr;padding:16px 18px}.tq figcaption{white-space:normal}}
-.prods{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.p{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:10px;transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
-.p.in-view:hover{border-color:var(--fg);transform:translateY(-4px);box-shadow:0 16px 30px -20px var(--shadow)}
-.p i{width:44px;height:44px;border-radius:12px;background:var(--y);color:var(--on-y);display:grid;place-items:center;transition:transform .4s var(--ease)}
+.prods{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
+.p.in-view:hover{border-color:var(--fg);transform:translateY(-4px);box-shadow:0 18px 34px -22px var(--shadow)}
+.pv{position:relative;height:clamp(190px,22vw,270px);overflow:hidden;border-bottom:1px solid var(--line);display:grid;place-items:center}
+.pv-site{background:var(--tint0)}.pv-wa{background:var(--tint1)}.pv-ia{background:var(--tint2)}.pv-app{background:var(--soft)}
+.pv img{transition:transform .6s var(--ease)}.p:hover .pv img{transform:translateY(-4px)}
+.pv-site img{width:82%;height:auto;align-self:end;border-radius:10px 10px 0 0;box-shadow:0 18px 40px -20px var(--shadow)}
+.pv-wa img{width:min(46%,190px);height:auto;align-self:start;margin-top:22px;border-radius:20px;border:6px solid var(--art);box-shadow:0 18px 40px -20px var(--shadow)}
+.pv-ia .conversa{display:grid;gap:8px;width:min(86%,440px)}
+.pv-ia .conversa p{margin:0;max-width:88%;padding:10px 14px;border-radius:16px;line-height:1.4;font-size:calc(14.5px * var(--s))}
+.pv-ia .eu{justify-self:end;background:var(--acc);color:var(--on-acc);border-bottom-right-radius:4px}
+.pv-ia .ia{justify-self:start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+.pv-app .d{position:absolute;left:7%;bottom:-6%;width:66%;height:auto;border-radius:10px;box-shadow:0 18px 40px -20px var(--shadow)}
+.pv-app .m{position:absolute;right:9%;top:12%;width:24%;height:auto;border-radius:18px;border:5px solid var(--art);box-shadow:0 18px 40px -20px var(--shadow)}
+.pb{padding:22px 24px 24px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:start;flex:1}
+.p i{grid-row:span 2;width:44px;height:44px;border-radius:12px;background:var(--y);color:var(--on-y);display:grid;place-items:center;transition:transform .4s var(--ease)}
 .p:hover i{transform:rotate(-8deg) scale(1.08)}
-.p h3{font:400 calc(22px * var(--s))/1.1 var(--serif);margin-top:6px}.p p{font-size:calc(14.5px * var(--s));color:var(--mute);flex:1}
-.pl{display:flex;flex-direction:column;align-items:stretch;gap:8px;font-size:calc(14px * var(--s));font-weight:600;text-align:center}
-.pl .more{color:var(--mute)}.pl .muted{font-weight:400}
-.want{display:flex;justify-content:center;white-space:nowrap;align-items:center;gap:6px;text-decoration:none;background:var(--acc);color:var(--on-acc);padding:10px 12px;border-radius:99px;order:-1}
+.p h3{font:400 calc(26px * var(--s))/1.1 var(--serif)}.p p{font-size:calc(15px * var(--s));color:var(--mute);max-width:48ch}
+.pl{grid-column:1/-1;display:flex;align-items:center;gap:18px;margin-top:14px;font-size:calc(14.5px * var(--s));font-weight:600}
+.pl .more{color:var(--fg)}
+.want{display:inline-flex;white-space:nowrap;align-items:center;gap:6px;text-decoration:none;background:var(--acc);color:var(--on-acc);padding:11px 18px;border-radius:99px}
 .want svg{width:15px;height:15px;transition:transform .25s}.want:hover svg{transform:translateX(3px)}
-.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px 16px}
+.also{margin-top:22px;text-align:center;color:var(--mute);font-size:calc(15px * var(--s))}.also a{color:var(--fg);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 22px}
+.grid.sm{grid-template-columns:repeat(6,1fr);gap:18px 16px;margin-top:26px}
+.grid:not(.sm) .w b{font-size:calc(22px * var(--s))}.grid:not(.sm) .w span{font-size:calc(15px * var(--s))}
+.mw{margin-top:30px}.mw>summary,.story>summary{list-style:none;cursor:pointer;display:flex;width:max-content;margin:0 auto;align-items:center;gap:8px;
+ padding:11px 20px;border:1px solid var(--fg);border-radius:99px;font-weight:600;font-size:calc(15px * var(--s))}
+.mw>summary::-webkit-details-marker,.story>summary::-webkit-details-marker{display:none}
+.mw>summary svg,.story>summary svg{width:16px;height:16px;transform:rotate(90deg);transition:transform .25s var(--ease)}
+.mw[open]>summary svg,.story[open]>summary svg{transform:rotate(-90deg)}
+.mw>summary:hover,.story>summary:hover{background:var(--fg);color:var(--bg)}
+.peek{display:flex;justify-content:center;gap:10px;margin:0 0 26px}.peek img{height:clamp(84px,9vw,128px);width:auto;border-radius:10px;box-shadow:0 14px 30px -18px var(--shadow)}
+@media(max-width:600px){.peek img:nth-child(n+3){display:none}}
+.story{margin-top:10px}.story[open]>summary{margin-bottom:5vh}
 .w{text-decoration:none;display:block}.w div{position:relative;border-radius:10px;overflow:hidden;background:var(--soft);aspect-ratio:16/10}
 .w img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s var(--ease)}.w:hover img{transform:scale(1.03)}
 .w s{position:absolute;left:8px;top:8px;text-decoration:none;font-size:calc(11.5px * var(--s));font-weight:600;background:#fff;color:#111;padding:2px 8px;border-radius:99px}
@@ -228,27 +260,24 @@ h2{font:400 calc(clamp(30px,3.3vw,48px) * var(--s))/1.05 var(--serif);letter-spa
 .w u svg{width:14px;height:14px}.w:hover u,.w:focus-visible u{opacity:1;transform:none}
 .w b{display:block;font:400 calc(18px * var(--s))/1.15 var(--serif);margin-top:8px}.w span{color:var(--mute);font-size:calc(13.5px * var(--s))}
 .w.all div{display:grid;place-items:center;background:var(--y);color:var(--on-y)}.w.all div svg{width:42px;height:42px;transition:transform .3s var(--ease)}.w.all:hover div svg{transform:translateX(6px)}
-.end{padding-bottom:0}.end>.in{text-align:center;display:flex;flex-direction:column;align-items:center;flex:1;justify-content:center}
+.end{padding-bottom:0;display:flex;flex-direction:column;min-height:min(100svh,900px)}.end>.in{text-align:center;display:flex;flex-direction:column;align-items:center;flex:1;justify-content:center}
 .end h2{font-size:calc(clamp(44px,6vw,92px) * var(--s));max-width:none;line-height:1}
 .end h2 .wd{display:inline-block}.js .end h2 .wd{opacity:0;transform:translateY(.2em)}
 .end h2.in-view .wd{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i)*50ms)}
 .end>.in .sub p{margin:18px auto 0;text-align:center}.end>.in .btns{justify-content:center}
-/* One screen per section on desktop, only at the normal text size: bigger text needs room to grow. */
-@media(min-width:981px) and (min-height:640px){html.js:not([data-text="1.15"]):not([data-text="1.3"]){scroll-snap-type:y mandatory}html:not([data-text="1.15"]):not([data-text="1.3"]) .screen{height:100svh;min-height:0;scroll-snap-align:start;overflow:hidden}}
-@media(min-width:981px) and (max-height:960px){.head{margin-bottom:2.5vh}.item p{font-size:calc(14.5px * var(--s))}.screen{padding-top:calc(var(--hd) + 2.5vh)}}
-@media(min-width:981px) and (max-height:820px){.tags{display:none}.item h3{font-size:calc(22px * var(--s))}}
-@media(max-width:1100px){.prods{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:1100px){.grid.sm{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:980px){.hero .in{grid-template-columns:1fr}.show{height:70vw;margin-top:4vh}.head{grid-template-columns:1fr}
- .prods{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr}.w u{opacity:1;transform:none}}
+ .prods{grid-template-columns:1fr}.grid,.grid.sm{grid-template-columns:1fr 1fr}.w u{opacity:1;transform:none}}
 @media(max-width:760px){.tl:before,.tl i.ln,.dot{left:8px}.item{grid-template-columns:1fr;gap:10px;padding:2.4vh 0 2.4vh 34px}
- .item.r .txt{order:0}.item .ph{justify-self:start!important;width:100%;height:auto}.art{padding:16px}.prods{grid-template-columns:1fr}}
+ .item.r .txt{order:0}.item .ph{justify-self:start!important;width:100%;height:auto}.art{padding:16px}.pv{height:200px}.pb{padding:18px 18px 20px}.p h3{font-size:calc(23px * var(--s))}.grid{gap:20px 12px}
+ .grid:not(.sm) .w b{font-size:calc(18px * var(--s))}.grid:not(.sm) .w span{font-size:calc(13.5px * var(--s))}}
 html[data-motion="reduce"] .item{opacity:1;transform:none}html[data-motion="reduce"] .hero .hl,html[data-motion="reduce"] .end .hl{background-size:100% 36%}
 html[data-motion="reduce"] .js .hero .e,html[data-motion="reduce"].js .hero .e,html[data-motion="reduce"].js .hero .f,html[data-motion="reduce"].js .end h2 .wd{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){html[data-motion="auto"] .item{opacity:1;transform:none}html[data-motion="auto"] .hl{background-size:100% 36%}
  html[data-motion="auto"].js .hero .e,html[data-motion="auto"].js .hero .f,html[data-motion="auto"].js .end h2 .wd{opacity:1;transform:none}}
 """
 
-BTNS = f'''<div class="btns e" data-d="4"><a class="btn b1" href="#sobre">Conhecer um pouco sobre mim {ARROW}</a>
+BTNS = f'''<div class="btns e" data-d="4"><a class="btn b1" href="#produtos">Ver o que eu faço {ARROW}</a>
 <a class="btn b2" href="#trabalhos">Ver meu trabalho {ARROW}</a></div>
 <a class="talk e" data-d="5" href="{WA}">{WAI} Ou fale comigo agora no WhatsApp</a>'''
 FAV = "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23FFD21F'/%3E%3Ctext%20x='32'%20y='45'%20text-anchor='middle'%20font-family='Fraunces%2CGeorgia%2Cserif'%20font-style='italic'%20font-size='36'%20fill='%23111'%3E3R%3C/text%3E%3C/svg%3E"
@@ -256,11 +285,14 @@ DESC = "Rafael Rocha, da 3R Studios: sites, atendimento automático, agentes de 
 END_WORDS = 'Sua ideia é <span class="wd hl">a próxima</span>.'
 end_h2 = " ".join(f'<span class="wd">{w}</span>' for w in "Sua ideia é".split()) + ' <span class="wd"><span class="hl">a próxima</span>.</span>'
 
-tl1 = "".join(item(i) for i in range(0, 3))
-tl2 = "".join(item(i) for i in range(3, 7))
+tl = "".join(item(i) for i in range(len(TL)))
 prods = "".join(prod(i, *p) for i, p in enumerate(PRODUCTS))
-works = "".join(work(i, *w) for i, w in enumerate(WORKS)) + (f'<a class="w all rv" data-i="{len(WORKS)}" href="apps.html"><div>{ARROW}</div>'
+works = "".join(work(i, *w) for i, w in enumerate(WORKS))
+more_works = "".join(work(0, *w) for w in MORE_WORKS) + (f'<a class="w all" href="apps.html"><div>{ARROW}</div>'
     '<b>Todos os apps e jogos</b><span>O catálogo completo do estúdio.</span></a>')
+PEEK = ["premio-2025", "minds-turma", "experience-2024", "rotary-certificado"]
+peek = "".join(f'<img src="img/historia/{n}-p.webp" alt="{FOTO[n][2]}" width="{FOTO[n][0]}" height="{FOTO[n][1]}" loading="lazy">' for n in PEEK)
+VIDEO = wa("Oi Rafael, quero saber sobre vídeos e anúncios.")
 
 LD = (REPO / "tools" / "home-ld.html").read_text(encoding="utf-8").strip()
 HTML = f'''<!doctype html>
@@ -298,31 +330,30 @@ HTML = f'''<!doctype html>
 {chrome.header('', home=True)}
 
 <main id="conteudo">
-<section class="screen hero" aria-label="Apresentação"><div class="in"><div>
+<section class="hero" aria-label="Apresentação"><div class="in"><div>
 <h1 class="e" data-d="1">Eu faço a tecnologia trabalhar <span class="hl">para o seu negócio</span>.</h1>
 <div class="sub e" data-d="2"><p>Sites que encantam, atendimento automático que não dorme e apps feitos com o cuidado de quem programa por paixão.</p>
 <p>Do primeiro rascunho ao ar, você fala direto comigo.</p></div>{BTNS}</div>
 <div class="show" aria-hidden="true"><span class="f s1" data-d="0"><img src="img/hero/caixinha-da-lia.webp" alt=""></span><span class="f s2" data-d="1"><img src="img/hero/quintal-das-dalias.webp" alt=""></span><span class="f s3" data-d="2"><img src="img/hero/trequim-m.webp" alt=""></span></div>
 </div></section>
 
-<section class="screen" id="sobre"><div class="in"><div class="head"><h2 class="rv">Prazer, eu sou o Rafael.</h2>
-<div class="lead rv" data-i="1"><p>Programar é o que eu faria mesmo se ninguém pagasse.</p><p>Essa é a história de como virou o meu trabalho, e o seu atalho.</p></div></div>
-<div class="tl"><i class="ln"></i>{tl1}</div></div></section>
-
-<section class="screen" id="virada"><div class="in"><div class="head"><h2 class="rv">Da sala de aula para o mercado.</h2>
-<div class="lead rv" data-i="1"><p>Ensinar me fez explicar simples. Empresa grande me deu régua alta.</p><p>Hoje as duas coisas trabalham para você.</p></div></div>
-<div class="tl"><i class="ln"></i>{tl2}</div></div></section>
-
-<section class="screen" id="produtos"><div class="in"><div class="head"><h2 class="rv">O que eu posso fazer por você.</h2>
+<section class="sec" id="produtos"><div class="in"><div class="head"><h2 class="rv">O que eu posso fazer por você.</h2>
 <div class="lead rv" data-i="1"><p>Escolha por onde começar.</p><p>Se não souber qual, me conte o problema que eu indico.</p></div></div>
 {testimonials()}
-<div class="prods">{prods}</div></div></section>
+<div class="prods">{prods}</div>
+<p class="also rv">Também faço vídeos de produto e anúncios curtos. <a href="{VIDEO}">Pedir um vídeo</a></p></div></section>
 
-<section class="screen" id="trabalhos"><div class="in"><div class="head"><h2 class="rv">Coisas que já estão no ar.</h2>
+<section class="sec" id="trabalhos"><div class="in"><div class="head"><h2 class="rv">Coisas que já estão no ar.</h2>
 <div class="lead rv" data-i="1"><p>Apps, jogos e sites que eu criei, meus e de clientes.</p><p>Tudo funcionando hoje, é só abrir.</p></div></div>
-<div class="grid">{works}</div></div></section>
+<div class="grid">{works}</div>
+<details class="mw"><summary>Ver mais trabalhos {ARROW}</summary><div class="grid sm">{more_works}</div></details></div></section>
 
-<section class="screen end" id="contato"><div class="in"><h2>{end_h2}</h2>
+<section class="sec" id="sobre"><div class="in"><div class="head"><h2 class="rv">Prazer, eu sou o Rafael.</h2>
+<div class="lead rv" data-i="1"><p>Programar é o que eu faria mesmo se ninguém pagasse.</p><p>Essa é a história de como virou o meu trabalho, e o seu atalho.</p></div></div>
+<div class="peek rv" data-i="2">{peek}</div>
+<details class="story"><summary>Ver minha história {ARROW}</summary><div class="tl"><i class="ln"></i>{tl}</div></details></div></section>
+
+<section class="sec end" id="contato"><div class="in"><h2>{end_h2}</h2>
 <div class="sub rv" data-i="3"><p>Me conte o que você precisa. Eu respondo pessoalmente.</p></div>
 <div class="btns rv" data-i="4"><a class="btn b1" href="{WA}">{WAI} Chamar no WhatsApp</a><a class="btn b2" href="mailto:faelrribeiro3@gmail.com?subject=Vim%20pelo%20site%20da%203R">Mandar um e-mail {ARROW}</a></div></div>
 {chrome.footer('', 'index.html')}
