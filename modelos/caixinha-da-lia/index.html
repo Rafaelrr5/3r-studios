@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixinha da Lia · Docinhos por encomenda em Viçosa</title>
+<meta name="description" content="Docinhos feitos à mão por encomenda em Viçosa. Pedidos abertos toda semana, sabores que mudam a cada fornada. Peça pelo WhatsApp.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B1711">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Caixinha da Lia · Docinhos por encomenda">
+<meta property="og:description" content="Docinhos por encomenda em Viçosa, com fornada nova toda semana.">
+<meta property="og:site_name" content="Caixinha da Lia">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23A3364F'/%3E%3Ccircle cx='50' cy='50' r='32' fill='%233B1F16'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,100;1,9..144,300..800,100&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Bakery",
+  "name": "Caixinha da Lia",
+  "description": "Docinhos feitos à mão por encomenda, com pedidos abertos por semana.",
+  "areaServed": {"@type": "City", "name": "Viçosa"},
+  "address": {"@type": "PostalAddress", "addressLocality": "Viçosa", "addressRegion": "MG", "addressCountry": "BR"}
+}
+</script>
+<style>
+:root{
+  --cacau:#2B1711;
+  --cacau-2:#3B1F16;
+  --choc:#5A2F22;
+  --creme:#FBF4EA;
+  --creme-2:#F4E7D6;
+  --rosa:#F3D5D8;
+  --rosa-2:#E9AFB8;
+  --framboesa:#A3364F;
+  --caramelo:#C98B4B;
+  --tinta:#2B1711;
+  --tinta-suave:#5E463D;
+  --serif:"Fraunces", Georgia, serif;
+  --sans:"Manrope", system-ui, sans-serif;
+  --r:22px;
+  --wrap:min(1180px, 100% - 2.5rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--creme);color:var(--tinta);font-family:var(--sans);font-size:1.0625rem;line-height:1.6;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+.wrap{width:var(--wrap);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:0;background:var(--cacau);color:var(--creme);padding:.75rem 1rem;z-index:99;border-radius:0 0 12px 0}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--framboesa);outline-offset:3px;border-radius:6px}
+
+h1,h2,h3{font-family:var(--serif);font-weight:500;font-variation-settings:"SOFT" 100, "opsz" 120;line-height:1.02;letter-spacing:-.02em;margin:0}
+em{font-style:italic;color:var(--framboesa);font-variation-settings:"SOFT" 100}
+p{margin:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:52px;padding:.85rem 1.5rem;border-radius:999px;font-weight:700;font-size:1rem;text-decoration:none;transition:transform .25s ease, background-color .25s ease, color .25s ease, box-shadow .25s ease;will-change:transform}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-choc{background:var(--cacau);color:var(--creme);box-shadow:0 10px 24px -12px rgba(43,23,17,.7)}
+.btn-choc:hover{background:var(--framboesa);transform:translateY(-2px)}
+.btn-line{border:1.5px solid currentColor;color:var(--cacau)}
+.btn-line:hover{background:var(--cacau);color:var(--creme);transform:translateY(-2px)}
+.btn-creme{background:var(--creme);color:var(--cacau)}
+.btn-creme:hover{background:var(--rosa);transform:translateY(-2px)}
+.btn-line-creme{border:1.5px solid rgba(251,244,234,.6);color:var(--creme)}
+.btn-line-creme:hover{background:var(--creme);color:var(--cacau)}
+
+/* header */
+.top{position:sticky;top:0;z-index:30;background:rgba(251,244,234,.92);backdrop-filter:saturate(1.2) blur(8px);-webkit-backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid rgba(43,23,17,.08)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:1rem}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--serif);font-size:1.5rem;font-style:italic;font-weight:500;letter-spacing:-.02em;font-variation-settings:"SOFT" 100}
+.logo svg{width:34px;height:34px}
+.nav{display:none;gap:1.75rem;align-items:center}
+.nav a{text-decoration:none;font-weight:600;font-size:.95rem;padding:.6rem 0;position:relative}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:.35rem;height:2px;background:var(--framboesa);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.nav a:hover::after{transform:scaleX(1)}
+.top .btn{min-height:44px;padding:.55rem 1.1rem;font-size:.95rem}
+
+/* hero */
+.hero{position:relative;padding:2.5rem 0 3.5rem;overflow:hidden}
+.hero .wrap{display:grid;gap:2.5rem;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:.6rem;font-size:.85rem;font-weight:700;letter-spacing:.04em;color:var(--tinta-suave);margin-bottom:1.25rem}
+.kicker i{width:8px;height:8px;border-radius:50%;background:var(--framboesa);box-shadow:0 0 0 4px rgba(163,54,79,.15)}
+.hero h1{font-size:clamp(2.75rem, 11vw, 5.6rem);font-weight:400}
+.hero h1 em{font-weight:400}
+.lead{margin-top:1.25rem;font-size:1.125rem;color:var(--tinta-suave);max-width:34ch}
+.ctas{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem}
+.ctas .btn{flex:1 1 220px}
+
+.box-art{position:relative;width:min(100%, 520px);margin-inline:auto}
+.box-art .box{filter:drop-shadow(0 30px 40px rgba(43,23,17,.25))}
+.stamp{position:absolute;width:34%;right:-4%;top:-6%;animation:spin 28s linear infinite}
+.stamp text{font-family:var(--sans);font-weight:700;font-size:11.5px;letter-spacing:.24em;fill:var(--cacau)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.d{transform-box:fill-box;transform-origin:center}
+.box-art .d:nth-child(odd){animation:bob 5s ease-in-out infinite}
+.box-art .d:nth-child(even){animation:bob 5s ease-in-out -2.5s infinite}
+@keyframes bob{50%{transform:translateY(-3px) rotate(4deg)}}
+
+/* band */
+.band{background:var(--cacau);color:var(--creme);overflow:hidden}
+.marquee{display:flex;gap:0;white-space:nowrap;border-bottom:1px solid rgba(251,244,234,.12);padding:1rem 0}
+.marquee-track{display:flex;flex:none;gap:2.25rem;padding-right:2.25rem;animation:slide 32s linear infinite;font-family:var(--serif);font-style:italic;font-size:1.35rem;font-variation-settings:"SOFT" 100}
+.marquee-track span{display:inline-flex;align-items:center;gap:2.25rem}
+.marquee-track span::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--rosa-2)}
+@keyframes slide{to{transform:translateX(-100%)}}
+.statement{padding:4.5rem 0 5rem}
+.statement p.big{font-family:var(--serif);font-size:clamp(2rem, 7.5vw, 4rem);line-height:1.08;letter-spacing:-.02em;font-weight:400;max-width:18ch;font-variation-settings:"SOFT" 100}
+.statement p.big em{color:var(--rosa-2)}
+.statement .sub{margin-top:1.5rem;color:rgba(251,244,234,.78);max-width:42ch}
+
+/* section base */
+section{scroll-margin-top:72px}
+.sec{padding:5rem 0}
+.sec-head{margin-bottom:2.75rem}
+.sec-head h2{font-size:clamp(2.25rem, 8vw, 4rem);font-weight:400}
+.sec-head p{margin-top:1rem;color:var(--tinta-suave);max-width:44ch}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;border-top:1px solid rgba(43,23,17,.15)}
+.steps li{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1.25rem;padding:1.75rem 0;border-bottom:1px solid rgba(43,23,17,.15)}
+.steps .n{font-family:var(--serif);font-size:3.25rem;line-height:.9;font-style:italic;color:var(--framboesa);font-variation-settings:"SOFT" 100;min-width:2.2ch}
+.steps h3{font-size:1.75rem;font-weight:500}
+.steps p{grid-column:2;color:var(--tinta-suave);max-width:40ch}
+
+/* menu */
+.menu{background:var(--rosa);position:relative;overflow:hidden}
+.menu .wrap{display:grid;gap:2.5rem;align-items:center}
+.menu-card{position:relative;background:var(--creme);border-radius:var(--r);padding:2.25rem 1.75rem 2rem;text-align:center;box-shadow:0 24px 50px -28px rgba(43,23,17,.45);max-width:440px;margin-inline:auto;width:100%}
+.menu-card::before{content:"";position:absolute;inset:10px;border:1.5px dashed rgba(163,54,79,.4);border-radius:calc(var(--r) - 8px);pointer-events:none}
+.menu-card .tag{font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--framboesa)}
+.menu-card h3{font-size:2.4rem;margin:.6rem 0 .25rem;font-style:italic;font-weight:400}
+.menu-card .mini{color:var(--tinta-suave);font-size:.98rem}
+.menu-card .rows{margin:1.5rem auto;display:grid;gap:.85rem;max-width:300px}
+.menu-card .row{display:flex;align-items:center;gap:.75rem}
+.menu-card .row svg{width:30px;height:30px;flex:none}
+.menu-card .row b{flex:1;height:10px;border-radius:6px;background:linear-gradient(90deg, #EBDDC9, rgba(235,221,201,.35))}
+.menu-card .btn{width:100%;margin-top:.5rem}
+.menu-card .handle{display:inline-flex;align-items:center;min-height:44px;margin-top:.5rem;font-weight:700;font-size:.95rem}
+
+/* festas */
+.festa .wrap{display:grid;gap:2.5rem;align-items:center}
+.gift{position:relative;aspect-ratio:1/1;border-radius:var(--r);background:var(--creme-2);display:grid;place-items:center;overflow:hidden}
+.gift img{width:100%;height:100%;object-fit:cover}
+.gift .confetti{position:absolute;inset:0;width:100%;height:100%}
+.festa ul{list-style:none;padding:0;margin:1.5rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem}
+.festa li{border:1.5px solid rgba(43,23,17,.2);border-radius:999px;padding:.45rem 1rem;font-weight:600;font-size:.95rem}
+.note{margin-top:1.25rem;font-size:.95rem;color:var(--tinta-suave)}
+
+/* sobre */
+.sobre{background:var(--creme-2)}
+.sobre .wrap{display:grid;gap:2rem;align-items:center}
+.monogram{width:min(240px, 60vw);aspect-ratio:1;border-radius:50%;background:var(--framboesa);display:grid;place-items:center;position:relative;margin-inline:auto}
+.monogram img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.monogram span{font-family:var(--serif);font-style:italic;font-size:7rem;color:var(--creme);line-height:1;font-variation-settings:"SOFT" 100;transform:translateY(-6%)}
+.monogram::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:1.5px dashed rgba(163,54,79,.45)}
+.sobre h2{font-size:clamp(2rem, 7vw, 3.25rem);font-weight:400}
+.sobre p{margin-top:1rem;color:var(--tinta-suave);max-width:46ch}
+.sobre .sig{font-family:var(--serif);font-style:italic;font-size:1.6rem;color:var(--framboesa);margin-top:1.25rem}
+
+/* final */
+.final{background:var(--cacau);color:var(--creme);padding:5.5rem 0 6rem;position:relative;overflow:hidden;text-align:center}
+.final h2{font-size:clamp(3rem, 13vw, 7rem);font-weight:400}
+.final h2 em{color:var(--rosa-2)}
+.final p{margin:1.25rem auto 0;color:rgba(251,244,234,.8);max-width:36ch}
+.final .ctas{justify-content:center;max-width:560px;margin-inline:auto;margin-top:2rem}
+.phone{display:inline-block;margin-top:2rem;font-family:var(--serif);font-size:clamp(1.6rem, 6vw, 2.25rem);text-decoration:none;border-bottom:1.5px solid rgba(233,175,184,.6);padding-bottom:.15rem;font-variation-settings:"SOFT" 100}
+.phone:hover{color:var(--rosa-2)}
+.sprinkles{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55}
+
+footer{background:var(--cacau-2);color:rgba(251,244,234,.82);padding:2.5rem 0 6.5rem;font-size:.95rem}
+footer .wrap{display:grid;gap:1.25rem}
+footer .logo{color:var(--creme)}
+footer nav{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem}
+footer nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:600;color:var(--creme)}
+footer nav a:hover{color:var(--rosa-2)}
+.demo{font-size:.85rem;color:rgba(251,244,234,.72)}
+.demo a{color:var(--creme)}
+
+/* floating wa */
+.fab{position:fixed;right:16px;bottom:16px;z-index:40;width:60px;height:60px;border-radius:50%;background:var(--framboesa);color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(43,23,17,.6);transition:transform .25s ease}
+.fab svg{width:30px;height:30px}
+.fab:hover{transform:scale(1.06)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+
+@media (min-width: 720px){
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0 2.5rem;border-top:0}
+  .steps li{display:block;border-bottom:0;border-top:1.5px solid var(--cacau);padding-top:1.5rem}
+  .steps .n{display:block;margin-bottom:1rem;font-size:4rem}
+  .steps h3{margin-bottom:.5rem}
+}
+@media (min-width: 900px){
+  .nav{display:flex}
+  .hero{padding:4.5rem 0 6rem}
+  .hero .wrap{grid-template-columns:1.05fr .95fr;gap:3rem}
+  .ctas .btn{flex:0 0 auto}
+  .menu .wrap,.festa .wrap{grid-template-columns:1fr 1fr;gap:5rem}
+  .festa .gift{order:-1}
+  .sobre .wrap{grid-template-columns:auto 1fr;gap:4.5rem}
+  .monogram{width:260px}
+  .sec{padding:7.5rem 0}
+  .statement{padding:6.5rem 0 7rem}
+  .statement .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:4rem;align-items:end}
+  .fab{display:none}
+  footer{padding-bottom:2.5rem}
+  footer .wrap{grid-template-columns:auto 1fr auto;align-items:center;gap:2rem}
+  footer nav{justify-content:center}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .rv{opacity:1;transform:none}
+}
+.quote{margin-top:1.25rem;font-family:var(--serif);font-style:italic;font-size:1.25rem;color:var(--tinta)}
+.quote cite{display:block;margin-top:.25rem;font-family:var(--sans);font-style:normal;font-size:.9rem;font-weight:700;color:var(--tinta-suave)}
+</style>
+</head>
+<body class="no-js">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="gChoc" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#7A4632"/><stop offset=".55" stop-color="#4A2519"/><stop offset="1" stop-color="#2A140D"/>
+    </radialGradient>
+    <radialGradient id="gBranco" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#FFFDF8"/><stop offset=".6" stop-color="#F3E6D3"/><stop offset="1" stop-color="#D9C4A8"/>
+    </radialGradient>
+    <radialGradient id="gRosa" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#FBE2E6"/><stop offset=".6" stop-color="#EBA9B4"/><stop offset="1" stop-color="#C77887"/>
+    </radialGradient>
+    <radialGradient id="gCaramelo" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#EBC08A"/><stop offset=".6" stop-color="#C98B4B"/><stop offset="1" stop-color="#8E5A2B"/>
+    </radialGradient>
+    <g id="granulado">
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(40 34) rotate(20)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(52 30) rotate(-35)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(63 38) rotate(70)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(35 47) rotate(-60)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(47 43) rotate(10)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(59 49) rotate(-15)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(69 54) rotate(45)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(40 59) rotate(85)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(52 56) rotate(-75)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(62 64) rotate(25)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(32 60) rotate(-20)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(48 69) rotate(55)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(57 26) rotate(80)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(71 43) rotate(-50)"/>
+      <rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(29 39) rotate(35)"/>
+    </g>
+    <symbol id="forma-choc" viewBox="0 0 100 100"><circle cx="50" cy="52" r="42" fill="#5A2F22" stroke="#5A2F22" stroke-width="9" stroke-dasharray=".1 8.2" stroke-linecap="round"/><circle cx="50" cy="52" r="36" fill="#43221A"/></symbol>
+    <symbol id="forma-rosa" viewBox="0 0 100 100"><circle cx="50" cy="52" r="42" fill="#E9AFB8" stroke="#E9AFB8" stroke-width="9" stroke-dasharray=".1 8.2" stroke-linecap="round"/><circle cx="50" cy="52" r="36" fill="#D98F9C"/></symbol>
+    <symbol id="forma-ouro" viewBox="0 0 100 100"><circle cx="50" cy="52" r="42" fill="#D9A866" stroke="#D9A866" stroke-width="9" stroke-dasharray=".1 8.2" stroke-linecap="round"/><circle cx="50" cy="52" r="36" fill="#C08E4E"/></symbol>
+    <symbol id="d-brigadeiro" viewBox="0 0 100 100"><circle cx="50" cy="48" r="31" fill="url(#gChoc)"/><use href="#granulado" fill="#24100A"/><g fill="#8B5440" opacity=".9"><rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(44 37) rotate(-25)"/><rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(56 42) rotate(60)"/><rect x="-3.5" y="-1.3" width="7" height="2.6" rx="1.3" transform="translate(38 52) rotate(5)"/></g><ellipse cx="40" cy="35" rx="7" ry="4" fill="#fff" opacity=".18" transform="rotate(-30 40 35)"/></symbol>
+    <symbol id="d-branco" viewBox="0 0 100 100"><circle cx="50" cy="48" r="31" fill="url(#gBranco)"/><g stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".95"><path d="M38 36l4 2M55 31l3 3M64 42l1 4M36 50l3-2M48 46l4 1M60 54l2 3M43 60l4-1M54 64l3-2M30 44l2 3M66 58l-1 3"/></g><g stroke="#D7C1A4" stroke-width="1.6" stroke-linecap="round"><path d="M46 38l3 1M58 46l2 2M40 56l2-2M52 54l3 0M61 36l1 2"/></g></symbol>
+    <symbol id="d-rosa" viewBox="0 0 100 100"><circle cx="50" cy="48" r="31" fill="url(#gRosa)"/><g fill="#fff" opacity=".9"><circle cx="40" cy="38" r="1.6"/><circle cx="55" cy="33" r="1.3"/><circle cx="62" cy="45" r="1.6"/><circle cx="45" cy="50" r="1.2"/><circle cx="36" cy="56" r="1.5"/><circle cx="55" cy="58" r="1.6"/><circle cx="65" cy="58" r="1.1"/><circle cx="48" cy="66" r="1.3"/><circle cx="30" cy="45" r="1.1"/></g><ellipse cx="40" cy="35" rx="7" ry="4" fill="#fff" opacity=".35" transform="rotate(-30 40 35)"/></symbol>
+    <symbol id="d-caramelo" viewBox="0 0 100 100"><circle cx="50" cy="48" r="31" fill="url(#gCaramelo)"/><path d="M30 44c8-6 14 4 20-2s12-6 20 0" fill="none" stroke="#5A2F22" stroke-width="3" stroke-linecap="round" opacity=".85"/><path d="M32 56c8-6 14 4 20-2s10-5 17 0" fill="none" stroke="#5A2F22" stroke-width="3" stroke-linecap="round" opacity=".6"/><ellipse cx="40" cy="35" rx="7" ry="4" fill="#fff" opacity=".3" transform="rotate(-30 40 35)"/></symbol>
+    <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#topo" aria-label="Caixinha da Lia, início">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#forma-rosa"/><use href="#d-brigadeiro"/></svg>
+      Caixinha da Lia
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#como">Como pedir</a>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#festas">Festas</a>
+      <a href="#lia">Quem faz</a>
+    </nav>
+    <a class="btn btn-choc" href="https://wa.me/?text=Oi%2C%20Lia%21%20Vi%20o%20site%20da%20Caixinha%20da%20Lia%20e%20quero%20fazer%20um%20pedido%20da%20fornada%20desta%20semana." target="_blank" rel="noopener">Pedir</a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="hero" id="topo">
+    <div class="wrap">
+      <div>
+        <p class="kicker"><i aria-hidden="true"></i>Docinhos por encomenda em Viçosa</p>
+        <h1>Uma caixinha de docinho pra <em>semana.</em></h1>
+        <p class="lead">Os pedidos abrem toda segunda. Os sabores mudam a cada fornada.</p>
+        <div class="ctas">
+          <a class="btn btn-choc" href="https://wa.me/?text=Oi%2C%20Lia%21%20Vi%20o%20site%20da%20Caixinha%20da%20Lia%20e%20quero%20fazer%20um%20pedido%20da%20fornada%20desta%20semana." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Fazer meu pedido</a>
+        </div>
+      </div>
+
+      <div class="box-art" role="img" aria-label="Ilustração de uma caixinha com nove docinhos em forminhas">
+        <svg class="box" viewBox="0 0 400 400" aria-hidden="true">
+          <rect x="14" y="14" width="372" height="372" rx="34" fill="#A3364F"/>
+          <rect x="30" y="30" width="340" height="340" rx="24" fill="#F4E7D6"/>
+          <rect x="30" y="30" width="340" height="340" rx="24" fill="none" stroke="#E2CDB2" stroke-width="2"/>
+          <g>
+            <svg class="d" x="44" y="44" width="104" height="104"><use href="#forma-choc"/><use href="#d-brigadeiro"/></svg>
+            <svg class="d" x="148" y="44" width="104" height="104"><use href="#forma-rosa"/><use href="#d-branco"/></svg>
+            <svg class="d" x="252" y="44" width="104" height="104"><use href="#forma-ouro"/><use href="#d-brigadeiro"/></svg>
+            <svg class="d" x="44" y="148" width="104" height="104"><use href="#forma-rosa"/><use href="#d-rosa"/></svg>
+            <svg class="d" x="148" y="148" width="104" height="104"><use href="#forma-choc"/><use href="#d-caramelo"/></svg>
+            <svg class="d" x="252" y="148" width="104" height="104"><use href="#forma-choc"/><use href="#d-branco"/></svg>
+            <svg class="d" x="44" y="252" width="104" height="104"><use href="#forma-ouro"/><use href="#d-brigadeiro"/></svg>
+            <svg class="d" x="148" y="252" width="104" height="104"><use href="#forma-rosa"/><use href="#d-brigadeiro"/></svg>
+            <svg class="d" x="252" y="252" width="104" height="104"><use href="#forma-choc"/><use href="#d-rosa"/></svg>
+          </g>
+        </svg>
+        <svg class="stamp" viewBox="0 0 140 140" aria-hidden="true">
+          <circle cx="70" cy="70" r="68" fill="#FBF4EA"/>
+          <circle cx="70" cy="70" r="62" fill="none" stroke="#2B1711" stroke-width="1.2"/>
+          <defs><path id="circ" d="M70 70 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"/></defs>
+          <text><textPath href="#circ">FEITO À MÃO · POR ENCOMENDA ·</textPath></text>
+          <svg x="48" y="48" width="44" height="44"><use href="#d-brigadeiro"/></svg>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Como a Caixinha da Lia trabalha">
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track"><span>pedidos toda segunda</span><span>feito à mão</span><span>sabor novo a cada fornada</span><span>por encomenda</span><span>tem chocolate</span></div>
+      <div class="marquee-track"><span>pedidos toda segunda</span><span>feito à mão</span><span>sabor novo a cada fornada</span><span>por encomenda</span><span>tem chocolate</span></div>
+    </div>
+    <div class="statement">
+      <div class="wrap">
+        <p class="big rv">Aqui não tem vitrine. O <em>pedido</em> vem antes do doce.</p>
+        <p class="sub rv">Só faço o que foi encomendado, então a caixinha sai no dia em que você recebe.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="como">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2>Como <em>pedir</em></h2>
+      </div>
+      <ol class="steps">
+        <li class="rv"><span class="n" aria-hidden="true">1</span><h3>Escolhe</h3><p>Pergunte os sabores da semana no WhatsApp.</p></li>
+        <li class="rv"><span class="n" aria-hidden="true">2</span><h3>Combina</h3><p>A gente acerta o dia e se é retirada ou entrega.</p></li>
+        <li class="rv"><span class="n" aria-hidden="true">3</span><h3>Recebe</h3><p>Vem na caixinha, pronta pra presentear ou guardar na geladeira.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec menu" id="cardapio">
+    <div class="wrap">
+      <div class="rv">
+        <div class="sec-head" style="margin-bottom:0">
+          <h2>Muda a cada <em>fornada</em></h2>
+          <p>Toda segunda eu mando a lista da semana pra quem pede no WhatsApp.</p>
+        </div>
+      </div>
+      <div class="menu-card rv">
+        <p class="tag">Desta semana</p>
+        <h3>Cardápio da semana</h3>
+        <p class="mini">Brigadeiro sempre tem. O resto varia.</p>
+        <div class="rows" aria-hidden="true">
+          <div class="row"><svg viewBox="0 0 100 100"><use href="#forma-choc"/><use href="#d-brigadeiro"/></svg><b></b></div>
+          <div class="row"><svg viewBox="0 0 100 100"><use href="#forma-rosa"/><use href="#d-branco"/></svg><b style="max-width:78%"></b></div>
+          <div class="row"><svg viewBox="0 0 100 100"><use href="#forma-ouro"/><use href="#d-caramelo"/></svg><b style="max-width:88%"></b></div>
+          <div class="row"><svg viewBox="0 0 100 100"><use href="#forma-rosa"/><use href="#d-rosa"/></svg><b style="max-width:70%"></b></div>
+        </div>
+        <a class="btn btn-choc" href="https://wa.me/?text=Oi%2C%20Lia%21%20Quais%20s%C3%A3o%20os%20sabores%20desta%20semana%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Pedir a lista</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec festa" id="festas">
+    <div class="wrap">
+      <div class="rv">
+        <div class="sec-head" style="margin-bottom:0">
+          <h2>Festa ou <em>presente</em></h2>
+          <p>Me diga a data e quantos docinhos você imagina. Respondo se cabe na agenda daquela semana.</p>
+        </div>
+        <ul aria-label="Ocasiões">
+          <li>Aniversário</li><li>Lembrancinha</li><li>Presente</li><li>Encontro com amigos</li>
+        </ul>
+        <div class="ctas">
+          <a class="btn btn-choc" href="https://wa.me/?text=Oi%2C%20Lia%21%20Queria%20encomendar%20docinhos%20para%20uma%20festa%20ou%20presente." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Perguntar sobre encomenda</a>
+        </div>
+        <p class="note">Para festa, chame com uma semana de antecedência.</p>
+      </div>
+      <div class="gift rv">
+        <img src="img/festa.webp" width="720" height="720" loading="lazy" alt="Brigadeiros e beijinhos em forminhas sobre uma mesa de madeira, ao lado de uma caixinha de presente">
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sobre" id="lia">
+    <div class="wrap">
+      <div class="monogram rv"><img src="img/maos.webp" width="520" height="520" loading="lazy" alt="Mãos enrolando um brigadeiro na bancada da cozinha"></div>
+      <div class="rv">
+        <h2>Quem <em>faz</em></h2>
+        <p>Sou a Lia. Faço os docinhos na cozinha de casa, aqui em Viçosa, em fornadas pequenas.</p>
+        <p class="quote">“Pedi pro aniversário da minha mãe e não sobrou nenhum.”<cite>Renata</cite></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" aria-labelledby="final-t">
+    <svg class="sprinkles" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="#E9AFB8"><rect x="80" y="90" width="18" height="6" rx="3" transform="rotate(30 89 93)"/><rect x="1060" y="120" width="18" height="6" rx="3" transform="rotate(-40 1069 123)"/><rect x="200" y="470" width="18" height="6" rx="3" transform="rotate(70 209 473)"/><rect x="980" y="480" width="18" height="6" rx="3" transform="rotate(-10 989 483)"/></g>
+      <g fill="#C98B4B"><rect x="160" y="220" width="18" height="6" rx="3" transform="rotate(-60 169 223)"/><rect x="1110" y="330" width="18" height="6" rx="3" transform="rotate(20 1119 333)"/><rect x="560" y="60" width="18" height="6" rx="3" transform="rotate(50 569 63)"/><rect x="640" y="540" width="18" height="6" rx="3" transform="rotate(-30 649 543)"/></g>
+      <g fill="#FBF4EA" opacity=".6"><rect x="40" y="380" width="18" height="6" rx="3" transform="rotate(10 49 383)"/><rect x="900" y="40" width="18" height="6" rx="3" transform="rotate(80 909 43)"/><rect x="330" y="40" width="18" height="6" rx="3" transform="rotate(-20 339 43)"/><rect x="820" y="560" width="18" height="6" rx="3" transform="rotate(45 829 563)"/></g>
+    </svg>
+    <div class="wrap" style="position:relative">
+      <h2 id="final-t" class="rv">Faz seu <em>pedido</em></h2>
+      <p class="rv">A fornada da semana fecha na quarta.</p>
+      <div class="ctas rv">
+        <a class="btn btn-creme" href="https://wa.me/?text=Oi%2C%20Lia%21%20Vi%20o%20site%20da%20Caixinha%20da%20Lia%20e%20quero%20fazer%20um%20pedido%20da%20fornada%20desta%20semana." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Pedir pelo WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#topo" aria-label="Caixinha da Lia, voltar ao início">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#forma-rosa"/><use href="#d-brigadeiro"/></svg>
+      Caixinha da Lia
+    </a>
+    <nav aria-label="Rodapé">
+      <a href="https://wa.me/?text=Oi%2C%20Lia%21%20Vi%20o%20site%20da%20Caixinha%20da%20Lia%20e%20quero%20fazer%20um%20pedido%20da%20fornada%20desta%20semana." target="_blank" rel="noopener">WhatsApp</a>
+      <a href="#como">Como pedir</a>
+      <a href="#cardapio">Cardápio</a>
+    </nav>
+    <p class="demo">Docinhos por encomenda · Viçosa, MG<br>Empresa fictícia · site de exemplo feito por <a href="https://3rstudios.com.br">3R Studios</a></p>
+  </div>
+  <a class="fab" href="https://wa.me/?text=Oi%2C%20Lia%21%20Vi%20o%20site%20da%20Caixinha%20da%20Lia%20e%20quero%20fazer%20um%20pedido%20da%20fornada%20desta%20semana." target="_blank" rel="noopener" aria-label="Fazer pedido pelo WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
+</footer>
+
+<script>
+(function(){
+  document.body.classList.remove('no-js');
+  var els = document.querySelectorAll('.rv');
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function(e){ e.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:.08});
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+</body>
+</html>

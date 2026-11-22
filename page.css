@@ -219,3 +219,5 @@ html[data-theme="dark"] .apps .shape{background:var(--pa,#F2EFE7)}
 .doc .sv{margin:0}.doc .sv video{display:block;width:100%;height:auto;aspect-ratio:9/16;border-radius:28px;background:var(--soft);box-shadow:0 30px 60px -30px var(--shadow);border:1px solid var(--line)}
 @media (max-width:860px){.doc .sh{display:block}.doc .sv{width:min(64%,300px);margin:32px auto 0}}
 html:not([lang="pt-BR"]) .doc .sh{display:block}html:not([lang="pt-BR"]) .doc .sv{display:none}
+.doc h3#mais-exemplos{margin-top:48px}
+.doc .thumbs small{margin-top:-6px;color:var(--mute);font-size:calc(.85rem * var(--s))}

@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projeto Ginga Miúda · Ponto de Cultura em Muriaé/MG</title>
+<meta name="description" content="Dança afro, danças urbanas e reforço escolar para crianças e adolescentes do Alto do Rosário, em Muriaé/MG. Convide o grupo para se apresentar.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#141110">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Projeto Ginga Miúda · Ponto de Cultura">
+<meta property="og:description" content="Dança afro e reforço escolar para crianças e adolescentes do Alto do Rosário, em Muriaé/MG.">
+<meta property="og:site_name" content="Projeto Ginga Miúda">
+<meta property="og:image" content="img/roda.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23141110'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23F2845C'/%3E%3Cpath d='M14 50 30 38v24zM86 50 70 38v24z' fill='%2345C1B1'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NGO",
+  "name": "Projeto Ginga Miúda",
+  "description": "Projeto cultural sem fins lucrativos com crianças e adolescentes: dança afro, danças urbanas, reforço escolar e oficinas.",
+  "address": {"@type": "PostalAddress", "addressLocality": "Muriaé", "addressRegion": "MG", "addressCountry": "BR"},
+  "nonprofitStatus": "Nonprofit"
+}
+</script>
+<style>
+:root{
+  --noite:#141110;
+  --noite-2:#1E1A18;
+  --grafite:#3A3533;
+  --creme:#F7F0E6;
+  --creme-2:#EFE4D4;
+  --coral:#F2845C;
+  --coral-escuro:#A9431F;
+  --turquesa:#45C1B1;
+  --turquesa-escuro:#0E6B60;
+  --texto:#141110;
+  --texto-suave:#4E4540;
+  --display:"Archivo", "Arial Narrow", system-ui, sans-serif;
+  --serif:"Instrument Serif", Georgia, serif;
+  --wrap:min(1200px, 100% - 2.5rem);
+  --tri-c:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='24' viewBox='0 0 96 24'%3E%3Cpath d='M4 12 16 4v16z' fill='%2345C1B1'/%3E%3Ccircle cx='34' cy='12' r='7' fill='%23F2845C'/%3E%3Cpath d='M64 12 52 4v16z' fill='%2345C1B1'/%3E%3Cpath d='M76 7l10 10M86 7 76 17' stroke='%23F7F0E6' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  --tri-d:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='24' viewBox='0 0 96 24'%3E%3Cpath d='M4 12 16 4v16z' fill='%2345C1B1'/%3E%3Ccircle cx='34' cy='12' r='7' fill='%23F2845C'/%3E%3Cpath d='M64 12 52 4v16z' fill='%2345C1B1'/%3E%3Cpath d='M76 7l10 10M86 7 76 17' stroke='%23141110' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E");
+  --listra:repeating-linear-gradient(-45deg, var(--coral) 0 10px, transparent 10px 22px, var(--turquesa) 22px 32px, transparent 32px 44px, var(--grafite) 44px 54px, transparent 54px 66px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--creme);color:var(--texto);font-family:var(--display);font-variation-settings:"wdth" 100;font-size:1.0625rem;line-height:1.6;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+img{height:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a{color:inherit}
+.wrap{width:var(--wrap);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:0;background:var(--coral);color:var(--noite);padding:.75rem 1rem;z-index:99;font-weight:700}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--turquesa);outline-offset:3px}
+
+h1,h2,h3{font-family:var(--display);line-height:.92;margin:0;letter-spacing:-.01em;font-weight:800}
+h2{font-size:clamp(2.6rem, 9vw, 5.6rem);font-variation-settings:"wdth" 68;text-transform:uppercase}
+.serif{font-family:var(--serif);font-weight:400;font-style:italic;text-transform:none;letter-spacing:0}
+p{margin:0 0 1rem}
+.lede{font-size:clamp(1.15rem, 2.4vw, 1.4rem);line-height:1.45;max-width:38ch}
+
+/* faixa de padrões, igual ao flyer */
+.faixa{height:24px;background:var(--tri-c) repeat-x center/96px 24px}
+.faixa.d{background-image:var(--tri-d)}
+.listras{height:14px;background:var(--listra)}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:.6rem;min-height:52px;padding:.85rem 1.4rem;border-radius:999px;font-weight:700;text-decoration:none;font-size:1.02rem;transition:transform .2s ease, background-color .2s ease;border:2px solid transparent}
+.btn svg{width:22px;height:22px;flex:none}
+.btn-coral{background:var(--coral);color:var(--noite)}
+.btn-coral:hover{background:#F69A78;transform:translateY(-2px)}
+.btn-linha{border-color:currentColor;color:inherit}
+.btn-linha:hover{transform:translateY(-2px)}
+.btn-noite{background:var(--noite);color:var(--creme)}
+.btn-noite:hover{background:var(--grafite);transform:translateY(-2px)}
+
+/* topo */
+.topo{background:var(--noite);color:var(--creme);position:sticky;top:0;z-index:20}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:68px}
+.marca{display:flex;align-items:center;gap:.7rem;text-decoration:none;min-height:48px}
+.marca svg{width:40px;height:40px}
+.marca b{display:block;font-size:1.15rem;font-variation-settings:"wdth" 75;text-transform:uppercase;letter-spacing:.02em;line-height:1}
+.marca small{display:block;font-size:.78rem;color:#CFC4B8;letter-spacing:.02em}
+.menu{display:none;gap:1.6rem;align-items:center;font-size:.95rem}
+.menu a{text-decoration:none;padding:.6rem 0;color:#E9DFD3;min-height:46px;display:inline-flex;align-items:center}
+.menu a:hover{color:var(--coral)}
+.topo .btn{min-height:44px;padding:.55rem 1.1rem;font-size:.95rem}
+@media (min-width:960px){.menu{display:flex}}
+@media (max-width:420px){.topo .btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.topo .btn{padding:.55rem .8rem}}
+
+/* hero */
+.hero{background:var(--noite);color:var(--creme);position:relative;overflow:hidden}
+.hero-txt{padding:2.6rem 0 2rem;position:relative;z-index:2}
+.hero h1{font-size:clamp(4.2rem, 21vw, 12.5rem);font-variation-settings:"wdth" 62;text-transform:uppercase;line-height:.8;letter-spacing:-.015em}
+.hero h1 .l2{display:block;color:var(--coral)}
+.hero h1 .l2 i{font-style:normal;color:var(--turquesa)}
+.hero .sub{margin-top:1.4rem;color:#E4D9CC}
+.hero .acoes{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem}
+.hero .acoes .btn-linha{color:var(--creme)}
+.hero-foto{position:relative;margin-top:.5rem}
+.hero-foto picture,.hero-foto img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.hero-foto img{object-position:50% 40%;filter:saturate(1.05) contrast(1.03)}
+.hero-foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, var(--noite) 0%, transparent 22%)}
+.selo{position:absolute;right:1rem;bottom:.8rem;z-index:3;width:116px;height:116px;border-radius:50%;background:var(--coral);color:var(--noite);display:grid;place-items:center;text-align:center;font-weight:800;line-height:1.05;font-size:.78rem;text-transform:uppercase;font-variation-settings:"wdth" 75;box-shadow:0 0 0 6px var(--noite)}
+.selo b{display:block;font-size:2.2rem;line-height:.9}
+.selo{animation:gira 28s linear infinite}
+.selo span{display:block;animation:gira 28s linear infinite reverse}
+@keyframes gira{to{transform:rotate(360deg)}}
+@media (min-width:900px){
+  .hero-grid{display:grid;grid-template-columns:1.05fr 1fr;align-items:end;gap:3rem}
+  .hero-txt{padding:5rem 0 4.5rem}
+  .hero-foto{margin:0;height:100%}
+  .hero-foto img{aspect-ratio:auto;height:100%;min-height:620px;object-position:60% 35%}
+  .hero-foto::after{background:linear-gradient(90deg, var(--noite) 0%, transparent 30%)}
+  .hero-grid{width:auto;margin-left:max(1.25rem, (100vw - 1200px)/2)}
+  .selo{right:auto;left:-58px;bottom:3rem;width:136px;height:136px}
+  .selo b{font-size:2.6rem}
+}
+
+/* números */
+.numeros{background:var(--creme)}
+.numeros ul{list-style:none;margin:0 auto;padding:4.2rem 0 3rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem 1.5rem}
+.numeros li{border-top:3px solid var(--noite);padding-top:.8rem}
+.numeros b{display:block;font-size:clamp(2.8rem, 10vw, 4.4rem);font-variation-settings:"wdth" 65;line-height:.95;font-weight:800}
+.numeros span{display:block;color:var(--texto-suave);font-size:.98rem;line-height:1.4;margin-top:.35rem;max-width:22ch}
+@media (min-width:900px){.numeros ul{grid-template-columns:repeat(4,1fr);padding:5.5rem 0 4.5rem}}
+
+/* manifesto */
+.manifesto{background:var(--creme);padding:1rem 0 5rem}
+.manifesto blockquote{margin:0;max-width:22ch;font-family:var(--serif);font-size:clamp(2.1rem, 7vw, 4.4rem);line-height:1.05}
+.manifesto blockquote em{font-style:italic;color:var(--coral-escuro)}
+.manifesto figcaption{margin-top:1.4rem;font-size:.98rem;color:var(--texto-suave);display:flex;gap:.8rem;align-items:center}
+.manifesto figcaption::before{content:"";width:48px;height:3px;background:var(--turquesa-escuro);flex:none}
+@media (min-width:900px){.manifesto .wrap{display:grid;grid-template-columns:1fr 2.2fr}.manifesto .tag{padding-top:1.2rem}}
+.tag{font-family:var(--serif);font-style:italic;font-size:1.35rem;color:var(--turquesa-escuro);margin-bottom:1rem}
+
+/* história */
+.historia{background:var(--noite);color:var(--creme);padding:5rem 0 5.5rem;position:relative}
+.historia .tag{color:var(--turquesa)}
+.historia h2 .serif{color:var(--coral)}
+.linha{list-style:none;margin:3rem 0 0;padding:0;display:grid;gap:0}
+.linha li{display:grid;grid-template-columns:5.4rem 1fr;gap:1rem;padding:1.6rem 0;border-top:1px solid #3B3532}
+.linha li:last-child{border-bottom:1px solid #3B3532}
+.linha time{font-size:1.9rem;font-weight:800;font-variation-settings:"wdth" 62;line-height:1;color:var(--turquesa)}
+.linha li:nth-child(even) time{color:var(--coral)}
+.linha h3{font-size:1.35rem;font-variation-settings:"wdth" 90;line-height:1.15;margin-bottom:.4rem;font-weight:700}
+.linha p{color:#D9CEC1;margin:0;max-width:56ch;grid-column:2}
+.linha h3{grid-column:2}
+@media (min-width:900px){
+  .historia .cab{display:grid;grid-template-columns:1.3fr 1fr;gap:3rem;align-items:end}
+  .linha li{grid-template-columns:10rem 1fr 1.2fr;gap:2.5rem;align-items:baseline}
+  .linha time{font-size:3rem}
+  .linha p,.linha h3{grid-column:auto}
+}
+
+/* o que acontece */
+.oficinas{padding:5.5rem 0}
+.oficinas .cab{display:grid;gap:1.4rem}
+.oficinas h2 .serif{color:var(--turquesa-escuro)}
+@media (min-width:900px){.oficinas .cab{grid-template-columns:1.2fr 1fr;align-items:end;gap:3rem}}
+.lista-of{list-style:none;padding:0;margin:3rem 0 0;counter-reset:of}
+.lista-of li{counter-increment:of;display:grid;grid-template-columns:2.6rem 1fr;gap:.2rem 1rem;padding:1.4rem 0;border-top:2px solid var(--noite);align-items:baseline}
+.lista-of li::before{content:counter(of, decimal-leading-zero);font-weight:700;color:var(--coral-escuro);font-size:.95rem;grid-row:span 2}
+.lista-of h3{font-size:clamp(1.9rem, 6.5vw, 3.2rem);font-variation-settings:"wdth" 70;text-transform:uppercase;line-height:.95}
+.lista-of p{color:var(--texto-suave);margin:.5rem 0 0;max-width:46ch}
+@media (min-width:900px){
+  .lista-of{display:grid;grid-template-columns:1fr 1fr;column-gap:3.5rem}
+  .lista-of li{transition:background-color .25s ease}
+}
+
+/* palco */
+.palco{background:var(--creme-2);padding:5.5rem 0 4rem;overflow:hidden}
+.palco h2 .serif{color:var(--coral-escuro)}
+.galeria{display:grid;gap:.8rem;margin-top:2.6rem;grid-template-columns:1fr 1fr}
+.galeria figure{margin:0;position:relative;overflow:hidden;background:var(--noite)}
+.galeria img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.galeria figure:hover img{transform:scale(1.035)}
+.galeria .g1{grid-column:1/-1;aspect-ratio:3/2}
+.galeria .g2,.galeria .g3{aspect-ratio:4/5}
+.galeria .g4{grid-column:1/-1;aspect-ratio:16/9}
+.galeria figcaption{position:absolute;left:0;bottom:0;background:var(--noite);color:var(--creme);font-size:.85rem;padding:.4rem .75rem;line-height:1.3}
+@media (min-width:900px){
+  .galeria{grid-template-columns:repeat(12,1fr);grid-auto-rows:120px;gap:1rem}
+  .galeria .g1{grid-column:1/8;grid-row:span 4;aspect-ratio:auto}
+  .galeria .g2{grid-column:8/13;grid-row:span 2;aspect-ratio:auto}
+  .galeria .g3{grid-column:8/13;grid-row:span 2;aspect-ratio:auto}
+  .galeria .g4{grid-column:1/13;grid-row:span 3;aspect-ratio:auto}
+}
+.temas{margin-top:3.5rem;display:grid;gap:2.5rem}
+.temas h3{font-size:1.1rem;font-variation-settings:"wdth" 100;font-weight:700;margin-bottom:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;margin:0;padding:0}
+.chips li{border:2px solid var(--noite);border-radius:999px;padding:.4rem .95rem;font-weight:600;font-size:.98rem}
+.cidades{list-style:none;margin:0;padding:0;font-size:clamp(1.9rem, 7vw, 3rem);font-weight:800;font-variation-settings:"wdth" 64;text-transform:uppercase;line-height:1.05}
+.cidades li{display:inline}
+.cidades li:not(:last-child)::after{content:" · ";color:var(--coral-escuro)}
+.cidades small{font-size:.45em;color:var(--texto-suave);vertical-align:.4em;margin-left:.15em;letter-spacing:.02em}
+.nota{font-size:.88rem;color:var(--texto-suave);margin-top:.8rem}
+@media (min-width:900px){.temas{grid-template-columns:1fr 1.4fr;gap:4rem}}
+
+/* tributo */
+.tributo{background:var(--noite);color:var(--creme);padding:5.5rem 0;position:relative;overflow:hidden}
+.tributo .tag{color:var(--turquesa)}
+.tributo h2{font-size:clamp(2.8rem, 11vw, 7rem)}
+.tributo h2 .n{color:var(--coral)}
+.tributo .lede{color:#E4D9CC;margin-top:1.4rem}
+.tributo .passeata{margin-top:2.4rem;border-left:4px solid var(--turquesa);padding:.2rem 0 .2rem 1.1rem;max-width:44ch;color:#E4D9CC}
+.tributo .passeata b{color:var(--creme)}
+.atracoes{list-style:none;padding:0;margin:2.6rem 0 0;display:flex;flex-wrap:wrap;gap:.25rem .9rem;font-size:clamp(1.3rem, 4.2vw, 2rem);font-weight:700;font-variation-settings:"wdth" 70;line-height:1.25}
+.atracoes li{display:flex;align-items:center;gap:.9rem}
+.atracoes li:not(:last-child)::after{content:"";width:.42em;height:.42em;border-radius:50%;background:var(--coral);flex:none}
+.atracoes li:nth-child(3n+2):not(:last-child)::after{background:var(--turquesa);border-radius:0;clip-path:polygon(0 0,100% 50%,0 100%)}
+.atracoes .destaque{color:var(--coral)}
+.grito{margin-top:3.4rem;font-family:var(--serif);font-style:italic;font-size:clamp(1.7rem, 5vw, 2.8rem);line-height:1.1;color:var(--turquesa);max-width:24ch}
+.grito small{display:block;font-family:var(--display);font-style:normal;font-size:.95rem;color:#CFC4B8;margin-top:.8rem}
+@media (min-width:900px){.tributo .cab{display:grid;grid-template-columns:1.4fr 1fr;gap:3rem;align-items:end}}
+
+/* leve */
+.leve{padding:5.5rem 0 5rem;background:var(--creme)}
+.leve h2 .serif{color:var(--coral-escuro)}
+.caminhos{margin-top:3rem;display:grid;gap:0}
+.caminho{display:grid;gap:.8rem;padding:2rem 0;border-top:2px solid var(--noite)}
+.caminho:last-child{border-bottom:2px solid var(--noite)}
+.caminho h3{font-size:clamp(1.8rem, 6vw, 2.6rem);font-variation-settings:"wdth" 72;text-transform:uppercase}
+.caminho p{margin:0;color:var(--texto-suave);max-width:50ch}
+.caminho .btn{justify-self:start;margin-top:.4rem}
+@media (min-width:900px){.caminho{grid-template-columns:1.1fr 1.4fr 15rem;align-items:center;gap:3rem}.caminho .btn{margin:0;justify-self:end}}
+
+.convite{background:var(--coral);color:var(--noite);padding:4.5rem 0;position:relative}
+.convite h2{font-size:clamp(2.6rem, 10vw, 6.4rem);max-width:14ch}
+.convite p{max-width:44ch;font-size:1.15rem;margin-top:1.2rem}
+.convite .btn{margin-top:1.4rem}
+.convite .wrap{position:relative;z-index:1}
+.convite .motivo{display:none}
+@media (min-width:900px){.convite{padding:6rem 0}.convite .motivo{display:block;position:absolute;right:max(1.25rem,(100vw - 1200px)/2);top:50%;transform:translateY(-50%);width:min(34vw,440px);height:auto}}
+
+/* rodapé */
+.rodape{background:var(--noite);color:#D9CEC1;padding:3.5rem 0 6.5rem;font-size:.95rem}
+.rodape .grid{display:grid;gap:2rem}
+.rodape h3{color:var(--creme);font-size:1rem;font-weight:700;margin-bottom:.6rem;font-variation-settings:"wdth" 100;line-height:1.3}
+.rodape p{margin:0 0 .4rem;line-height:1.5}
+.rodape a{color:var(--creme);text-underline-offset:3px}
+.rodape .fonte{margin-top:2.4rem;padding-top:1.4rem;border-top:1px solid #3B3532;font-size:.85rem;color:#B8ADA1;display:flex;flex-wrap:wrap;gap:.6rem 2rem;justify-content:space-between}
+.rodape .fonte a{color:#E4D9CC}
+@media (min-width:900px){.rodape .grid{grid-template-columns:1.4fr 1fr 1fr}.rodape{padding-bottom:3.5rem}}
+
+/* flutuante */
+.zap{position:fixed;right:16px;bottom:16px;z-index:30;width:60px;height:60px;border-radius:50%;background:var(--turquesa);color:var(--noite);display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .2s ease}
+.zap svg{width:30px;height:30px}
+.zap:hover{transform:scale(1.06)}
+@media (min-width:900px){.zap{display:none}}
+
+/* revelação suave */
+.rev{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
+.rev.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev{opacity:1;transform:none;transition:none}
+  .selo,.selo span{animation:none}
+  .btn,.galeria img,.zap{transition:none}
+}
+.no-js .rev{opacity:1;transform:none}
+</style>
+</head>
+<body class="no-js">
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-zap" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.17c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.24-.64.8-.78.97-.15.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.06 0 1.22.89 2.39 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29Z"/></symbol>
+</svg>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#topo">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#F2845C"/><path d="M8 20 15 15v10zM32 20 25 15v10z" fill="#141110"/><circle cx="20" cy="20" r="4.5" fill="#45C1B1"/></svg>
+      <span><b>Ginga Miúda</b><small>Ponto de Cultura · Muriaé/MG</small></span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#historia">História</a>
+      <a href="#oficinas">Oficinas</a>
+      <a href="#palco">No palco</a>
+      <a href="#festa">Consciência Negra</a>
+    </nav>
+    <a class="btn btn-coral" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20do%20Ginga%20Mi%C3%BAda%20e%20queria%20falar%20com%20a%20coordena%C3%A7%C3%A3o." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg><span>Fale com a gente</span></a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="hero" id="topo" aria-labelledby="h1">
+    <div class="hero-grid wrap">
+      <div class="hero-txt">
+        <h1 id="h1">Ginga <span class="l2">Mi<i>ú</i>da</span></h1>
+        <p class="lede sub">Dança afro e reforço escolar para crianças e adolescentes do Alto do Rosário, em Muriaé.</p>
+        <div class="acoes">
+          <a class="btn btn-coral" href="https://wa.me/?text=Ol%C3%A1%21%20Gostaria%20de%20convidar%20o%20Ginga%20Mi%C3%BAda%20para%20se%20apresentar%20no%20nosso%20evento." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Convide o grupo</a>
+          <a class="btn btn-linha" href="#historia">Nossa história</a>
+        </div>
+      </div>
+      <div class="hero-foto">
+        <picture>
+          <source media="(max-width:899px)" srcset="img/roda-m.webp">
+          <img src="img/roda.webp" width="1400" height="788" alt="Dançarinos de saia de ráfia dançam em roda numa quadra, vistos de longe." fetchpriority="high">
+        </picture>
+        <div class="selo" aria-hidden="true"><span>desde<b>2015</b></span></div>
+      </div>
+    </div>
+    <div class="faixa"></div>
+  </section>
+
+  <section class="numeros" aria-label="O projeto em números">
+    <ul class="wrap">
+      <li class="rev"><b>2015</b><span>primeiro ensaio</span></li>
+      <li class="rev"><b>40</b><span>inscritos hoje</span></li>
+      <li class="rev"><b>3×</b><span>por semana tem ensaio ou oficina</span></li>
+      <li class="rev"><b>6</b><span>cidades onde já dançamos</span></li>
+    </ul>
+  </section>
+
+  <section class="manifesto" aria-label="Palavra da coordenação">
+    <div class="wrap">
+      <p class="tag">Da coordenação</p>
+      <figure class="rev" style="margin:0">
+        <blockquote><p style="margin:0">“A criança chega pela dança e <em>fica pelo reforço</em>. Os pais estranham no começo.”</p></blockquote>
+        <figcaption>Sônia, coordenadora do projeto</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="listras" aria-hidden="true"></div>
+
+  <section class="historia" id="historia" aria-labelledby="h-hist">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <p class="tag">Nossa história</p>
+          <h2 id="h-hist">Começou <span class="serif">no pátio</span></h2>
+        </div>
+        <p class="lede rev" style="color:#E4D9CC">Depois de uma apresentação de 20 de novembro, as crianças pediram pra continuar.</p>
+      </div>
+      <ol class="linha">
+        <li class="rev"><time datetime="2015">2015</time><h3>Primeiro ensaio</h3><p>Doze crianças e um aparelho de som.</p></li>
+        <li class="rev"><time datetime="2018">2018</time><h3>Fora do bairro</h3><p>Festivais em cidades vizinhas.</p></li>
+        <li class="rev"><time datetime="2021">2021</time><h3>Sala própria</h3><p>A escola cede uma sala.</p></li>
+        <li class="rev"><time datetime="2024">2024</time><h3>Ponto de Cultura</h3><p>Reconhecimento como Ponto de Cultura.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="faixa d" style="background-color:var(--creme)" aria-hidden="true"></div>
+
+  <section class="oficinas" id="oficinas" aria-labelledby="h-of">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <p class="tag">Oficinas</p>
+          <h2 id="h-of">Bem mais que <span class="serif">dança</span></h2>
+        </div>
+        <p class="lede rev">Quem dança também tem reforço escolar na semana.</p>
+      </div>
+      <ol class="lista-of">
+        <li class="rev"><h3>Dança afro</h3><p>Segunda e quarta, das 14h às 16h.</p></li>
+        <li class="rev"><h3>Danças urbanas</h3><p>Hip hop e break, sexta à tarde.</p></li>
+        <li class="rev"><h3>Reforço escolar</h3><p>Português e matemática, com voluntários.</p></li>
+        <li class="rev"><h3>Figurino</h3><p>As saias de ráfia saem daqui.</p></li>
+        <li class="rev"><h3>Percussão</h3><p>Atabaque e alfaia.</p></li>
+        <li class="rev"><h3>Cinema</h3><p>Um filme por mês.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="palco" id="palco" aria-labelledby="h-palco">
+    <div class="wrap">
+      <p class="tag">No palco</p>
+      <h2 id="h-palco">Dia de <span class="serif">apresentação</span></h2>
+      <div class="galeria">
+        <figure class="g1 rev"><img src="img/palco.webp" width="900" height="600" loading="lazy" alt="Pés descalços e saias de franja de dançarinos em movimento sobre um palco de madeira."></figure>
+        <figure class="g2 rev"><img src="img/tambor.webp" width="720" height="900" loading="lazy" alt="Mãos tocando um atabaque de madeira." style="object-position:50% 72%"></figure>
+        <figure class="g3 rev"><img src="img/grupo.webp" width="900" height="675" loading="lazy" alt="O grupo, de costas e com roupas estampadas, diante do público."></figure>
+        <figure class="g4 rev"><img src="img/plateia.webp" width="900" height="506" loading="lazy" alt="Público sentado num salão, visto do fundo, assistindo à apresentação."><figcaption>Apresentação no salão municipal</figcaption></figure>
+      </div>
+      <div class="temas">
+        <div class="rev">
+          <h3>Temas que já viraram coreografia</h3>
+          <ul class="chips">
+            <li>Consciência negra</li><li>Meio ambiente</li><li>Folclore</li><li>Natal</li>
+          </ul>
+        </div>
+        <div class="rev">
+          <h3>Onde o grupo já dançou</h3>
+          <ul class="cidades">
+            <li>Muriaé</li><li>Carangola</li><li>Miraí</li><li>Eugenópolis</li><li>Laranjal</li><li>Tombos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tributo" id="festa" aria-labelledby="h-trib">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <p class="tag">Todo 20 de novembro</p>
+          <h2 id="h-trib">Noite da <span class="n">Consciência</span> Negra</h2>
+        </div>
+        <p class="lede rev">O aniversário do projeto: caminhada pelo bairro e apresentações na quadra.</p>
+      </div>
+      <p class="passeata rev"><b>Na última edição</b> subiram ao palco:</p>
+      <ul class="atracoes rev" aria-label="Atrações da última edição">
+        <li>Roda de capoeira do bairro</li>
+        <li>Grupo de tambor</li>
+        <li class="destaque">Ginga Miúda</li>
+        <li>Coral da escola</li>
+        <li>Batalha de break</li>
+        <li>Samba de roda</li>
+      </ul>
+      <p class="grito rev">Entrada livre.<small>A comida é feita pelas famílias.</small></p>
+    </div>
+  </section>
+
+  <div class="listras" aria-hidden="true"></div>
+
+  <section class="leve" id="leve" aria-labelledby="h-leve">
+    <div class="wrap">
+      <p class="tag">Ajude o projeto</p>
+      <h2 id="h-leve">Como <span class="serif">somar</span></h2>
+      <div class="caminhos">
+        <div class="caminho rev">
+          <h3>Convide o grupo</h3>
+          <p>Mande a data e o lugar.</p>
+          <a class="btn btn-noite" href="https://wa.me/?text=Ol%C3%A1%21%20Gostaria%20de%20convidar%20o%20Ginga%20Mi%C3%BAda%20para%20se%20apresentar.%20Data%3A%20%7C%20Local%3A%20%7C%20Evento%3A%20" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Convidar o grupo</a>
+        </div>
+        <div class="caminho rev">
+          <h3>Seja parceiro</h3>
+          <p>Lanche, transporte ou tecido para figurino.</p>
+          <a class="btn btn-noite" href="https://wa.me/?text=Ol%C3%A1%21%20Quero%20conversar%20sobre%20uma%20parceria%20com%20o%20Ginga%20Mi%C3%BAda." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Propor parceria</a>
+        </div>
+        <div class="caminho rev">
+          <h3>Dê aula no reforço</h3>
+          <p>Duas horas por semana, português ou matemática.</p>
+          <a class="btn btn-noite" href="https://wa.me/?text=Ol%C3%A1%21%20Gostaria%20de%20ser%20volunt%C3%A1rio%20no%20refor%C3%A7o%20escolar%20do%20Ginga%20Mi%C3%BAda." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Quero ser voluntário</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="convite" aria-labelledby="h-conv">
+    <div class="faixa d" style="position:absolute;top:0;left:0;right:0" aria-hidden="true"></div>
+    <svg class="motivo" viewBox="0 0 440 440" aria-hidden="true">
+      <circle cx="220" cy="220" r="200" fill="#141110"/>
+      <circle cx="220" cy="220" r="150" fill="none" stroke="#F7F0E6" stroke-width="2" stroke-dasharray="4 14"/>
+      <path d="M100 220 170 175v90zM340 220 270 175v90z" fill="#45C1B1"/>
+      <circle cx="220" cy="220" r="34" fill="#F2845C"/>
+      <path d="M205 105l30 30M235 105l-30 30M205 305l30 30M235 305l-30 30" stroke="#F7F0E6" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <div class="wrap">
+      <h2 id="h-conv">Venha ver um ensaio</h2>
+      <p>Segunda ou quarta, às 14h. Avise antes.</p>
+      <a class="btn btn-noite" href="https://wa.me/?text=Ol%C3%A1%21%20Gostaria%20de%20assistir%20a%20um%20ensaio%20do%20Ginga%20Mi%C3%BAda." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-zap"/></svg>Marcar visita</a>
+    </div>
+  </section>
+<a class="zap" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20do%20Ginga%20Mi%C3%BAda%20e%20queria%20falar%20com%20a%20coordena%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Falar com a coordenação no WhatsApp"><svg aria-hidden="true"><use href="#i-zap"/></svg></a>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h3>Projeto Ginga Miúda · Ponto de Cultura</h3>
+        <p>Projeto cultural sem fins lucrativos.</p>
+      </div>
+      <div>
+        <h3>Onde estamos</h3>
+        <p>Escola municipal do bairro<br>Alto do Rosário · Muriaé/MG</p>
+      </div>
+      <div>
+        <h3>Contato</h3>
+        <p>WhatsApp (32) 9XXXX-XXXX<br><a href="#">@gingamiuda</a></p>
+      </div>
+    </div>
+    <div class="fonte">
+      <span>Empresa fictícia · site de exemplo feito por <a href="https://3rstudios.com.br">3R Studios</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.body.classList.remove('no-js');
+(function(){
+  var els=document.querySelectorAll('.rev');
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(function(e){e.classList.add('on')});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>

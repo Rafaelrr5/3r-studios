@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Nina Taquaral · Cantora e compositora</title>
+<meta name="description" content="Nina Taquaral, cantora e compositora de Ubá, na Zona da Mata mineira. Forró e sertanejo romântico com letras próprias. Show para festas e eventos.">
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Nina Taquaral · Cantora e compositora">
+<meta property="og:description" content="Forró e sertanejo romântico com letras próprias. Show para festas e eventos.">
+<meta property="og:image" content="img/og.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%237a1e14%22/%3E%3Ctext x=%2232%22 y=%2246%22 font-family=%22Georgia,serif%22 font-style=%22italic%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23f4e9d6%22%3EN%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#2a170c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": "Person", "@id": "#nina", "name": "Nina Taquaral", "jobTitle": "Cantora e compositora", "homeLocation": {"@type": "Place", "name": "Ubá, MG"}},
+    {"@type": "MusicAlbum", "name": "Moda de Varanda", "byArtist": {"@id": "#nina"}, "genre": ["Forró", "Sertanejo romântico"], "numTracks": 10, "image": "img/moda-de-varanda.webp"}
+  ]
+}
+</script>
+<style>
+:root{
+  --paper:#f4e9d6;
+  --paper-2:#ead9bd;
+  --ink:#2a170c;
+  --ink-2:#5a3d29;
+  --wine:#7a1e14;
+  --wine-2:#5e150e;
+  --gold:#c9a463;
+  --gold-soft:#e6c98f;
+  --olive:#6b5820;
+  --night:#1c0e05;
+  --serif:"EB Garamond", Georgia, serif;
+  --sans:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --pad:clamp(20px, 5vw, 64px);
+  --max:1200px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);overflow-x:hidden}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--wine);outline-offset:3px;border-radius:2px}
+.dark :focus-visible{outline-color:var(--gold-soft)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--paper);padding:10px 14px;z-index:99}
+.skip:focus{left:8px}
+
+/* pauta: cinco linhas de partitura, discretas */
+.staff{
+  background-image:repeating-linear-gradient(to bottom,
+    transparent 0 14px, rgba(90,61,41,.13) 14px 15px);
+  background-size:100% 15px;
+}
+
+/* ---------- topo ---------- */
+.top{position:absolute;inset:0 0 auto 0;z-index:5}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:72px;gap:16px}
+.brand{font:italic 600 26px/1 var(--serif);text-decoration:none;letter-spacing:.01em;display:inline-flex;align-items:center;min-height:44px}
+.nav{display:none;gap:4px}
+.nav a{font-size:14px;font-weight:600;text-decoration:none;padding:12px 12px;color:var(--ink-2)}
+.nav a:hover{color:var(--wine)}
+.top-cta{font-size:14px;font-weight:700;text-decoration:none;padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;border:1.5px solid var(--ink);border-radius:999px}
+.top-cta:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:104px 0 72px;overflow:hidden;
+  background:
+   radial-gradient(120% 70% at 85% 10%, rgba(201,164,99,.35), transparent 60%),
+   radial-gradient(90% 60% at 0% 100%, rgba(122,30,20,.10), transparent 60%),
+   var(--paper)}
+.hero::before{content:"";display:none;position:absolute;left:0;right:0;top:38%;height:75px;opacity:.9;
+  background:repeating-linear-gradient(to bottom, rgba(90,61,41,.16) 0 1px, transparent 1px 15px)}
+.hero-grid{position:relative;display:grid;gap:44px}
+.kicker{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--wine);margin:0 0 18px}
+.hero h1{font:italic 500 clamp(58px, 17vw, 150px)/.86 var(--serif);margin:0;letter-spacing:-.02em}
+.hero h1 span{display:block}
+.hero h1 .l2{padding-left:.36em;color:var(--wine)}
+.lede{font:500 clamp(22px, 5.6vw, 30px)/1.25 var(--serif);margin:26px 0 0;max-width:30ch;color:var(--ink-2)}
+.lede em{color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 24px;border-radius:999px;font:700 15px/1 var(--sans);text-decoration:none;transition:transform .2s ease, background-color .2s ease, color .2s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-wine{background:var(--wine);color:#fff7ea}
+.btn-wine:hover{background:var(--wine-2)}
+.btn-line{border:1.5px solid currentColor}
+.btn-gold{background:var(--gold-soft);color:var(--night)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* capa + disco */
+.sleeve{position:relative;width:min(100%, 440px);margin:0 auto;padding-right:16%}
+.sleeve .disc{position:absolute;top:4%;right:0;width:84%;aspect-ratio:1;border-radius:50%;
+  background:
+    radial-gradient(circle, var(--wine) 0 15%, #2b0d08 15.5% 17%, transparent 17.5%),
+    repeating-radial-gradient(circle, #1a0b05 0 2px, #2a160c 2.5px 3.5px);
+  box-shadow:0 20px 40px rgba(28,14,5,.25);
+  animation:spin 14s linear infinite}
+.sleeve .disc::after{content:"";position:absolute;inset:48.5%;border-radius:50%;background:var(--paper)}
+.sleeve figure{position:relative;margin:0;box-shadow:0 30px 60px -20px rgba(42,23,12,.55), 0 2px 0 rgba(255,255,255,.4) inset}
+.sleeve img{width:100%;aspect-ratio:1;object-fit:cover}
+.sleeve figcaption{position:absolute;left:0;bottom:-36px;font-size:13px;color:var(--ink-2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- ouça ---------- */
+.dark{background:var(--night);color:#f3e5cc}
+.listen{position:relative;padding:96px 0;
+  background:
+    radial-gradient(80% 50% at 100% 0%, rgba(201,164,99,.18), transparent 60%),
+    radial-gradient(70% 50% at 0% 100%, rgba(122,30,20,.35), transparent 60%),
+    var(--night)}
+.sec-title{font:italic 500 clamp(48px, 12vw, 104px)/.9 var(--serif);margin:0;letter-spacing:-.015em}
+.sec-title small{display:block;font:600 13px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;font-style:normal}
+.dark .sec-title small{color:var(--gold)}
+.listen-head{display:grid;gap:18px;margin-bottom:44px}
+.listen-head p{margin:0;max-width:46ch;color:#dcc9a8}
+.player{border-radius:14px;overflow:hidden;background:#2a170c;min-height:352px}
+.player iframe{display:block;width:100%;height:352px;border:0}
+.singles{display:grid;gap:28px}
+.single{display:grid;grid-template-columns:112px 1fr;gap:18px;align-items:center}
+.single img{width:112px;height:112px;object-fit:cover;border-radius:6px}
+.single .tag{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.single h3{font:italic 500 34px/1 var(--serif);margin:6px 0 8px;color:#fff3dd}
+.single p{margin:0;font-size:15px;line-height:1.5;color:#cdb894}
+.single .go{display:inline-block;margin-top:10px;font-size:14px;font-weight:700;color:var(--gold-soft);text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- faixas ---------- */
+.tracks{padding:96px 0 88px}
+.tracks-head{display:grid;gap:18px;margin-bottom:40px}
+.tracks-head p{margin:0;max-width:44ch;color:var(--ink-2)}
+.sec-title.ink small{color:var(--wine)}
+.tl{list-style:none;margin:0;padding:0;counter-reset:t;border-top:1.5px solid var(--ink)}
+.tl li{counter-increment:t;display:grid;grid-template-columns:44px 1fr;column-gap:12px;padding:16px 0 15px;border-bottom:1px solid rgba(42,23,12,.18);align-items:baseline}
+.tl li::before{content:counter(t, decimal-leading-zero);font:italic 500 20px/1 var(--serif);color:var(--olive)}
+.tl .t{font:600 clamp(23px, 6vw, 30px)/1.12 var(--serif)}
+.tl .t i{font-weight:500;color:var(--ink-2);font-size:.72em;white-space:nowrap}
+.tl .n{grid-column:2;font-size:14.5px;line-height:1.5;color:var(--ink-2);margin-top:5px}
+.tl li.hl .t{color:var(--wine)}
+.tl li.title-track .t{font-style:italic}
+.tracks-foot{margin-top:34px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+/* ---------- frase ---------- */
+.quote{background:var(--wine);color:#fff1dc;padding:88px 0;position:relative;overflow:hidden}
+.quote::after{content:"\201C";position:absolute;right:-.05em;top:-.28em;font:italic 500 min(70vw,520px)/1 var(--serif);color:rgba(255,241,220,.08);pointer-events:none}
+.quote blockquote{margin:0;position:relative;z-index:1}
+.quote p{font:italic 500 clamp(36px, 9vw, 92px)/1.02 var(--serif);margin:0;max-width:19ch;letter-spacing:-.01em}
+.quote p b{font-weight:500;color:var(--gold-soft)}
+.quote footer{margin-top:26px;font-size:14px;letter-spacing:.06em;color:#f2d6b5}
+
+/* ---------- sobre ---------- */
+.about{padding:96px 0}
+.about-grid{display:grid;gap:40px}
+.about .big{font:500 clamp(28px, 7vw, 46px)/1.12 var(--serif);margin:28px 0 0;max-width:22ch}
+.about .big em{color:var(--wine)}
+.about-body p{margin:0 0 18px;max-width:58ch}
+.facts{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid rgba(42,23,12,.2)}
+.facts li{display:grid;grid-template-columns:1fr;gap:2px;padding:16px 0;border-bottom:1px solid rgba(42,23,12,.2)}
+.facts dt,.facts .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--olive)}
+.facts .v{font:600 22px/1.25 var(--serif)}
+.facts .v a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.facts .v a:hover{color:var(--wine)}
+.portrait{position:relative;max-width:440px}
+.portrait img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--paper-2);box-shadow:0 30px 60px -24px rgba(42,23,12,.5)}
+.portrait span{display:block;margin-top:14px;font:italic 500 18px/1.3 var(--serif);color:var(--ink-2)}
+
+/* ---------- contrate ---------- */
+.hire{padding:100px 0;background:
+  radial-gradient(70% 60% at 50% 0%, rgba(201,164,99,.22), transparent 70%), var(--night);text-align:center}
+.hire .sec-title{max-width:12ch;margin:0 auto}
+.hire p{max-width:48ch;margin:24px auto 0;color:#dcc9a8}
+.hire .actions{justify-content:center;margin-top:34px}
+.hire .handle{display:block;margin-top:18px;font:italic 500 22px/1.2 var(--serif);color:var(--gold-soft)}
+
+/* ---------- rodapé ---------- */
+.foot{background:var(--paper);padding:56px 0 40px}
+.foot-grid{display:grid;gap:28px}
+.foot .brand{font-size:40px}
+.links{display:flex;flex-wrap:wrap;gap:6px 4px;list-style:none;margin:0;padding:0}
+.links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid rgba(42,23,12,.3);border-radius:999px;font-size:14px;font-weight:600;text-decoration:none}
+.links a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.foot .handle-f{margin:10px 0 0;color:var(--ink-2)}
+.credit{margin-top:36px;padding-top:8px;border-top:1px solid rgba(42,23,12,.18);font-size:13px;color:var(--ink-2);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:0 16px}
+.credit a{color:var(--ink);display:inline-block;padding:12px 0}
+
+/* botão flutuante (mobile) */
+.float{position:fixed;right:16px;bottom:16px;z-index:20;display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 20px;border-radius:999px;background:var(--wine);color:#fff7ea;font:700 15px/1 var(--sans);text-decoration:none;box-shadow:0 10px 30px rgba(28,14,5,.35);transform:translateY(120%);opacity:0;transition:transform .3s ease, opacity .3s ease}
+.float.on{transform:none;opacity:1}
+.float svg{width:18px;height:18px}
+
+/* revelar ao rolar */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+.rv.in{opacity:1;transform:none}
+
+@media (min-width:760px){
+  .nav{display:flex}
+  .singles{grid-template-columns:1fr 1fr;gap:40px}
+  .single{grid-template-columns:140px 1fr}
+  .single img{width:140px;height:140px}
+  .tl{display:grid;grid-template-rows:repeat(5,auto);grid-auto-flow:column;column-gap:56px}
+  .facts li{grid-template-columns:150px 1fr;align-items:baseline;gap:16px}
+  .foot-grid{grid-template-columns:1fr auto;align-items:end}
+  .float{display:none}
+}
+@media (min-width:1000px){
+  .hero{padding:140px 0 110px}
+  .hero-grid{grid-template-columns:1.15fr .85fr;align-items:center;gap:56px}
+  .hero::before{display:block;top:44%}
+  .listen-head,.tracks-head{grid-template-columns:1.4fr 1fr;align-items:end;gap:48px}
+  .about-grid{grid-template-columns:.8fr 1.2fr;gap:72px;align-items:start}
+  .portrait{position:sticky;top:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .sleeve .disc{animation:none}
+  .rv{opacity:1;transform:none;transition:none}
+  .btn,.float{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#topo" aria-label="Nina Taquaral, início">Nina Taquaral</a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#ouca">Ouça</a>
+      <a href="#faixas">Faixas</a>
+      <a href="#sobre">Sobre</a>
+    </nav>
+    <a class="top-cta" href="#contrate">Contrate</a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="hero" id="topo">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">Cantora e compositora · Ubá, MG</p>
+        <h1><span>Nina</span><span class="l2">Taquaral</span></h1>
+        <p class="lede">Forró e <em>sertanejo romântico</em>, com letra minha.</p>
+        <div class="actions">
+          <a class="btn btn-wine" href="#ouca">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></svg>
+            Ouvir as músicas
+          </a>
+          <a class="btn btn-line" href="#contrate">Contratar para evento</a>
+        </div>
+      </div>
+      <div class="sleeve">
+        <div class="disc" aria-hidden="true"></div>
+        <figure>
+          <img src="img/moda-de-varanda.webp" width="640" height="640" alt="Capa do disco Moda de Varanda: violão encostado numa cadeira com pano de chita, na varanda de uma casa de fazenda ao entardecer">
+          <figcaption>Disco <i>Moda de Varanda</i> · 10 faixas</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="listen dark" id="ouca" aria-labelledby="ouca-t">
+    <div class="wrap">
+      <div class="listen-head rv">
+        <h2 class="sec-title" id="ouca-t"><small>Lançamentos</small>Moda de Varanda</h2>
+        <p>O disco saiu este ano. Gravamos quase tudo ao vivo, todo mundo na mesma sala.</p>
+      </div>
+      <div class="singles">
+        <div class="single rv">
+          <img src="img/recado-360.webp" width="360" height="360" loading="lazy" alt="Capa do single Recado no Para-brisa: bilhete dobrado preso no limpador de um carro antigo, com chuva fina">
+          <div>
+            <span class="tag">Single</span>
+            <h3>Recado no Para-brisa</h3>
+            <p>Um bilhete deixado no carro errado e o que veio depois.</p>
+          </div>
+        </div>
+        <div class="single rv">
+          <img src="img/chita-360.webp" width="360" height="360" loading="lazy" alt="Capa da faixa Saia de Chita Azul: saia de chita azul rodando num forró à noite">
+          <div>
+            <span class="tag">Faixa 3</span>
+            <h3>Saia de Chita Azul</h3>
+            <p>Forró pra dançar agarradinho.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tracks" id="faixas" aria-labelledby="faixas-t">
+    <div class="wrap">
+      <div class="tracks-head rv">
+        <h2 class="sec-title ink" id="faixas-t"><small>O disco</small>Dez faixas</h2>
+        <p>Metade é pra dançar. A outra metade é pra ouvir na estrada.</p>
+      </div>
+      <ol class="tl rv">
+        <li class="title-track hl"><span class="t">Moda de Varanda</span><span class="n">A faixa que dá nome ao disco.</span></li>
+        <li class="hl"><span class="t">Recado no Para-brisa</span><span class="n">Também saiu como single.</span></li>
+        <li class="hl"><span class="t">Saia de Chita Azul</span><span class="n">Forró.</span></li>
+        <li><span class="t">Bule Esmaltado</span></li>
+        <li><span class="t">Último Circular</span></li>
+        <li><span class="t">Quintal da Dona Zica</span></li>
+        <li><span class="t">Chave Debaixo do Tapete</span></li>
+        <li><span class="t">Lua de Paiol</span></li>
+        <li class="hl"><span class="t">Sanfona Emprestada <i>instrumental</i></span></li>
+        <li><span class="t">Manda Notícia, Mineiro</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="quote" aria-label="Frase da Nina">
+    <div class="wrap rv">
+      <blockquote>
+        <p>Escrevo do jeito que a gente conversa <b>na cozinha de casa.</b></p>
+        <footer>Nina</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="about" id="sobre" aria-labelledby="sobre-t">
+    <div class="wrap about-grid">
+      <div class="portrait rv">
+        <img src="img/palco.webp" width="640" height="640" loading="lazy" alt="Nina de costas no palco, tocando violão sob luz âmbar, com o público desfocado à frente">
+        <span>Show de voz e violão</span>
+      </div>
+      <div class="about-body">
+        <h2 class="sec-title ink rv" id="sobre-t"><small>Sobre</small>Quem canta</h2>
+        <p class="big rv">Comecei cantando em festa de família e <em>não parei mais.</em></p>
+        <div class="rv" style="margin-top:32px">
+          <p>Sou de Ubá, na Zona da Mata. Toco violão desde os doze anos e escrevo minhas músicas desde os dezesseis.</p>
+          <p>Hoje faço show sozinha ou em trio, com sanfona e zabumba. No repertório entram as minhas e os forrós que todo mundo canta junto.</p>
+        </div>
+        <ul class="facts rv">
+          <li><span class="k">Gêneros</span><span class="v">Forró e sertanejo romântico</span></li>
+          <li><span class="k">Formação</span><span class="v">Voz e violão, ou trio</span></li>
+          <li><span class="k">Disco</span><span class="v">Moda de Varanda</span></li>
+          <li><span class="k">Cidade</span><span class="v">Ubá, MG</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="hire dark" id="contrate" aria-labelledby="contrate-t">
+    <div class="wrap rv">
+      <h2 class="sec-title" id="contrate-t"><small>Contrate</small>Show na sua festa</h2>
+      <p>Me mande a data, a cidade e o tipo de evento. Respondo com valor e formação.</p>
+      <div class="actions">
+        <a class="btn btn-gold" href="https://wa.me/?text=Oi%2C%20Nina!%20Quero%20saber%20sobre%20show%20para%20o%20meu%20evento.%20Data%3A%20%20Cidade%3A%20" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 20l1.3-3.9A8 8 0 1 1 8 18.8z"/></svg>
+          Chamar no WhatsApp
+        </a>
+      </div>
+      <span class="handle">@ninataquaral</span>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#topo">Nina Taquaral</a>
+        <p class="handle-f">Cantora e compositora · Ubá, MG</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span>Empresa fictícia · site de exemplo feito por <a href="https://3rstudios.com.br">3R Studios</a></span>
+    </div>
+  </div>
+  <a class="float" href="#contrate" aria-label="Contratar a Nina para seu evento">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M9 18V5l11-2v13M9 18a3 3 0 1 1-3-3 3 3 0 0 1 3 3Zm11-2a3 3 0 1 1-3-3 3 3 0 0 1 3 3Z"/></svg>
+  Contrate
+</a>
+</footer>
+
+<script>
+(function(){
+  var f=document.querySelector('.float'), hero=document.getElementById('topo'), hire=document.getElementById('contrate');
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('.rv').forEach(function(e){e.classList.add('in')});return}
+  var vis={hero:true,hire:false};
+  var o=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.target===hero)vis.hero=e.isIntersecting; else vis.hire=e.isIntersecting;});
+    f.classList.toggle('on',!vis.hero&&!vis.hire);},{threshold:0});
+  o.observe(hero);o.observe(hire);
+  var r=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');r.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(e){r.observe(e)});
+})();
+</script>
+</body>
+</html>

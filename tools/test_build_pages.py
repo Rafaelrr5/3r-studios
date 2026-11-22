@@ -156,6 +156,27 @@ class PagesBuildTests(unittest.TestCase):
         for src in re.findall(r'src="(img/sites/[^"]+)"', sites):
             self.assertTrue((root / src).is_file(), src)
 
+    def test_sample_sites_are_fictional_noindex_and_complete(self):
+        root = Path(__file__).resolve().parent.parent
+        pages = sorted((root / 'modelos').glob('*/index.html'))
+        self.assertGreaterEqual(len(pages), 10)
+        sites = (root / 'sites.html').read_text(encoding='utf-8')
+        for page in pages:
+            rel = page.relative_to(root).as_posix()
+            html = page.read_text(encoding='utf-8')
+            self.assertIn('<meta name="robots" content="noindex">', html, rel)
+            self.assertIn('Empresa fictícia', html, rel)
+            self.assertNotRegex(html, r'wa\.me/\d|tel:', rel)
+            self.assertIn(f'href="{rel[:-len("index.html")]}"', sites, rel)
+            for href in re.findall(r'(?:href|src)="([^"]+)"', html):
+                if re.match(r'(https?:|data:|#|mailto:)', href):
+                    continue
+                target = (page.parent / href.split('#')[0].split('?')[0]).resolve()
+                if href.endswith('/') or target.is_dir():
+                    target /= 'index.html'
+                self.assertTrue(target.is_file(), (rel, href))
+                self.assertIn(target.suffix, MODULE.FOLDERS['modelos'], (rel, href))
+
     def test_real_work_section_never_ships_empty(self):
         html = (Path(__file__).resolve().parent.parent / 'sites.html').read_text(encoding='utf-8')
         html = re.sub(r'<!--.*?-->', '', html, flags=re.S)

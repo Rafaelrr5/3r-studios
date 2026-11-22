@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Papelaria Pétala Miúda · Centro de Ubá</title>
+<meta name="description" content="Papelaria no Centro de Ubá com presentes, enfeites de Natal, squishies e furo de orelha. Pergunte pelo WhatsApp.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF7EE">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%23fff' stroke='%231E2A4A' stroke-width='3'%3E%3Cellipse cx='50' cy='24' rx='11' ry='22'/%3E%3Cellipse cx='50' cy='24' rx='11' ry='22' transform='rotate(60 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='11' ry='22' transform='rotate(120 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='11' ry='22' transform='rotate(180 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='11' ry='22' transform='rotate(240 50 50)'/%3E%3Cellipse cx='50' cy='24' rx='11' ry='22' transform='rotate(300 50 50)'/%3E%3C/g%3E%3Ccircle cx='50' cy='50' r='15' fill='%23F6C33B' stroke='%231E2A4A' stroke-width='3'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Papelaria Pétala Miúda · Centro de Ubá">
+<meta property="og:description" content="Papelaria, presentes, Natal, squishies e furo de orelha no Centro de Ubá.">
+<meta property="og:image" content="img/sacolas.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Fraunces:ital,opsz,wght@0,9..144,500..800;1,9..144,400..700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "Papelaria Pétala Miúda",
+  "description": "Papelaria com presentes, enfeites de Natal, squishies e furo de orelha no Centro de Ubá.",
+  "image": "img/sacolas.webp",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ubá",
+    "addressRegion": "MG",
+    "addressCountry": "BR"
+  }
+}
+</script>
+<style>
+:root{
+  --paper:#FBF7EE; --paper-2:#F4EEDF; --ink:#1E2A4A; --ink-soft:#46506B;
+  --line:#DCE6EF; --margin:#E39A96; --daisy:#F6C33B; --daisy-soft:#FBE39A;
+  --rose:#A8235F; --rose-soft:#F7DDE6; --natal:#A51D2B; --natal-deep:#7E1420; --pine:#1F5A3A;
+  --wa:#157A40;
+  --display:"Fraunces", Georgia, serif;
+  --body:"Bricolage Grotesque", system-ui, sans-serif;
+  --r:18px;
+  --pad:clamp(20px,5vw,64px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.02em;margin:0;font-variation-settings:"SOFT" 100,"WONK" 1}
+p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--pad)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:99}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--rose);outline-offset:3px;border-radius:6px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:650;font-size:16.5px;text-decoration:none;transition:transform .2s cubic-bezier(.3,1.6,.5,1),box-shadow .2s;white-space:nowrap}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 3px 0 #0E5530}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 5px 0 #0E5530}
+.btn-wa:active{transform:translateY(2px);box-shadow:0 1px 0 #0E5530}
+.btn-ghost{color:var(--ink);border:2px solid var(--ink);background:transparent}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+
+/* header */
+.top{position:sticky;top:0;z-index:40;background:rgba(251,247,238,.94);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid rgba(30,42,74,.08)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-height:44px}
+.brand svg{width:38px;height:38px;flex:none}
+.brand b{font-family:var(--display);font-style:italic;font-weight:650;font-size:23px;letter-spacing:-.02em;line-height:1}
+.brand small{display:block;font-size:12.5px;color:var(--ink-soft);letter-spacing:.02em;margin-top:2px}
+.nav{display:none;gap:4px}
+.nav a{text-decoration:none;font-weight:550;font-size:15.5px;padding:12px 12px;border-radius:999px}
+.nav a:hover{background:var(--daisy-soft)}
+.top .btn{min-height:44px;padding:0 16px;font-size:15px}
+.top .btn span{display:none}
+
+/* highlighter */
+.hl{background:linear-gradient(transparent 52%,var(--daisy) 52%,var(--daisy) 92%,transparent 92%) no-repeat 0 0/0% 100%;padding:0 .08em;margin:0 -.04em;transition:background-size 1.1s cubic-bezier(.6,.1,.2,1) .35s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.in .hl,.hl.on{background-size:100% 100%}
+.hl-rose{background-image:linear-gradient(transparent 55%,#F4B9CC 55%,#F4B9CC 92%,transparent 92%)}
+
+/* hero */
+.hero{position:relative;padding:36px 0 64px;background-image:linear-gradient(to bottom,transparent 35px,var(--line) 35px,var(--line) 36px);background-size:100% 36px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:0;bottom:0;left:clamp(12px,3.2vw,44px);width:2px;background:var(--margin);opacity:.7}
+.hero .wrap{position:relative;display:grid;gap:40px}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--ink-soft);background:var(--paper);padding:4px 12px 4px 4px;border-radius:999px;border:1px solid rgba(30,42,74,.12)}
+.kicker i{width:26px;height:26px;border-radius:50%;background:var(--daisy);display:grid;place-items:center;font-style:normal}
+.kicker i svg{width:18px;height:18px}
+.hero h1{font-size:clamp(44px,11.5vw,98px);margin:20px 0 22px;font-weight:700}
+.hero h1 em{font-style:italic;font-weight:500}
+.lead{font-size:clamp(18px,2.2vw,21px);max-width:34ch;color:var(--ink-soft)}
+.lead strong{color:var(--ink);font-weight:650}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+
+.collage{position:relative;height:min(108vw,470px);max-width:560px;width:100%;margin:0 auto}
+.collage .big-daisy{position:absolute;width:44%;right:-4%;bottom:-4%;z-index:1;animation:spin 60s linear infinite}
+.snap{position:absolute;background:#fff;padding:9px 9px 34px;border-radius:4px;box-shadow:0 1px 1px rgba(30,42,74,.08),0 14px 30px -12px rgba(30,42,74,.35);margin:0}
+.snap img{border-radius:2px;width:100%;height:100%;object-fit:cover}
+.snap figcaption{position:absolute;left:0;right:0;bottom:7px;text-align:center;font-family:var(--display);font-style:italic;font-size:15px;color:var(--ink)}
+.snap::before{content:"";position:absolute;top:-12px;left:50%;width:84px;height:24px;margin-left:-42px;background:rgba(246,195,59,.78);transform:rotate(-4deg);clip-path:polygon(3% 0,97% 4%,100% 50%,96% 100%,2% 96%,0 48%)}
+.snap.t-rose::before{background:rgba(244,185,204,.85)}
+.snap.t-blue::before{background:rgba(173,205,232,.9)}
+.s1{width:62%;left:0;top:4%;transform:rotate(-4deg);z-index:2}
+.s1 img{aspect-ratio:720/511}
+.s2{width:42%;right:0;top:0;transform:rotate(5deg);z-index:3}
+.s2 img{aspect-ratio:540/794;height:auto}
+.s3{width:48%;left:6%;top:54%;transform:rotate(2deg);z-index:4}
+.s3 img{aspect-ratio:560/453}
+
+/* ticker */
+.ticker{background:var(--ink);color:var(--paper);overflow:hidden;border-block:1px solid var(--ink)}
+.ticker-track{display:flex;width:max-content;animation:slide 34s linear infinite}
+.ticker ul{display:flex;align-items:center;margin:0;padding:15px 0;list-style:none}
+.ticker li{display:flex;align-items:center;gap:22px;padding-right:22px;font-family:var(--display);font-style:italic;font-size:22px;white-space:nowrap}
+.ticker li svg{width:22px;height:22px}
+
+/* section heads */
+section{scroll-margin-top:72px}
+.sec{padding:clamp(72px,10vw,128px) 0}
+.sec-head{display:grid;gap:16px;margin-bottom:clamp(36px,5vw,56px);max-width:760px}
+.sec-head h2{font-size:clamp(40px,8.4vw,76px)}
+.sec-head h2 em{font-style:italic;font-weight:500}
+.sec-head p{font-size:clamp(17px,2vw,19.5px);max-width:46ch}
+.tagline{font-family:var(--display);font-style:italic;font-size:19px}
+
+/* natal */
+.natal{background:var(--natal);color:#fff;position:relative;overflow:hidden}
+.natal::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 1px 1px,rgba(255,255,255,.12) 1px,transparent 1.5px) 0 0/22px 22px;pointer-events:none}
+.natal .wrap{position:relative;z-index:1}
+.natal .sec-head p{color:#FBE7E3}
+.natal-grid{display:grid;gap:44px}
+.item{margin:0}
+.n1{display:contents}
+.n-cta{order:9;display:grid;gap:18px;justify-items:start;padding-top:8px;border-top:1px dashed rgba(255,255,255,.35)}
+.n-cta p{color:#FBE7E3;font-size:17px;max-width:40ch;padding-top:20px}
+.item .frame{background:#fff;padding:10px;border-radius:6px;box-shadow:0 22px 40px -22px rgba(0,0,0,.55)}
+.item .frame img{width:100%;border-radius:3px}
+.item-body{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-top:18px}
+.item h3{font-size:clamp(28px,4vw,36px)}
+.item p{margin-top:6px;color:#FBE7E3;max-width:36ch}
+.price{flex:none;position:relative;display:inline-grid;place-items:center;text-align:center;background:var(--daisy);color:var(--ink);border-radius:10px 10px 10px 10px;padding:10px 14px 10px 26px;font-weight:700;line-height:1.05;clip-path:polygon(16px 0,100% 0,100% 100%,16px 100%,0 50%);min-width:96px}
+.price::before{content:"";position:absolute;left:12px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--natal)}
+.price b{font-family:var(--display);font-size:27px;letter-spacing:-.02em}
+.price small{display:block;font-size:13px;font-weight:600}
+.price.ask{background:#fff}
+.price.ask b{font-size:19px;font-family:var(--body)}
+.natal .price.ask::before{background:var(--natal)}
+
+/* squishy */
+.squishy{background:var(--daisy);position:relative;overflow:hidden}
+.squishy .sec-head p{color:#2E2A1E}
+.squish-grid{display:grid;gap:28px}
+.squish{background:var(--paper);border-radius:28px;padding:14px 14px 22px;position:relative;box-shadow:0 2px 0 rgba(30,42,74,.12)}
+.squish .ph{border-radius:18px;overflow:hidden;background:#fff;aspect-ratio:1/.86}
+.squish .ph img{width:100%;height:100%;object-fit:cover;object-position:40% 40%;transition:transform .5s cubic-bezier(.3,1.8,.4,1)}
+.squish:hover .ph img{transform:scale(1.04)}
+.squish:active .ph img,.squish.pressed .ph img{transform:scale(1.1,.88);transition-duration:.12s}
+.squish h3{font-size:clamp(26px,2.3vw,30px);margin:18px 8px 4px}
+.squish p{margin:0 8px;color:var(--ink-soft)}
+.squish .row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 8px 0}
+.squish .val{font-family:var(--display);font-style:italic;font-weight:600;font-size:19px;color:var(--ink-soft)}
+.squish .val small{font-size:17px;font-weight:600;margin-right:3px}
+.squish a.mini{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;font-size:15px}
+.squish a.mini:hover{background:var(--rose)}
+.note{margin-top:28px;font-size:15px;color:#3B3523;max-width:60ch}
+
+/* orelha */
+.orelha .wrap{display:grid;gap:44px;align-items:center}
+.arch{position:relative;max-width:440px;width:100%;margin:0 auto}
+.arch .frame{border-radius:999px 999px 28px 28px;overflow:hidden;background:var(--rose-soft);aspect-ratio:560/740;border:10px solid #fff;box-shadow:0 26px 50px -28px rgba(168,35,95,.6)}
+.arch .frame img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.stamp{position:absolute;right:-6px;bottom:28px;width:132px;height:132px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;text-align:center;transform:rotate(-8deg);line-height:1}
+.stamp::before{content:"";position:absolute;inset:7px;border:1.5px dashed rgba(255,255,255,.7);border-radius:50%}
+.stamp b{font-family:var(--display);font-size:42px;letter-spacing:-.03em;display:block}
+.stamp b{font-size:34px}
+.stamp span{font-size:13.5px;font-weight:600}
+.stamp small{display:block;font-size:13px;font-weight:600}
+.orelha h2{font-size:clamp(44px,9vw,84px)}
+.orelha h2 em{font-style:italic;font-weight:500;color:var(--rose)}
+.orelha .copy>p{font-size:clamp(17px,2vw,19.5px);margin-top:18px;max-width:40ch}
+.checks{list-style:none;padding:0;margin:26px 0 30px;display:grid;gap:12px}
+.checks li{display:flex;align-items:center;gap:12px;font-weight:600;font-size:17.5px}
+.checks li::before{content:"";flex:none;width:28px;height:28px;border-radius:50%;background:var(--rose-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23A8235F' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/18px no-repeat}
+
+/* papelaria */
+.papel{background:var(--paper-2)}
+.papel .wrap{display:grid;gap:40px;align-items:start}
+.page{position:relative;background:#fff;border-radius:6px;padding:26px 22px 30px 58px;box-shadow:0 1px 0 rgba(30,42,74,.06),0 30px 50px -30px rgba(30,42,74,.35);background-image:linear-gradient(to bottom,transparent 47px,var(--line) 47px,var(--line) 48px);background-size:100% 48px;background-position:0 14px}
+.page::before{content:"";position:absolute;top:0;bottom:0;left:40px;width:2px;background:var(--margin)}
+.page::after{content:"";position:absolute;left:12px;top:30px;bottom:30px;width:14px;background:radial-gradient(circle,var(--paper-2) 5px,transparent 5.5px) 0 0/14px 64px repeat-y}
+.page h3{font-size:26px;font-style:italic;font-weight:600;line-height:48px;margin-top:-4px}
+.page ul{list-style:none;margin:0;padding:0}
+.page li{display:flex;align-items:center;gap:14px;line-height:48px;height:48px;font-size:18px;white-space:nowrap;font-weight:550}
+.page li span{width:19px;height:19px;border:2px solid var(--ink);border-radius:4px;flex:none;position:relative}
+.page li span.ok::after{content:"";position:absolute;left:4px;top:-1px;width:6px;height:12px;border:solid var(--rose);border-width:0 3px 3px 0;transform:rotate(40deg)}
+.steps{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:22px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start;counter-increment:s}
+.steps li::before{content:counter(s);font-family:var(--display);font-style:italic;font-weight:600;font-size:46px;line-height:.9;color:var(--rose)}
+.steps b{display:block;font-size:19px}
+.steps p{color:var(--ink-soft)}
+
+/* contato */
+.final{background:var(--ink);color:var(--paper);position:relative;overflow:hidden}
+.final .wrap{display:grid;gap:48px;align-items:center}
+.game{display:grid;justify-items:center;gap:18px;text-align:center}
+.flower{appearance:none;border:0;background:none;padding:0;cursor:pointer;width:min(78vw,340px);aspect-ratio:1;border-radius:50%;touch-action:manipulation}
+.flower svg{width:100%;height:100%;overflow:visible}
+.petal{transform-box:view-box;transform-origin:100px 100px;transition:opacity .7s ease,transform .9s cubic-bezier(.4,.2,.3,1)}
+.petal.gone{opacity:0}
+.flower:hover .center{filter:brightness(1.05)}
+.says{min-height:2.4em;font-family:var(--display);font-style:italic;font-size:clamp(28px,5vw,38px);line-height:1.15;color:var(--daisy)}
+.hint{font-size:15px;color:#C9CEDB}
+.again{appearance:none;font:inherit;font-weight:600;color:var(--paper);background:transparent;border:2px solid rgba(251,247,238,.5);border-radius:999px;min-height:44px;padding:0 18px;cursor:pointer}
+.again[hidden]{display:none}
+.final h2{font-size:clamp(42px,8.5vw,78px)}
+.final h2 em{font-style:italic;font-weight:500;color:var(--daisy)}
+.final .copy>p{font-size:clamp(17px,2vw,19.5px);margin-top:18px;color:#DCE0EA;max-width:40ch}
+.card{margin-top:30px;border-top:1px solid rgba(251,247,238,.2);padding-top:26px;display:grid;gap:18px}
+.card dl{margin:0;display:grid;gap:14px}
+.card dt{font-size:14px;color:#B9C0D2}
+.card dd{margin:2px 0 0;font-size:20px;font-weight:600}
+.card dd a{text-decoration:none;border-bottom:2px solid var(--daisy)}
+
+footer{background:#151E36;color:#C9CEDB;padding:34px 0 110px;font-size:15px}
+footer .wrap{display:grid;gap:14px}
+footer .brand{color:var(--paper)}
+footer .brand small{color:#B9C0D2}
+footer a{color:var(--paper)}
+.demo{font-size:13.5px;color:#AEB6CA}
+.demo a,.card dd a{display:inline-flex;align-items:center;min-height:44px}
+
+/* floating whatsapp */
+.fab{position:fixed;right:16px;bottom:16px;z-index:50;width:60px;height:60px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 24px -6px rgba(0,0,0,.4);transition:transform .2s}
+.fab svg{width:30px;height:30px}
+.fab:hover{transform:scale(1.06)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+@media (min-width:600px){
+  .top .btn span{display:inline}
+  .squish-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (min-width:960px){
+  .nav{display:flex}
+  .hero{padding:64px 0 96px}
+  .hero .wrap{grid-template-columns:1.1fr .9fr;align-items:center;gap:56px}
+  .collage{height:520px}
+  .natal-grid{grid-template-columns:repeat(12,1fr);gap:56px 48px}
+  .natal-grid .n1{grid-column:1/8;grid-row:1/3;display:grid;gap:44px;align-content:start}
+  .natal-grid .n2{grid-column:8/13}
+  .natal-grid .n3{grid-column:8/13}
+  .squish-grid{grid-template-columns:repeat(3,1fr);gap:32px}
+  .squish:nth-child(1){transform:rotate(-1.5deg)}
+  .squish:nth-child(2){transform:translateY(28px) rotate(1deg)}
+  .squish:nth-child(3){transform:rotate(-.5deg)}
+  .orelha .wrap{grid-template-columns:.85fr 1.15fr;gap:80px}
+  .papel .wrap{grid-template-columns:1fr 1fr;gap:80px}
+  .final .wrap{grid-template-columns:.9fr 1.1fr;gap:80px}
+  .fab{display:none}
+  footer{padding-bottom:34px}
+  footer .wrap{grid-template-columns:auto 1fr auto;align-items:center;gap:32px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  .hl{background-size:100% 100%}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="daisy" viewBox="0 0 100 100">
+      <g fill="#fff" stroke="#1E2A4A" stroke-width="2">
+        <ellipse cx="50" cy="22" rx="9" ry="20"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(40 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(80 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(120 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(160 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(200 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(240 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(280 50 50)"/>
+        <ellipse cx="50" cy="22" rx="9" ry="20" transform="rotate(320 50 50)"/>
+      </g>
+      <circle cx="50" cy="50" r="15" fill="#F6C33B" stroke="#1E2A4A" stroke-width="2"/>
+    </symbol>
+    <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.2-1.36A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.08.8.82-3-.2-.31a8.2 8.2 0 1 1 6.96 3.84Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.17.25-.64.8-.78.96-.14.17-.29.19-.54.06a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.43l-.75-1.82c-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.73 2.73 0 0 0-.85 2.03 4.74 4.74 0 0 0 1 2.52 10.8 10.8 0 0 0 4.15 3.66c1.54.67 2.15.72 2.92.61.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.15-1.17-.06-.1-.22-.17-.47-.29Z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">
+      <svg aria-hidden="true"><use href="#daisy"/></svg>
+      <span><b>Pétala Miúda</b><small>papelaria · Centro, Ubá</small></span>
+    </a>
+    <nav class="nav" aria-label="Seções">
+      <a href="#natal">Natal</a>
+      <a href="#squishies">Squishies</a>
+      <a href="#orelha">Furo de orelha</a>
+      <a href="#papelaria">Papelaria</a>
+    </nav>
+    <a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%2C%20P%C3%A9tala%20Mi%C3%BAda%21%20Vi%20o%20site%20e%20queria%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg><span>Chamar no WhatsApp</span></a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <section class="hero" id="inicio">
+    <div class="wrap">
+      <div class="rv">
+        <span class="kicker"><i><svg aria-hidden="true"><use href="#daisy"/></svg></i>Papelaria no Centro de Ubá</span>
+        <h1>Papelaria com <em class="hl">presente junto.</em></h1>
+        <p class="lead">Material escolar, presentes, <strong>enfeites de Natal</strong>, <strong>squishies</strong> e <strong>furo de orelha</strong>. Pergunte no WhatsApp se tem antes de vir.</p>
+        <div class="cta-row">
+          <a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%2C%20P%C3%A9tala%20Mi%C3%BAda%21%20Vi%20o%20site%20e%20queria%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Chamar no WhatsApp</a>
+          <a class="btn btn-ghost" href="#natal">Ver o Natal</a>
+        </div>
+      </div>
+      <div class="collage rv" aria-label="Alguns produtos da loja">
+        <svg class="big-daisy" aria-hidden="true"><use href="#daisy"/></svg>
+        <figure class="snap s1"><img src="img/sacolas.webp" width="720" height="511" alt="Sacolas de Natal transparentes com alça vermelha e estampa de pinheiros"><figcaption>sacolas de Natal</figcaption></figure>
+        <figure class="snap s2 t-rose"><img src="img/brincos.webp" width="540" height="794" alt="Cartelas de brincos de aço inox para furo de orelha"><figcaption>furo de orelha</figcaption></figure>
+        <figure class="snap s3 t-blue"><img src="img/queijo.webp" width="560" height="453" alt="Squishy em formato de queijo amarelo com furinhos"><figcaption>squishy queijo</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <ul><li>papelaria<svg><use href="#daisy"/></svg></li><li>presentes<svg><use href="#daisy"/></svg></li><li>enfeites de Natal<svg><use href="#daisy"/></svg></li><li>árvores<svg><use href="#daisy"/></svg></li><li>squishies<svg><use href="#daisy"/></svg></li><li>furo de orelha<svg><use href="#daisy"/></svg></li><li>utilidades<svg><use href="#daisy"/></svg></li></ul>
+      <ul><li>papelaria<svg><use href="#daisy"/></svg></li><li>presentes<svg><use href="#daisy"/></svg></li><li>enfeites de Natal<svg><use href="#daisy"/></svg></li><li>árvores<svg><use href="#daisy"/></svg></li><li>squishies<svg><use href="#daisy"/></svg></li><li>furo de orelha<svg><use href="#daisy"/></svg></li><li>utilidades<svg><use href="#daisy"/></svg></li></ul>
+    </div>
+  </div>
+
+  <section class="sec natal" id="natal" aria-labelledby="natal-t">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2 id="natal-t">O Natal <em>chegou.</em></h2>
+        <p>Enfeite para a árvore e sacola para o presente.</p>
+      </div>
+      <div class="natal-grid">
+        <div class="n1">
+        <figure class="item rv">
+          <div class="frame"><img src="img/enfeites.webp" width="720" height="656" loading="lazy" alt="Enfeites de Natal: ponteiras de estrela, bolinhas em tubo, sinos dourados e laços vermelhos"></div>
+          <figcaption class="item-body">
+            <div><h3>Enfeites</h3><p>Ponteira de estrela, bolinhas, sinos e laços.</p></div>
+            <span class="price ask"><b>Consulte</b></span>
+          </figcaption>
+        </figure>
+        <div class="n-cta rv">
+          <p>Pergunte o que chegou esta semana.</p>
+          <a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20saber%20dos%20produtos%20de%20Natal." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Perguntar sobre o Natal</a>
+        </div>
+        </div>
+        <figure class="item n2 rv">
+          <div class="frame"><img src="img/sacolas.webp" width="720" height="511" loading="lazy" alt="Sacolas de Natal transparentes com alça vermelha"></div>
+          <figcaption class="item-body">
+            <div><h3>Sacolas de presente</h3><p>Transparentes, com alça vermelha. O presente já sai embrulhado.</p></div>
+            <span class="price ask"><b>Consulte</b></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec squishy" id="squishies" aria-labelledby="sq-t">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <h2 id="sq-t">Squishies <em>bem macios.</em></h2>
+        <p>Para apertar no meio da prova ou dar de presente.</p>
+      </div>
+      <div class="squish-grid">
+        <article class="squish rv">
+          <div class="ph"><img src="img/queijo.webp" width="560" height="453" loading="lazy" alt="Squishy em formato de fatia de queijo"></div>
+          <h3>Queijo</h3>
+          <p>Uma fatia cheia de furinhos.</p>
+          <div class="row"><span class="val">tamanho médio</span><a class="mini" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20o%20squishy%20de%20queijo." target="_blank" rel="noopener" aria-label="Quero o squishy de queijo (WhatsApp)">Quero</a></div>
+        </article>
+        <article class="squish rv">
+          <div class="ph"><img src="img/hamburguer.webp" width="560" height="480" loading="lazy" alt="Squishy em formato de hambúrguer com alface, queijo e carne"></div>
+          <h3>Hambúrguer</h3>
+          <p>Pão, alface, queijo e carne.</p>
+          <div class="row"><span class="val">tamanho grande</span><a class="mini" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20o%20squishy%20de%20hamb%C3%BArguer." target="_blank" rel="noopener" aria-label="Quero o squishy de hambúrguer (WhatsApp)">Quero</a></div>
+        </article>
+        <article class="squish rv">
+          <div class="ph"><img src="img/dumpling.webp" width="520" height="680" loading="lazy" alt="Dois squishies de bolinho, um amarelo e um azul, com carinhas sorridentes"></div>
+          <h3>Bolinho</h3>
+          <p>Com glitter e carinha. A cor vem surpresa.</p>
+          <div class="row"><span class="val">tamanho pequeno</span><a class="mini" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20o%20squishy%20de%20bolinho." target="_blank" rel="noopener" aria-label="Quero o squishy de bolinho (WhatsApp)">Quero</a></div>
+        </article>
+      </div>
+      <p class="note rv">Os modelos mudam conforme chega mercadoria. Confirme no WhatsApp antes de vir.</p>
+    </div>
+  </section>
+
+  <section class="sec orelha" id="orelha" aria-labelledby="or-t">
+    <div class="wrap">
+      <div class="arch rv">
+        <div class="frame"><img src="img/brincos.webp" width="540" height="794" loading="lazy" alt="Cartelas de brincos de aço inox, dourados e prateados, para furo de orelha"></div>
+        <div class="stamp" aria-hidden="true"><div><b>inox</b><span>cirúrgico</span></div></div>
+      </div>
+      <div class="copy rv">
+        <h2 id="or-t">Furo de <em>orelha.</em></h2>
+        <p>Feito com brinco antialérgico de aço inox, que vem esterilizado na cartela. <span class="hl hl-rose" style="white-space:nowrap">Você escolhe o modelo.</span></p>
+        <ul class="checks">
+          <li>Brinco antialérgico</li>
+          <li>Aço inox cirúrgico</li>
+          <li>Cartela esterilizada</li>
+        </ul>
+        <a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20marcar%20um%20furo%20de%20orelha." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Marcar o furo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec papel" id="papelaria" aria-labelledby="pa-t">
+    <div class="wrap">
+      <div class="rv">
+        <div class="sec-head" style="margin-bottom:0">
+          <h2 id="pa-t">Faltou alguma <em>coisinha?</em></h2>
+          <p>Antes de sair de casa, pergunte se tem.</p>
+        </div>
+        <ol class="steps">
+          <li><div><b>Mande a lista</b><p>Pode ser foto da lista da escola.</p></div></li>
+          <li><div><b>A gente confere</b><p>Respondemos o que tem, a cor e o preço.</p></div></li>
+          <li><div><b>Passe para buscar</b><p>No Centro de Ubá.</p></div></li>
+        </ol>
+      </div>
+      <div class="page rv" role="group" aria-label="Lista do que você encontra">
+        <h3>o que tem por lá</h3>
+        <ul>
+          <li><span class="ok" aria-hidden="true"></span>Caderno e caneta</li>
+          <li><span class="ok" aria-hidden="true"></span>Material escolar</li>
+          <li><span class="ok" aria-hidden="true"></span>Presentes</li>
+          <li><span class="ok" aria-hidden="true"></span>Sacolas de presente</li>
+          <li><span class="ok" aria-hidden="true"></span>Utilidades</li>
+          <li><span class="ok" aria-hidden="true"></span>Enfeites de Natal</li>
+          <li><span aria-hidden="true"></span>Pergunte o resto</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec final" id="contato" aria-labelledby="ct-t">
+    <div class="wrap">
+      <div class="game rv">
+        <button class="flower" id="flower" type="button" aria-describedby="says">
+          <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Tirar uma pétala da margarida</span>
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <g id="petals" fill="#fff" stroke="#0F1730" stroke-width="2.5"></g>
+            <circle class="center" cx="100" cy="100" r="27" fill="#F6C33B" stroke="#0F1730" stroke-width="2.5"/>
+            <g fill="#C99512"><circle cx="92" cy="94" r="2.6"/><circle cx="104" cy="90" r="2.6"/><circle cx="110" cy="102" r="2.6"/><circle cx="98" cy="108" r="2.6"/><circle cx="88" cy="104" r="2.2"/><circle cx="101" cy="99" r="2.2"/></g>
+          </svg>
+        </button>
+        <p class="says" id="says" aria-live="polite">Leva... não leva...</p>
+        <p class="hint" id="hint">Toque na flor para tirar uma pétala.</p>
+        <button class="again" id="again" type="button" hidden>Pegar outra flor</button>
+      </div>
+      <div class="copy rv">
+        <h2 id="ct-t">Passe aqui <em>na loja.</em></h2>
+        <p>Horário e estoque, é só perguntar no WhatsApp.</p>
+        <div class="card">
+          <dl>
+            <div><dt>Onde</dt><dd>Centro de Ubá, MG</dd></div>
+            <div><dt>Instagram</dt><dd><a href="#">@petalamiuda</a></dd></div>
+          </dl>
+          <p><a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%2C%20P%C3%A9tala%20Mi%C3%BAda%21%20Vi%20o%20site%20e%20queria%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Chamar no WhatsApp</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#inicio">
+      <svg aria-hidden="true"><use href="#daisy"/></svg>
+      <span><b>Pétala Miúda</b><small>papelaria · Centro, Ubá</small></span>
+    </a>
+    <p>Segunda a sábado, horário comercial</p>
+    <p class="demo">Empresa fictícia · site de exemplo feito por <a href="https://3rstudios.com.br">3R Studios</a></p>
+  </div>
+</footer>
+
+<aside aria-label="Atalho para o WhatsApp"><a class="fab" href="https://wa.me/?text=Ol%C3%A1%2C%20P%C3%A9tala%20Mi%C3%BAda%21%20Vi%20o%20site%20e%20queria%20uma%20informa%C3%A7%C3%A3o." target="_blank" rel="noopener" aria-label="Chamar a Pétala Miúda no WhatsApp"><svg aria-hidden="true" style="color:#fff"><use href="#wa"/></svg></a></aside>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // reveal
+  var els = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); }, {rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+  } else { els.forEach(function(el){ el.classList.add('in'); }); }
+
+  // leva, não leva
+  var N = 11, g = document.getElementById('petals'), ns = 'http://www.w3.org/2000/svg';
+  var flower = document.getElementById('flower'), says = document.getElementById('says'),
+      hint = document.getElementById('hint'), again = document.getElementById('again');
+  var petals = [], taken = 0;
+  function build(){
+    g.innerHTML = ''; petals = []; taken = 0;
+    for (var i = 0; i < N; i++) {
+      var a = i * 360 / N;
+      var e = document.createElementNS(ns, 'ellipse');
+      e.setAttribute('cx', 100); e.setAttribute('cy', 46); e.setAttribute('rx', 15); e.setAttribute('ry', 40);
+      e.setAttribute('class', 'petal');
+      e.style.transform = 'rotate(' + a + 'deg)';
+      e.dataset.a = a;
+      g.appendChild(e); petals.push(e);
+    }
+    says.textContent = 'Leva... não leva...';
+    hint.hidden = false; again.hidden = true; flower.disabled = false;
+  }
+  flower.addEventListener('click', function(){
+    if (taken >= N) return;
+    var p = petals[taken], a = +p.dataset.a;
+    p.style.transform = 'rotate(' + a + 'deg) translate(' + (reduce ? 0 : 30) + 'px,' + (reduce ? 0 : -90) + 'px) rotate(' + (reduce ? 0 : 50) + 'deg)';
+    p.classList.add('gone');
+    taken++;
+    if (taken === N) {
+      says.textContent = 'Leva! Agora é só chamar no WhatsApp.';
+      hint.hidden = true; again.hidden = false;
+    } else {
+      says.textContent = taken % 2 ? 'Leva...' : 'Não leva...';
+    }
+  });
+  again.addEventListener('click', function(){ build(); flower.focus(); });
+  build();
+
+  // squish on tap
+  document.querySelectorAll('.squish').forEach(function(c){
+    c.addEventListener('touchstart', function(){ c.classList.add('pressed'); }, {passive:true});
+    c.addEventListener('touchend', function(){ setTimeout(function(){ c.classList.remove('pressed'); }, 140); });
+  });
+})();
+</script>
+</body>
+</html>

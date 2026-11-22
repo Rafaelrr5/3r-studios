@@ -138,7 +138,7 @@ WORKS = [
     ("img/portfolio/mariamae.webp", "Fundação Maria Mãe", "Site novo, nota 100 em SEO.", "Cliente", "https://mariamae.org.br/"),
     ("img/portfolio/minds-academy.webp", "Minds Academy", "Cursos de robótica.", "UFJF", "https://mindsofthefuture.com.br/"),
     ("img/whatsapp-demo.webp", "Atendimento no WhatsApp", "Veja uma conversa de exemplo.", "Exemplo", "whatsapp.html"),
-    ("img/sites/restaurante-ousado.webp", "Sites de exemplo", "12 modelos para se inspirar.", "Exemplo", "sites.html#exemplos"),
+    ("img/sites/restaurante-ousado.webp", "Sites de exemplo", "22 modelos para se inspirar.", "Exemplo", "sites.html#exemplos"),
 ]
 def work(i, im, n, d, tag, href):
     ext = href.startswith("http")
@@ -302,7 +302,7 @@ HTML = f'''<!doctype html>
 <h1 class="e" data-d="1">Eu faço a tecnologia trabalhar <span class="hl">para o seu negócio</span>.</h1>
 <div class="sub e" data-d="2"><p>Sites que encantam, atendimento automático que não dorme e apps feitos com o cuidado de quem programa por paixão.</p>
 <p>Do primeiro rascunho ao ar, você fala direto comigo.</p></div>{BTNS}</div>
-<div class="show" aria-hidden="true"><span class="f s1" data-d="0"><img src="img/portfolio/varal.webp" alt=""></span><span class="f s2" data-d="1"><img src="img/portfolio/qualmonmovie.webp" alt=""></span><span class="f s3" data-d="2"><img src="img/portfolio/resenhopolis-m.webp" alt=""></span></div>
+<div class="show" aria-hidden="true"><span class="f s1" data-d="0"><img src="img/hero/caixinha-da-lia.webp" alt=""></span><span class="f s2" data-d="1"><img src="img/hero/quintal-das-dalias.webp" alt=""></span><span class="f s3" data-d="2"><img src="img/hero/trequim-m.webp" alt=""></span></div>
 </div></section>
 
 <section class="screen" id="sobre"><div class="in"><div class="head"><h2 class="rv">Prazer, eu sou o Rafael.</h2>
