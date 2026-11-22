@@ -131,7 +131,7 @@
     <div class="burger__txt reveal">
       <h2 class="h2">Hambúrguer <span class="sub">no delivery.</span></h2>
       <p>À noite a chapa fica ligada. Peça pelo WhatsApp e a gente leva até você.</p>
-      <ol class="cardapio">
+      <ol class="cardapio desliza" tabindex="0" aria-label="Hambúrgueres (deslize para ver mais)">
         <li><span class="cardapio__n">X-Salada</span><span class="cardapio__d">pão, carne, queijo e salada</span></li>
         <li><span class="cardapio__n">X-Bacon</span><span class="cardapio__d">o mesmo, com bacon crocante</span></li>
         <li><span class="cardapio__n">X-Trilho</span><span class="cardapio__d">o da casa, com carne dupla</span></li>
@@ -171,49 +171,51 @@
       <p class="eventos__lead">O salão coberto cabe a equipe inteira. Mesas, cadeiras e churrasqueira ficam por nossa conta.</p>
     </div>
 
-    <ol class="menu-ev reveal">
+    <ol class="menu-ev desliza reveal" tabindex="0" aria-label="O que servimos na confraternização (deslize para ver mais)">
       <li><span class="menu-ev__n" aria-hidden="true">01</span><span class="menu-ev__t">Churrasco</span><span class="menu-ev__d">Carne assada na hora.</span></li>
       <li><span class="menu-ev__n" aria-hidden="true">02</span><span class="menu-ev__t">Almoço ou jantar</span><span class="menu-ev__d">No horário que for melhor para a equipe.</span></li>
       <li><span class="menu-ev__n" aria-hidden="true">03</span><span class="menu-ev__t">Petiscos</span><span class="menu-ev__d">Porções e cerveja gelada.</span></li>
     </ol>
 
-    <div class="eventos__grid">
-      <figure class="eventos__foto reveal">
-        <img src="img/salao.webp" alt="Salão coberto com mesas compridas montadas e churrasqueira ao fundo" width="640" height="480" loading="lazy">
-        <figcaption>O salão montado para um almoço de fim de ano.</figcaption>
-      </figure>
+    <figure class="eventos__foto reveal">
+      <img src="img/salao.webp" alt="Salão coberto com mesas compridas montadas e churrasqueira ao fundo" width="640" height="480" loading="lazy">
+      <figcaption>O salão montado para um almoço de fim de ano.</figcaption>
+    </figure>
+  </div>
+</section>
 
-      <form class="orcamento reveal" id="orcamento" action="https://wa.me/" method="get" target="_blank">
-        <h3 class="orcamento__h">Peça um orçamento</h3>
-        <p class="orcamento__p">Preencha o que souber. A mensagem sai pronta no WhatsApp.</p>
+<section class="eventos eventos--form" id="orcamento-festa" aria-labelledby="orcamento-h">
+  <div class="eventos__in">
+    <form class="orcamento reveal" id="orcamento" action="https://wa.me/" method="get" target="_blank">
+      <h3 class="orcamento__h" id="orcamento-h">Peça um orçamento</h3>
+      <p class="orcamento__p">Preencha o que souber. A mensagem sai pronta no WhatsApp.</p>
+      <div class="campo">
+        <label for="f-empresa">Empresa ou grupo</label>
+        <input id="f-empresa" name="empresa" type="text" autocomplete="organization" placeholder="Ex.: Equipe da loja">
+      </div>
+      <div class="campo-duplo">
         <div class="campo">
-          <label for="f-empresa">Empresa ou grupo</label>
-          <input id="f-empresa" name="empresa" type="text" autocomplete="organization" placeholder="Ex.: Equipe da loja">
+          <label for="f-pessoas">Quantas pessoas?</label>
+          <input id="f-pessoas" name="pessoas" type="number" inputmode="numeric" min="1" placeholder="Ex.: 30">
         </div>
-        <div class="campo-duplo">
-          <div class="campo">
-            <label for="f-pessoas">Quantas pessoas?</label>
-            <input id="f-pessoas" name="pessoas" type="number" inputmode="numeric" min="1" placeholder="Ex.: 30">
-          </div>
-          <div class="campo">
-            <label for="f-data">Data pensada</label>
-            <input id="f-data" name="data" type="date">
-          </div>
+        <div class="campo">
+          <label for="f-data">Data pensada</label>
+          <input id="f-data" name="data" type="date">
         </div>
-        <fieldset class="opcoes">
-          <legend>O que vocês querem?</legend>
-          <label class="chip"><input type="checkbox" name="tipo" value="churrasco"><span>Churrasco</span></label>
-          <label class="chip"><input type="checkbox" name="tipo" value="almoço"><span>Almoço</span></label>
-          <label class="chip"><input type="checkbox" name="tipo" value="jantar"><span>Jantar</span></label>
-          <label class="chip"><input type="checkbox" name="tipo" value="petiscos"><span>Petiscos</span></label>
-        </fieldset>
-        <input type="hidden" name="text" id="f-text" value="Oi, Varanda do Trilho! Quero fazer a confraternização da minha empresa aí. Podem me passar um orçamento?">
-        <button class="btn btn--zap btn--bloco" type="submit">
-          <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><use href="#zap"/></svg>
-          Pedir orçamento no WhatsApp
-        </button>
-      </form>
-    </div>
+      </div>
+      <fieldset class="opcoes">
+        <legend>O que vocês querem?</legend>
+        <label class="chip"><input type="checkbox" name="tipo" value="churrasco"><span>Churrasco</span></label>
+        <label class="chip"><input type="checkbox" name="tipo" value="almoço"><span>Almoço</span></label>
+        <label class="chip"><input type="checkbox" name="tipo" value="jantar"><span>Jantar</span></label>
+        <label class="chip"><input type="checkbox" name="tipo" value="petiscos"><span>Petiscos</span></label>
+      </fieldset>
+      <input type="hidden" name="text" id="f-text" value="Oi, Varanda do Trilho! Quero fazer a confraternização da minha empresa aí. Podem me passar um orçamento?">
+      <button class="btn btn--zap btn--bloco" type="submit">
+        <svg aria-hidden="true" viewBox="0 0 24 24" class="ico"><use href="#zap"/></svg>
+        Pedir orçamento no WhatsApp
+      </button>
+    </form>
   </div>
 </section>
 

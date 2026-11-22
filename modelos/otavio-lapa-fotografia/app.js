@@ -12,6 +12,23 @@
     items.forEach(el => { el.classList.add('rv'); io.observe(el); });
   }
 
+  // gallery row: arrow buttons when the row is wider than the screen
+  const row = d.getElementById('g-row'), gn = d.querySelector('.g-nav');
+  if (row && gn) {
+    const prev = gn.querySelector('.g-prev'), next = gn.querySelector('.g-next');
+    const upd = () => {
+      const max = row.scrollWidth - row.clientWidth;
+      gn.hidden = max < 4;
+      prev.disabled = row.scrollLeft < 4;
+      next.disabled = row.scrollLeft > max - 4;
+    };
+    const go = dir => row.scrollBy({ left: dir * row.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' });
+    prev.addEventListener('click', () => go(-1));
+    next.addEventListener('click', () => go(1));
+    row.addEventListener('scroll', upd, { passive: true });
+    addEventListener('resize', upd); addEventListener('load', upd); upd();
+  }
+
   // floating CTA after hero, hidden near the contact section
   const fl = d.querySelector('.float'), hero = d.querySelector('.hero'), ct = d.querySelector('#contato');
   const onScroll = () => {

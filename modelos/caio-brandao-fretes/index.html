@@ -100,7 +100,7 @@
       <p class="sec-lead">Toque no serviço e a mensagem já sai pronta.</p>
     </div>
 
-    <div class="menu">
+    <div class="menu menu-scroll" tabindex="0" role="region" aria-label="Lista de serviços (deslize para o lado para ver todos)">
       <div class="menu-col">
         <h3 class="menu-h"><span class="menu-num">01</span> Na estrada</h3>
         <ul class="menu-list">
@@ -296,13 +296,15 @@
         <label><input type="checkbox" name="s" value="Instalação elétrica"><span>Elétrica</span></label>
         <label><input type="checkbox" name="s" value="Instalações gerais"><span>Instalações gerais</span></label>
       </fieldset>
-      <div class="field">
-        <label for="f-end">Endereço ou bairro</label>
-        <input id="f-end" name="end" type="text" autocomplete="street-address" placeholder="Ex.: Centro, Ubá">
-      </div>
-      <div class="field">
-        <label for="f-dest">Destino <span class="opt">(frete ou mudança)</span></label>
-        <input id="f-dest" name="dest" type="text" placeholder="Ex.: outro bairro ou cidade">
+      <div class="field-pair">
+        <div class="field">
+          <label for="f-end">Endereço ou bairro</label>
+          <input id="f-end" name="end" type="text" autocomplete="street-address" placeholder="Ex.: Centro, Ubá">
+        </div>
+        <div class="field">
+          <label for="f-dest">Destino <span class="opt">(frete ou mudança)</span></label>
+          <input id="f-dest" name="dest" type="text" placeholder="Ex.: outro bairro ou cidade">
+        </div>
       </div>
       <div class="field">
         <label for="f-obs">Detalhes <span class="opt">(opcional)</span></label>

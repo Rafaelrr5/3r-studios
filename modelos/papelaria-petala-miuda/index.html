@@ -267,6 +267,121 @@ footer a{color:var(--paper)}
   footer{padding-bottom:34px}
   footer .wrap{grid-template-columns:auto 1fr auto;align-items:center;gap:32px}
 }
+/* FIT-START */
+/* cada seção inteira numa tela */
+:root{--secpad:clamp(26px,5.5svh,72px)}
+.sec{padding:var(--secpad) 0}
+.sec-head{gap:10px;margin-bottom:clamp(16px,3svh,36px)}
+.sec-head h2{font-size:clamp(34px,min(8.4vw,8.6svh),76px)}
+.sec-head p{font-size:clamp(16px,2vw,19px)}
+.hero{padding:clamp(14px,3svh,48px) 0 clamp(18px,3.5svh,56px);min-height:calc(100svh - 69px);display:flex;flex-direction:column;justify-content:center}
+.hero>.wrap{width:100%}
+.hero .wrap{gap:clamp(14px,3svh,56px)}
+.hero h1{font-size:clamp(38px,min(11.5vw,11svh),98px);margin:clamp(10px,2svh,20px) 0 clamp(10px,2svh,22px)}
+.cta-row{margin-top:clamp(14px,2.6svh,28px)}
+.collage{height:auto;aspect-ratio:350/421;width:min(100%,560px,calc((100svh - var(--hero-txt,560px)) * .83))}
+.natal-grid .item.n1{display:block}
+.n-cta{margin-top:clamp(14px,2.6svh,32px);padding-top:0}
+.n-cta p{padding-top:clamp(10px,2svh,20px)}
+.item .frame{padding:8px}
+.item .frame img{height:clamp(110px,22svh,300px);object-fit:cover}
+.item-body{margin-top:12px}
+.item h3{font-size:clamp(24px,min(4vw,4.4svh),34px)}
+.item p{font-size:16px}
+.squish .ph{aspect-ratio:auto;height:clamp(110px,21svh,260px)}
+.squish h3{margin:12px 6px 2px;font-size:clamp(23px,min(2.3vw,4svh),30px)}
+.squish p{margin:0 6px;font-size:16px}
+.squish .row{margin:10px 6px 0}
+.squish .val:has(small){font-size:30px}
+.note{margin-top:clamp(12px,2.4svh,28px)}
+.orelha h2{font-size:clamp(38px,min(9vw,9.5svh),84px)}
+.orelha .copy>p{margin-top:12px}
+.checks{margin:clamp(14px,2.6svh,26px) 0 clamp(16px,3svh,30px);gap:8px}
+.arch{width:min(440px,100%,calc((100svh - var(--arch-off,560px)) * .757))}
+.final h2{font-size:clamp(36px,min(8.5vw,8.6svh),78px)}
+.final .copy>p{margin-top:12px}
+.card{margin-top:clamp(14px,2.6svh,30px);padding-top:clamp(14px,2.4svh,26px);gap:14px}
+.card dl{gap:8px}
+.card dd{font-size:19px}
+.flower{width:min(78vw,340px,36svh)}
+.says{font-size:clamp(24px,min(5vw,4.6svh),38px)}
+.papel .sec-head h2{font-size:clamp(34px,min(8.4vw,8.6svh),76px)}
+.steps{margin-top:clamp(14px,2.6svh,34px);gap:clamp(10px,2svh,22px)}
+/* fileira que desliza (celular) */
+.swipe{scrollbar-width:none}
+.swipe::-webkit-scrollbar{display:none}
+@media (max-width:959px){
+  :root{--arch-off:495px;--secpad:clamp(24px,4.4svh,56px)}
+  .hero{justify-content:flex-start}
+  .hero>.wrap{flex:1 1 auto;display:flex;flex-direction:column}
+  .collage{flex:1 1 auto;width:100%;max-width:460px;aspect-ratio:auto;height:auto;min-height:140px;max-height:320px}
+  .collage .snap{top:6%;bottom:6%;padding:6px 6px 26px}
+  .collage .snap img{height:100%;aspect-ratio:auto}
+  .collage .s1{width:36%;left:0}
+  .collage .s2{width:30%;left:34%;right:auto;top:2%;bottom:10%}
+  .collage .s3{width:33%;left:auto;right:0;top:10%;bottom:2%}
+  .collage .snap figcaption{font-size:12.5px;bottom:5px;white-space:nowrap}
+  .collage .snap::before{width:56px;margin-left:-28px;height:18px;top:-9px}
+  .collage .big-daisy{width:24%;right:-7%;bottom:-16%;z-index:1}
+  .papel .wrap,.orelha .wrap,.final .wrap{grid-template-columns:minmax(0,1fr)}
+  .item .frame img{height:clamp(110px,19svh,260px)}
+  .squish .ph{height:clamp(110px,18svh,240px)}
+  .n-cta{gap:10px;margin-top:10px}
+  .n-cta p{padding-top:10px}
+  .swipe{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;margin-inline:calc(-1 * var(--pad));padding:4px var(--pad) 14px;scroll-padding-inline:var(--pad)}
+  .swipe>*{flex:0 0 80%;scroll-snap-align:start}
+  .natal-grid.swipe{gap:16px}
+  .item{position:relative}
+  .item .price{position:absolute;top:14px;right:-6px;padding:8px 12px 8px 24px;min-width:0}
+  .item .price b{font-size:22px}
+  .item .price.ask b{font-size:17px}
+  .item p{max-width:none}
+  .squish-grid.swipe>*{flex-basis:76%}
+  .squish{padding:12px 12px 16px}
+  .steps.swipe{margin-top:16px}
+  .steps.swipe>li{flex-basis:86%;grid-template-columns:34px 1fr;gap:8px;background:#fff;border-radius:14px;padding:10px 14px;box-shadow:0 1px 0 rgba(30,42,74,.08)}
+  .steps li::before{font-size:38px}
+  .steps b{font-size:18px;line-height:1.3}
+  .steps p{font-size:15.5px;line-height:1.4}
+  .papel .wrap{gap:18px}
+  .page{padding:16px 18px 18px 56px;background-image:linear-gradient(to bottom,transparent 33px,var(--line) 33px,var(--line) 34px);background-size:100% 34px;background-position:0 10px}
+  .page h3{font-size:23px;line-height:34px;margin-top:-2px}
+  .page li{line-height:34px;height:34px;font-size:17px}
+  .orelha .wrap{gap:16px}
+  .stamp{width:96px;height:96px;right:-18px;bottom:14px}
+  .stamp b{font-size:30px}
+  .stamp span,.stamp small{font-size:12px}
+  .checks{grid-template-columns:repeat(2,auto);justify-content:start;column-gap:16px}
+  .checks li{font-size:16px}
+  .final .wrap{gap:20px}
+  .game{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);justify-items:start;text-align:left;column-gap:16px;row-gap:6px;align-items:center}
+  .flower{grid-row:1/4;width:100%;max-width:200px}
+  .says{min-height:0;align-self:end}
+  .hint,.again{align-self:start}
+}
+@media (min-width:960px){
+  :root{--hero-txt:0px}
+  .collage{aspect-ratio:560/520;width:min(560px,100%,calc((100svh - 68px - 2 * clamp(14px,3svh,48px) - 20px) * 1.077))}
+  .natal .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:40px;align-items:end}
+  .natal .sec-head{grid-column:1;grid-row:1;margin-bottom:clamp(16px,3svh,36px)}
+  .natal .n-cta{grid-column:2;grid-row:1;align-self:end;margin:0 0 clamp(16px,3svh,36px);border-top:0;border-left:1px dashed rgba(255,255,255,.35);padding:0 0 0 28px;max-width:300px}
+  .natal .sec-head{max-width:none}
+  .natal .n-cta p{padding-top:0}
+  .natal-grid{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:32px}
+  .natal-grid .n1,.natal-grid .n2,.natal-grid .n3{grid-column:auto;grid-row:auto}
+  .item .frame img{height:clamp(140px,calc(100svh - 530px),320px)}
+  .item p{max-width:32ch}
+  .squishy .sec-head{max-width:none;grid-template-columns:auto minmax(0,1fr);align-items:end;column-gap:56px}
+  .squish:nth-child(2){transform:translateY(12px) rotate(1deg)}
+  .squish .ph{height:clamp(120px,calc(100svh - 550px),300px)}
+  .arch{--arch-off:calc(68px + 2 * var(--secpad) + 16px)}
+  .papel .wrap{align-items:center}
+  .page{background-size:100% 44px;background-image:linear-gradient(to bottom,transparent 43px,var(--line) 43px,var(--line) 44px)}
+  .page h3,.page li{line-height:44px}
+  .page li{height:44px}
+  .flower{width:min(340px,40svh)}
+}
+/* FIT-END */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}
@@ -348,20 +463,14 @@ footer a{color:var(--paper)}
         <h2 id="natal-t">O Natal <em>chegou.</em></h2>
         <p>Enfeite para a árvore e sacola para o presente.</p>
       </div>
-      <div class="natal-grid">
-        <div class="n1">
-        <figure class="item rv">
+      <div class="natal-grid swipe" tabindex="0" role="group" aria-label="Produtos de Natal (deslize para ver mais)">
+        <figure class="item n1 rv">
           <div class="frame"><img src="img/enfeites.webp" width="720" height="656" loading="lazy" alt="Enfeites de Natal: ponteiras de estrela, bolinhas em tubo, sinos dourados e laços vermelhos"></div>
           <figcaption class="item-body">
             <div><h3>Enfeites</h3><p>Ponteira de estrela, bolinhas, sinos e laços.</p></div>
             <span class="price ask"><b>Consulte</b></span>
           </figcaption>
         </figure>
-        <div class="n-cta rv">
-          <p>Pergunte o que chegou esta semana.</p>
-          <a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20saber%20dos%20produtos%20de%20Natal." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Perguntar sobre o Natal</a>
-        </div>
-        </div>
         <figure class="item n2 rv">
           <div class="frame"><img src="img/sacolas.webp" width="720" height="511" loading="lazy" alt="Sacolas de Natal transparentes com alça vermelha"></div>
           <figcaption class="item-body">
@@ -369,6 +478,10 @@ footer a{color:var(--paper)}
             <span class="price ask"><b>Consulte</b></span>
           </figcaption>
         </figure>
+      </div>
+      <div class="n-cta rv">
+          <p>Pergunte o que chegou esta semana.</p>
+          <a class="btn btn-wa" href="https://wa.me/?text=Ol%C3%A1%21%20Vi%20o%20site%20e%20quero%20saber%20dos%20produtos%20de%20Natal." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Perguntar sobre o Natal</a>
       </div>
     </div>
   </section>
@@ -379,7 +492,7 @@ footer a{color:var(--paper)}
         <h2 id="sq-t">Squishies <em>bem macios.</em></h2>
         <p>Para apertar no meio da prova ou dar de presente.</p>
       </div>
-      <div class="squish-grid">
+      <div class="squish-grid swipe" tabindex="0" role="group" aria-label="Squishies (deslize para ver mais)">
         <article class="squish rv">
           <div class="ph"><img src="img/queijo.webp" width="560" height="453" loading="lazy" alt="Squishy em formato de fatia de queijo"></div>
           <h3>Queijo</h3>
@@ -429,7 +542,7 @@ footer a{color:var(--paper)}
           <h2 id="pa-t">Faltou alguma <em>coisinha?</em></h2>
           <p>Antes de sair de casa, pergunte se tem.</p>
         </div>
-        <ol class="steps">
+        <ol class="steps swipe" tabindex="0" aria-label="Como pedir, em 3 passos">
           <li><div><b>Mande a lista</b><p>Pode ser foto da lista da escola.</p></div></li>
           <li><div><b>A gente confere</b><p>Respondemos o que tem, a cor e o preço.</p></div></li>
           <li><div><b>Passe para buscar</b><p>No Centro de Ubá.</p></div></li>

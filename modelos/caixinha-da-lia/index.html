@@ -215,6 +215,41 @@ footer nav a:hover{color:var(--rosa-2)}
   footer .wrap{grid-template-columns:auto 1fr auto;align-items:center;gap:2rem}
   footer nav{justify-content:center}
 }
+/* ---------- cada seção cabe numa tela ---------- */
+.hero{min-height:calc(100svh - 68px);display:grid;align-items:center;padding:clamp(1rem,3svh,2.5rem) 0 clamp(1.25rem,3.6svh,3.5rem)}
+.kicker{margin-bottom:clamp(.5rem,1.4svh,1.25rem)}
+.hero h1{font-size:clamp(2.3rem, min(11vw, 5.4svh), 5.6rem)}
+.lead{margin-top:clamp(.6rem,1.6svh,1.25rem);line-height:1.5}
+.ctas{margin-top:clamp(.9rem,2.2svh,1.75rem)}
+.box-art{width:min(100%, 520px, 24svh)}
+.sec{padding:clamp(2.25rem,6svh,7.5rem) 0}
+.statement{padding:clamp(2.5rem,8svh,6.5rem) 0 clamp(2.75rem,9svh,7rem)}
+.final{padding:clamp(2.75rem,8svh,5.5rem) 0 clamp(3rem,9svh,6rem)}
+.sec-head{margin-bottom:clamp(1.25rem,3svh,2.75rem)}
+.sec-head h2{font-size:clamp(2rem, min(8vw, 7.2svh), 4rem)}
+.sec-head p{margin-top:clamp(.6rem,1.4svh,1rem)}
+.festa ul{margin-top:clamp(.9rem,2svh,1.5rem)}
+.festa .ctas{margin-top:clamp(.9rem,2svh,1.75rem)}
+.note{margin-top:clamp(.75rem,1.6svh,1.25rem)}
+.gift{width:min(100%, 21svh);margin-inline:auto}
+@media (max-width:899px){
+  .hero .wrap{gap:clamp(1rem,2.6svh,2.5rem)}
+  .festa .wrap,.menu .wrap,.sobre .wrap{gap:clamp(1rem,2.6svh,2.5rem)}
+}
+.swipe{scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.swipe::-webkit-scrollbar{display:none}
+@media (max-width:719px){
+  .steps{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;border-top:0;margin-inline:-1.25rem;padding:0 1.25rem 4px;scroll-padding-inline:1.25rem}
+  .steps li{flex:0 0 82%;scroll-snap-align:start;border-bottom:0;border-top:1.5px solid var(--cacau);padding:1.1rem 0 .25rem}
+  .festa li{padding:.4rem .9rem;font-size:.92rem}
+}
+@media (min-width:900px){
+  .hero{padding:clamp(1.5rem,5svh,4.5rem) 0 clamp(1.5rem,6svh,6rem)}
+  .hero h1{font-size:clamp(2.75rem, min(11vw, 10svh), 5.6rem)}
+  .box-art{width:min(100%, 520px, 64svh)}
+  .gift{width:min(100%, 66svh)}
+  .sec{padding:clamp(3rem,9svh,7.5rem) 0}
+}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
   .rv{opacity:1;transform:none}
@@ -342,7 +377,7 @@ footer nav a:hover{color:var(--rosa-2)}
       <div class="sec-head rv">
         <h2>Como <em>pedir</em></h2>
       </div>
-      <ol class="steps">
+      <ol class="steps swipe" tabindex="0" aria-label="Passos da encomenda, deslize para o lado">
         <li class="rv"><span class="n" aria-hidden="true">1</span><h3>Escolhe</h3><p>Pergunte os sabores da semana no WhatsApp.</p></li>
         <li class="rv"><span class="n" aria-hidden="true">2</span><h3>Combina</h3><p>A gente acerta o dia e se é retirada ou entrega.</p></li>
         <li class="rv"><span class="n" aria-hidden="true">3</span><h3>Recebe</h3><p>Vem na caixinha, pronta pra presentear ou guardar na geladeira.</p></li>

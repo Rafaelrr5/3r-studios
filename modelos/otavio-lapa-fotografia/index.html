@@ -72,10 +72,13 @@
   <section class="gallery" id="galeria" aria-labelledby="g-title">
     <header class="sec-head">
       <h2 id="g-title">Yoga <em>sob as Árvores</em></h2>
-      <p>Toque numa foto para ampliar.</p>
+      <div class="sec-side">
+        <p>Toque numa foto para ampliar.</p>
+        <div class="g-nav" hidden><button type="button" class="g-prev" aria-label="Fotos anteriores" aria-controls="g-row">&larr;</button><button type="button" class="g-next" aria-label="Próximas fotos" aria-controls="g-row">&rarr;</button></div>
+      </div>
     </header>
 
-    <ul class="grid" role="list">
+    <ul class="grid" id="g-row" role="list" tabindex="0" aria-label="Galeria de fotos, deslize para o lado para ver mais">
       <li class="it a land"><button class="ph" data-full="img/g1.webp" aria-label="Ampliar foto 1"><img src="img/g1.webp" width="1000" height="667" loading="lazy" decoding="async" alt="Aluna de costas em avanço baixo sobre o tapete, braços erguidos, com sol entre as árvores"></button><p class="cap"><span>01</span> Primeira luz</p></li>
       <li class="it b port"><button class="ph" data-full="img/g2.webp" aria-label="Ampliar foto 2"><img src="img/g2.webp" width="667" height="1000" loading="lazy" decoding="async" alt="Mãos unidas no peito de quem está sentado de pernas cruzadas sobre um pano colorido"></button><p class="cap"><span>02</span> Mãos no peito</p></li>
       <li class="it c port"><button class="ph" data-full="img/g3.webp" aria-label="Ampliar foto 3"><img src="img/g3.webp" width="667" height="1000" loading="lazy" decoding="async" alt="Braços erguidos com as mãos unidas contra a copa das árvores"></button><p class="cap"><span>03</span> Para o alto</p></li>

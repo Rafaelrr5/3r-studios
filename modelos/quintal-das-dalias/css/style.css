@@ -295,3 +295,143 @@ address{font-style:normal;margin-top:1.25rem;font-size:1.15rem;line-height:1.55}
   .gift{padding:2rem 1.75rem}
   .sec-head:has(> :only-child){grid-template-columns:1fr}
 }
+
+
+/* ===== cabe na tela: cada seção inteira em uma tela (celular e notebook) ===== */
+.hero h1{font-size:clamp(2.3rem,min(10.6vw,6.6svh),5.6rem)}
+.hero__grid{gap:1.25rem;padding:clamp(1rem,3svh,2.75rem) 0 clamp(1rem,3svh,3.25rem)}
+.hero__place{margin-bottom:clamp(.5rem,1.6svh,1.25rem)}
+.hero__lede{margin-top:clamp(.6rem,1.8svh,1.25rem);font-size:clamp(1rem,2.3svh,1.125rem);line-height:1.5}
+.hero__cta{margin-top:clamp(.9rem,2.6svh,1.9rem);gap:.6rem}
+.rating{margin-top:clamp(.25rem,1.2svh,1.75rem)}
+.hero__art{min-height:0;height:clamp(150px,22svh,420px)}
+.hero__ph--main{height:100%;width:auto;aspect-ratio:4/5;border-width:4px;border-radius:120px 120px 16px 16px}
+.hero__ph--side{height:72%;width:auto;left:calc(min(100%, 22svh) * .62);right:auto;border-width:4px}
+.tag{width:124px;right:0;top:4%;padding:1.1rem .75rem .75rem}
+.ribbon__track{padding:.6rem 0;font-size:1.2rem}
+
+.sec-head{gap:.6rem;margin-bottom:clamp(1rem,2.6svh,2.25rem)}
+.sec-head h2{font-size:clamp(2rem,min(9vw,5.4svh),4.4rem)}
+.sec-head p{font-size:.98rem;line-height:1.5}
+.vitrine,.precos,.pedido{padding:clamp(1.75rem,4.5svh,7rem) 0}
+.presentes{padding:clamp(1.75rem,4.5svh,7rem) 0}
+
+/* linhas que deslizam (celular e tablet) */
+@media (max-width:899px){
+  .grid,.gifts,.menu{display:flex;gap:.75rem;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:1.25rem;margin-inline:-1.25rem;padding:0 1.25rem .25rem;scrollbar-width:none}
+  .grid::-webkit-scrollbar,.gifts::-webkit-scrollbar,.menu::-webkit-scrollbar{display:none}
+  .grid>*,.gifts>*,.menu>*{scroll-snap-align:start;flex:0 0 74%}
+  .card,.card--tall,.card--wide{aspect-ratio:auto;height:min(52svh,440px)}
+  .gifts>*{flex-basis:70%}
+  .gift{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start;padding:.6rem .6rem 1rem}
+  .gift img{width:100%;height:min(30svh,260px)}
+  .gift__txt{padding:.3rem .4rem 0}
+  .menu>*{flex-basis:86%}
+  .menu__col{padding:1rem 1.1rem}
+  .menu__col h3{font-size:1.6rem;padding-bottom:.5rem}
+  .list div{padding:.28rem 0;font-size:.95rem;line-height:1.35}
+  .list .hl{padding:.4rem .75rem;margin-top:.25rem}
+  .menu__ph{flex:1 1 auto;height:auto;min-height:90px;margin-top:1rem}
+  .menu__col--cta{justify-content:center}
+  .menu__note{margin-top:0}
+}
+.menu__col--cta .menu__note{margin-top:0}
+.precos::after{height:20px}
+
+/* pedido: introdução e formulário em blocos próprios */
+.pedido h2{font-size:clamp(2rem,min(9vw,5.4svh),4.2rem);max-width:16ch}
+.pedido__intro>p{margin-top:.75rem;font-size:.98rem;line-height:1.5}
+.card-prev{margin-top:clamp(1rem,3svh,2rem);width:min(330px,100%,46svh)}
+.form{padding:1.1rem 1rem;gap:.7rem}
+.field{gap:.3rem}
+input,select,textarea{min-height:46px;padding:.6rem .85rem}
+textarea{min-height:72px}
+.seg span{min-height:46px}
+.form__hint{font-size:.8rem;line-height:1.4}
+.pedido__grid{gap:clamp(1.75rem,4svh,2.5rem)}
+@media (max-width:899px){
+  .pedido{padding:0}
+  .pedido__intro,.pedido__form{padding:clamp(1.5rem,4svh,3rem) 0}
+  .pedido__form{padding-top:0}
+  .pedido__grid{gap:0}
+}
+
+/* visite */
+.visite{padding:.5rem 0 clamp(2rem,5svh,4.5rem)}
+.visite h2{font-size:clamp(2rem,min(9vw,5.4svh),4.2rem);max-width:16ch}
+address{margin-top:.9rem;font-size:1.05rem}
+.visite__cta{margin-top:1rem;gap:.6rem}
+.visite__grid{gap:1.5rem}
+.hours{padding:1.2rem 1.25rem}
+.hours h3{font-size:1.7rem;margin-bottom:.25rem}
+.hours th,.hours td{padding:.55rem 0}
+.hours__note{margin-top:.7rem}
+
+@media (min-width:900px){
+  .hero__grid{padding:clamp(1.25rem,4svh,5rem) 0 clamp(1.25rem,4svh,5.5rem)}
+  .hero__art{height:auto;min-height:0;align-self:stretch}
+  .hero__ph--main{height:auto;width:min(74%,calc((100svh - 68px - 54px - 8svh) * .8))}
+  .hero__ph--side{height:auto;width:min(46%,calc((100svh - 68px - 54px - 8svh) * .48));left:auto;right:0}
+  .tag{width:150px}
+  .vitrine,.precos,.presentes{padding:clamp(2rem,5.5svh,7rem) 0}
+  .sec-head{margin-bottom:clamp(1rem,3svh,3rem)}
+  .sec-head h2{max-width:none}
+  .grid{grid-auto-rows:clamp(130px,calc((100svh - 68px - 11svh - 9.5rem - 1rem) / 2),260px)}
+  .menu{grid-template-columns:1.45fr 1fr 1fr;gap:1rem}
+  .menu__col{padding:clamp(1rem,3svh,2.5rem) 1.5rem}
+  .menu__col h3{font-size:2rem;padding-bottom:.55rem}
+  .menu__col:first-child .list{column-count:2;column-gap:2rem}
+  .menu__col:first-child .list div{break-inside:avoid}
+  .list div{padding:clamp(.25rem,.9svh,.62rem) 0}
+  .list .hl{padding:.45rem .75rem}
+  .menu__ph{min-height:100px;margin-top:1rem}
+  .menu__note{margin-bottom:0}
+  .menu__col--cta{justify-content:space-between}
+  .menu__col--cta .promise{margin-top:1.25rem}
+  .gift img{height:clamp(150px,calc(100svh - 68px - 11svh - 18rem),300px)}
+  .pedido{padding:clamp(1.5rem,4svh,7rem) 0}
+  .pedido__grid{gap:4rem}
+  .pedido h2{max-width:18ch}
+  .card-prev{width:min(400px,42svh);margin-top:clamp(1rem,3svh,2.75rem)}
+  .form{padding:clamp(1.1rem,3svh,2.25rem) 2rem}
+  .visite__grid{gap:4rem}
+  .hours{padding:1.6rem 2rem}
+}
+
+.hero{min-height:calc(100svh - 68px);display:flex;flex-direction:column}
+.hero__grid{flex:1 0 auto;align-content:center}
+@media (max-width:899px){
+  .hero h1{max-width:15ch}
+  .hero__grid{gap:1rem;padding:clamp(.9rem,2.2svh,2rem) 0}
+  .hero__art{height:clamp(120px,17svh,300px)}
+  .hero__ph--side{left:calc(min(100%, 17svh) * .62)}
+  .tag{width:118px;top:0;padding:.95rem .7rem .6rem}
+  .rating{padding:.2rem 0}
+  .list div{padding:.22rem 0}
+}
+@media (min-width:900px){
+  .hero h1{font-size:clamp(2.6rem,min(6vw,8.6svh),5.6rem)}
+  .pedido h2{font-size:clamp(2rem,min(6vw,6.6svh),4.2rem)}
+}
+
+.field-pair{display:grid;gap:.7rem}
+@media (min-width:900px){
+  .hero h1{max-width:15ch}
+  .field-pair{grid-template-columns:1.15fr 1fr;align-items:end}
+  .seg span{padding:0 .5rem}
+}
+
+/* exemplo: presentes só com texto já cabem, ficam em grade */
+@media (max-width:899px){
+  .gifts{display:grid;overflow:visible;margin-inline:0;padding:0}
+  .gift{padding:1.4rem 1.25rem}
+}
+@media (max-width:899px){
+  .hero__art{height:clamp(120px,26svh,300px)}
+  .hero__ph--side{left:calc(min(100%, 26svh) * .62)}
+}
+@media (min-width:900px){
+  .menu{grid-template-columns:1.1fr 1fr 1fr}
+  .menu__col:first-child .list{column-count:auto}
+}
+.pedido{scroll-margin-top:72px}

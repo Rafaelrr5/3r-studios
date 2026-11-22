@@ -265,6 +265,97 @@ p{margin:0 0 1rem}
   .btn,.galeria img,.zap{transition:none}
 }
 .no-js .rev{opacity:1;transform:none}
+
+/* ===== cada seção cabe numa tela (ajuste de tamanho e espaçamento, sem mudar a cara) ===== */
+h2{font-size:clamp(2.3rem, min(9vw, 10.5svh), 5.6rem)}
+.historia,.oficinas,.palco,.tributo,.leve{padding-block:clamp(36px, 7svh, 80px)}
+.convite{padding-block:clamp(40px, 8svh, 72px)}
+.tag{margin-bottom:.6rem}
+.hero h1{font-size:clamp(3.4rem, min(21vw, 12.5svh), 12.5rem)}
+.hero-txt{padding:clamp(1.2rem, 3.5svh, 2.6rem) 0 clamp(1rem, 3svh, 2rem)}
+.hero .sub{margin-top:clamp(.8rem, 2svh, 1.4rem)}
+.hero .acoes{margin-top:clamp(1rem, 2.4svh, 1.8rem)}
+.hero{min-height:calc(100svh - 68px);display:flex;flex-direction:column}
+.hero-grid{flex:1 1 auto}
+@media (max-width:899px){
+  .hero-grid{display:flex;flex-direction:column}
+  .hero-foto{flex:1 1 24svh;min-height:24svh}
+  .hero-foto picture{position:absolute;inset:0}
+  .hero-foto picture,.hero-foto img{height:100%;aspect-ratio:auto}
+}
+.linha{margin-top:clamp(1.2rem, 3.5svh, 3rem)}
+.lista-of{margin-top:clamp(1.2rem, 3.5svh, 3rem)}
+.galeria{margin-top:clamp(1rem, 3svh, 2.6rem)}
+.temas{margin-top:clamp(1.2rem, 3.5svh, 3.5rem);gap:clamp(1rem, 3svh, 2.5rem)}
+.temas h3{margin-bottom:.6rem}
+.cidades{font-size:clamp(1.5rem, min(5.6vw, 4.6svh), 2.6rem)}
+.tributo h2{font-size:clamp(2.4rem, min(11vw, 11svh), 7rem)}
+.tributo .lede{margin-top:clamp(.6rem, 2svh, 1.4rem)}
+.tributo .passeata{margin-top:clamp(1rem, 3svh, 2.4rem)}
+.atracoes{margin-top:clamp(.8rem, 2.6svh, 2.6rem);font-size:clamp(1.1rem, min(4.2vw, 3.6svh), 2rem)}
+.grito{margin-top:clamp(1rem, 3.4svh, 3.4rem);font-size:clamp(1.4rem, min(5vw, 4.6svh), 2.8rem)}
+.caminhos{margin-top:clamp(1.2rem, 3.5svh, 3rem)}
+.caminho{padding:clamp(1rem, 3svh, 2rem) 0}
+
+/* coleções: no celular viram uma fileira que se arrasta para o lado */
+.trilho:focus-visible{outline-offset:4px}
+@media (max-width:899px){
+  .lede{font-size:clamp(1.02rem, 2.4vw, 1.4rem)}
+  .trilho{display:flex;gap:.9rem;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:0;margin-inline:0;padding-bottom:.6rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .trilho::-webkit-scrollbar{display:none}
+  .trilho>*{flex:0 0 82%;scroll-snap-align:start}
+  .trilho>.rev{opacity:1;transform:none}
+  /* linha do tempo */
+  .linha.trilho li{display:block;padding:1rem 0 0;border-top:3px solid #3B3532;border-bottom:0}
+  .linha.trilho li:last-child{border-bottom:0}
+  .linha.trilho time{display:block;margin-bottom:.5rem}
+  /* oficinas */
+  .lista-of.trilho li{border-top:2px solid var(--noite);padding:1rem 0 .4rem;align-content:start}
+  /* galeria */
+  .galeria.trilho>figure{height:clamp(160px, 26svh, 300px);aspect-ratio:auto}
+  .palco,.tributo{padding-block:clamp(28px, 5svh, 56px)}
+  .tributo .passeata{font-size:1rem}
+  .temas{margin-top:clamp(.8rem, 2.4svh, 2rem);gap:clamp(.8rem, 2.4svh, 2rem)}
+  .temas h3{font-size:1rem;margin-bottom:.45rem}
+  .chips{gap:.4rem}
+  .chips li{padding:.3rem .8rem;font-size:.9rem}
+  .cidades{font-size:clamp(1.25rem, 5.4vw, 1.9rem)}
+  .nota{margin-top:.4rem}
+  /* atrações: duas linhas que se arrastam para o lado */
+  .atracoes.trilho{display:grid;grid-template-rows:repeat(2, auto);grid-auto-flow:column;grid-auto-columns:max-content;gap:.3rem .9rem;scroll-snap-type:none;font-size:1.15rem}
+  .atracoes.trilho>li{scroll-snap-align:none}
+  .galeria.trilho>.g2,.galeria.trilho>.g3{flex-basis:62%}
+  /* caminhos */
+  .caminhos.trilho{border-bottom:0}
+  .caminhos.trilho .caminho{border-top:2px solid var(--noite);border-bottom:0;padding:1rem 0 .4rem;align-content:start}
+  .caminhos.trilho .caminho:last-child{border-bottom:0}
+}
+
+@media (min-width:900px){
+  .hero-txt{padding:clamp(1.5rem, 6svh, 5rem) 0 clamp(1.5rem, 5svh, 4.5rem)}
+  .hero h1{font-size:clamp(3.4rem, min(21vw, 20svh), 12.5rem)}
+  .hero-foto img{min-height:min(620px, calc(100svh - 92px))}
+  /* linha do tempo na horizontal, um marco por coluna */
+  .historia .cab{gap:2rem}
+  .linha{grid-template-columns:repeat(5, 1fr);gap:1.6rem;border-bottom:0}
+  .linha li{display:block;padding:1rem 0 0;border-top:3px solid #3B3532}
+  .linha li:last-child{border-bottom:0}
+  .linha time{display:block;font-size:clamp(2rem, 5svh, 3rem);margin-bottom:.5rem}
+  /* oficinas em 3 colunas */
+  .lista-of{grid-template-columns:repeat(3, 1fr);column-gap:2.5rem}
+  .lista-of li{padding:clamp(.8rem, 2svh, 1.4rem) 0}
+  .lista-of h3{font-size:clamp(1.6rem, min(6.5vw, 5svh), 3rem)}
+  /* palco: fotos à esquerda, temas à direita */
+  .palco-corpo{display:grid;grid-template-columns:1.7fr 1fr;gap:2.5rem;align-items:start;margin-top:clamp(1rem, 3svh, 2.6rem)}
+  .palco-corpo .galeria{margin-top:0;grid-auto-rows:calc((100svh - 68px - 2 * clamp(36px, 7svh, 80px) - 13.5rem) / 6)}
+  .palco-corpo .galeria .g4{grid-row:span 2}
+  .palco-corpo .temas{margin-top:0;grid-template-columns:1fr}
+  /* tributo: chamada e atrações lado a lado com o grito */
+  .tributo .corpo{display:grid;grid-template-columns:1.5fr 1fr;gap:1rem 3rem;align-items:start}
+  .tributo .corpo .passeata,.tributo .corpo .atracoes{grid-column:1}
+  .tributo .corpo .grito{grid-column:2;grid-row:1 / span 2;margin-top:clamp(1rem, 3svh, 2.4rem)}
+  .convite{padding-block:clamp(40px, 9svh, 96px)}
+}
 </style>
 </head>
 <body class="no-js">
@@ -342,7 +433,7 @@ p{margin:0 0 1rem}
         </div>
         <p class="lede rev" style="color:#E4D9CC">Depois de uma apresentação de 20 de novembro, as crianças pediram pra continuar.</p>
       </div>
-      <ol class="linha">
+      <ol class="linha trilho" tabindex="0" aria-label="Linha do tempo, arraste para o lado">
         <li class="rev"><time datetime="2015">2015</time><h3>Primeiro ensaio</h3><p>Doze crianças e um aparelho de som.</p></li>
         <li class="rev"><time datetime="2018">2018</time><h3>Fora do bairro</h3><p>Festivais em cidades vizinhas.</p></li>
         <li class="rev"><time datetime="2021">2021</time><h3>Sala própria</h3><p>A escola cede uma sala.</p></li>
@@ -362,7 +453,7 @@ p{margin:0 0 1rem}
         </div>
         <p class="lede rev">Quem dança também tem reforço escolar na semana.</p>
       </div>
-      <ol class="lista-of">
+      <ol class="lista-of trilho" tabindex="0" aria-label="Oficinas do projeto, arraste para o lado">
         <li class="rev"><h3>Dança afro</h3><p>Segunda e quarta, das 14h às 16h.</p></li>
         <li class="rev"><h3>Danças urbanas</h3><p>Hip hop e break, sexta à tarde.</p></li>
         <li class="rev"><h3>Reforço escolar</h3><p>Português e matemática, com voluntários.</p></li>
@@ -377,7 +468,8 @@ p{margin:0 0 1rem}
     <div class="wrap">
       <p class="tag">No palco</p>
       <h2 id="h-palco">Dia de <span class="serif">apresentação</span></h2>
-      <div class="galeria">
+      <div class="palco-corpo">
+      <div class="galeria trilho" tabindex="0" aria-label="Fotos das apresentações, arraste para o lado">
         <figure class="g1 rev"><img src="img/palco.webp" width="900" height="600" loading="lazy" alt="Pés descalços e saias de franja de dançarinos em movimento sobre um palco de madeira."></figure>
         <figure class="g2 rev"><img src="img/tambor.webp" width="720" height="900" loading="lazy" alt="Mãos tocando um atabaque de madeira." style="object-position:50% 72%"></figure>
         <figure class="g3 rev"><img src="img/grupo.webp" width="900" height="675" loading="lazy" alt="O grupo, de costas e com roupas estampadas, diante do público."></figure>
@@ -398,6 +490,7 @@ p{margin:0 0 1rem}
         </div>
       </div>
     </div>
+    </div>
   </section>
 
   <section class="tributo" id="festa" aria-labelledby="h-trib">
@@ -409,8 +502,9 @@ p{margin:0 0 1rem}
         </div>
         <p class="lede rev">O aniversário do projeto: caminhada pelo bairro e apresentações na quadra.</p>
       </div>
+      <div class="corpo">
       <p class="passeata rev"><b>Na última edição</b> subiram ao palco:</p>
-      <ul class="atracoes rev" aria-label="Atrações da última edição">
+      <ul class="atracoes trilho rev" tabindex="0" aria-label="Atrações da última edição, arraste para o lado">
         <li>Roda de capoeira do bairro</li>
         <li>Grupo de tambor</li>
         <li class="destaque">Ginga Miúda</li>
@@ -419,6 +513,7 @@ p{margin:0 0 1rem}
         <li>Samba de roda</li>
       </ul>
       <p class="grito rev">Entrada livre.<small>A comida é feita pelas famílias.</small></p>
+      </div>
     </div>
   </section>
 
@@ -428,7 +523,7 @@ p{margin:0 0 1rem}
     <div class="wrap">
       <p class="tag">Ajude o projeto</p>
       <h2 id="h-leve">Como <span class="serif">somar</span></h2>
-      <div class="caminhos">
+      <div class="caminhos trilho" tabindex="0" aria-label="Jeitos de ajudar, arraste para o lado">
         <div class="caminho rev">
           <h3>Convide o grupo</h3>
           <p>Mande a data e o lugar.</p>
@@ -490,6 +585,7 @@ p{margin:0 0 1rem}
 
 <script>
 document.body.classList.remove('no-js');
+document.querySelectorAll('.trilho').forEach(function(e){function f(){if(e.scrollWidth>e.clientWidth+1)e.setAttribute('tabindex','0');else e.removeAttribute('tabindex')}f();addEventListener('resize',f)});
 (function(){
   var els=document.querySelectorAll('.rev');
   if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(function(e){e.classList.add('on')});return;}

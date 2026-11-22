@@ -235,6 +235,90 @@ a{color:inherit}
 @media (min-width:1024px) and (max-width:1279px){
   .hero-art{width:270px}
 }
+/* cada secao cabe numa tela (celular 390x750, notebook 1280x680, full-HD 125% 1536x730) */
+.hero{padding:clamp(24px,4.5svh,44px) 0 calc(64px + clamp(24px,5svh,56px))}
+.hero-tag{margin-bottom:clamp(12px,2.4svh,22px)}
+.t-out{font-size:clamp(2.4rem,min(11.9vw,10.5svh),8.8rem)}
+.t-fill{font-size:clamp(3.2rem,min(17.6vw,13.5svh),10.8rem)}
+.hero-lead{margin:clamp(14px,2.8svh,26px) 0 clamp(16px,3.2svh,30px)}
+.services,.how,.area,.builder{padding:clamp(32px,6svh,92px) 0}
+.fleet{padding:clamp(32px,6svh,84px) 0}
+.sec-head{gap:12px;margin-bottom:clamp(18px,3.2svh,60px)}
+.sec-lead{font-size:1.0625rem;line-height:1.45}
+.menu-h{padding-bottom:10px}
+.row{padding:clamp(10px,1.7svh,20px) 4px}
+/* servicos: no celular vira uma fileira de cartoes que desliza para o lado */
+.menu-scroll{scrollbar-width:none}
+.menu-scroll::-webkit-scrollbar{display:none}
+.field-pair{display:grid;gap:12px}
+@media (max-width:759px){
+  .hero{min-height:calc(100svh - 69px)}
+  .services,.how,.area,.builder,.fleet{padding:clamp(26px,4svh,40px) 0}
+  .sec-lead{font-size:1rem}
+  .menu{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;margin-inline:-20px;padding:2px 20px 4px;scroll-padding-inline:20px}
+  .menu-col,.menu-list{display:contents}
+  .menu-h{flex:0 0 84px;flex-direction:column;align-items:flex-start;justify-content:flex-start;padding-top:18px;gap:6px;margin:0;scroll-snap-align:start;line-height:1.15;letter-spacing:.1em}
+  .menu-list li{position:relative;flex:0 0 66%;scroll-snap-align:start;border:1.5px solid rgba(255,255,255,.16);border-radius:var(--r);background:var(--navy-2)}
+  .menu-list li .row{height:100%;padding:16px 14px 18px 16px;align-content:start;align-items:start;grid-template-columns:1fr 46px;grid-template-areas:"name go" "desc desc"}
+  .menu-list li .row-name{align-self:center}
+  .row-name{font-size:1.4rem}
+  .row-desc{font-size:.98rem}
+  /* frota */
+  .fleet-in{gap:20px}
+  .fleet-cards{gap:12px}
+  .vcard{padding:16px 18px 18px}
+  .vcard-art{max-width:150px;margin-bottom:10px}
+  .vcard-name{font-size:1.6rem}
+  /* como funciona: mesma rota, mais compacta */
+  .stop{padding:0 0 18px 60px}
+  .stop-pin{width:44px;height:44px;font-size:1.2rem}
+  .stop::before{left:20px;top:46px}
+  .stop-end svg{width:28px;height:24px}
+  .stop h3{margin:2px 0 4px;font-size:1.15rem}
+  .stop p{font-size:.98rem;line-height:1.45;max-width:none}
+  /* onde atende */
+  .area-in{gap:16px}
+  .area-copy .h2{margin-bottom:12px}
+  .area-list{margin-top:14px}
+  .area-list li{padding:8px 0 8px 26px;gap:0}
+  .area-list li::before{top:15px}
+  .area-list strong{font-size:1.05rem}
+  .area-list span{font-size:.95rem;line-height:1.4}
+  .area-map{max-width:min(200px,26svh)}
+  /* pedido */
+  .builder-in{gap:14px}
+  .builder-copy .h2{margin-bottom:12px}
+  .form{padding:16px 14px;gap:12px;border-radius:16px}
+  .chips{min-width:0;flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin-inline:-14px;padding:2px 14px 4px;gap:8px}
+  .chips::-webkit-scrollbar{display:none}
+  .chips legend{margin-bottom:8px}
+  .chips label{flex:none;scroll-snap-align:start}
+  .chips span{white-space:nowrap;padding:0 14px}
+  .field label{margin-bottom:6px}
+  .field input,.field textarea{min-height:46px;padding:11px 12px}
+  .field textarea{height:60px}
+}
+@media (min-width:760px){
+  .hero{padding:clamp(28px,6svh,72px) 0 calc(64px + clamp(28px,6svh,86px))}
+}
+@media (min-width:1024px){
+  .h2{font-size:min(3.7rem,7.6svh)}
+  .sec-head{margin-bottom:clamp(14px,2.6svh,60px)}
+  .hero-art{width:min(330px,36svh);bottom:-20px}
+  .menu-h{margin-bottom:0;padding-bottom:8px}
+  .row{padding:clamp(8px,1.3svh,20px) 4px}
+  .row-name{font-size:1.3rem}
+  .row-desc{margin-top:2px;font-size:.95rem;line-height:1.4}
+  .area-map{max-width:min(440px,calc(100svh - 230px))}
+  .area-list{margin-top:18px}
+  .area-list li{padding:12px 0 12px 28px}
+  .area-list li::before{top:20px}
+  .form{gap:14px;padding:clamp(18px,3svh,32px)}
+  .form .field-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .field textarea{height:76px}
+  .builder-copy{top:96px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .js .rv{opacity:1;transform:none}

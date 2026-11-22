@@ -283,6 +283,83 @@ footer{background:var(--wood);color:#E9DCC6;padding:3.2rem 0 6.5rem}
 @media (min-width:960px){.mag-body{grid-template-columns:1fr 1fr;gap:4rem;align-items:start}}
 .orchids .ph{display:block;padding:0}
 .orchids .ph img{border-radius:0;aspect-ratio:16/10}
+/* cabe na tela: cada seção inteira numa tela (celular, notebook) */
+.sec{padding:clamp(2rem,5svh,3rem) 0}
+.head{margin-bottom:clamp(.9rem,2.6svh,2rem);gap:.55rem}
+h2{font-size:clamp(2.1rem,min(7.5vw,8.5svh),4.4rem)}
+.hero{padding:.1rem 0 clamp(1.4rem,3.5svh,3.5rem);gap:1rem;min-height:calc(100svh - 140px);align-content:center}
+.hero h1{font-size:clamp(3.4rem,min(17vw,9.5svh),11.5rem);margin:.3rem 0 .05rem}
+.hero .lede{font-size:clamp(1.35rem,min(5.6vw,4svh),2.4rem)}
+.hero .sub{margin-top:.55rem;font-size:1rem;line-height:1.45}
+.cta-row{margin-top:.9rem;gap:.6rem}
+.hero-photo{width:min(100% - .6rem,calc(33svh * 1.108 + 16px));margin-inline:auto}
+.polaroid{padding:8px 8px 34px}
+.polaroid img{object-fit:cover}
+.polaroid figcaption{bottom:7px;font-size:1rem}
+.sticker{width:80px;height:80px;right:-30px;bottom:42px}
+.sticker span{font-size:.78rem}
+/* peças: fileira de deslizar no celular */
+.pieces{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:.3rem 0 1.2rem;margin-bottom:-1.2rem;overscroll-behavior-x:contain}
+.pieces::-webkit-scrollbar{display:none}
+.pieces:focus-visible{outline-offset:4px}
+.piece{flex:0 0 82%;scroll-snap-align:start;min-width:0}
+.piece .ph{height:clamp(170px,33svh,360px)}
+.piece .ph img,.orchids .ph img,.heart .ph img,.eye .ph img{height:100%;aspect-ratio:auto}
+.orchids .ph img{min-height:0}
+.piece h3{font-size:clamp(1.5rem,min(5vw,4.4svh),2.2rem);margin-top:.7rem}
+.piece p{margin-top:.3rem;line-height:1.45}
+/* ímãs: foto menor */
+.mag-body{gap:1.1rem}
+.mag-photo img{max-height:36svh}
+.mag-price{margin-top:.2rem}
+.mag-top{gap:.9rem;margin-bottom:clamp(1rem,2.6svh,2.4rem)}
+.chip{padding:.45rem 1rem}
+/* peixinhos, preços, encomendar, sobre */
+.fish{gap:1.2rem}
+.fish h2{font-size:clamp(2.1rem,min(7.5vw,8svh),3.7rem)}
+.fish p + p{margin-top:.5rem}
+.fish .chip{margin-top:.9rem}
+.fish figure img{max-height:30svh;object-fit:cover}
+.tags{gap:1rem}
+.ptag{padding:1.3rem 1.3rem 1.2rem 2.4rem}
+.ptag::before{top:1rem}
+.ptag .val{margin-top:.5rem}
+.ptag p{margin-top:.5rem}
+.note{margin-top:1rem}
+.steps li{padding:.85rem 0;gap:.9rem}
+.steps li::before{font-size:2.4rem}
+.order-cta{margin-top:1.3rem}
+.about{gap:1.2rem}
+.sign{max-width:min(200px,26svh);container-type:inline-size}
+.sign .card span{font-size:min(clamp(2.2rem,9vw,3.2rem),11cqi)}
+.about p{font-size:1.05rem}
+.about p + p{margin-top:.7rem}
+.about h2{margin:.5rem 0 .8rem!important}
+@media (min-width:700px){
+    .hero-photo{width:min(100%,calc(34svh * 1.108 + 16px))}
+}
+@media (min-width:960px){
+  .sec{padding:clamp(40px,8svh,96px) 0}
+  .hero{padding:clamp(.5rem,2.5svh,2.5rem) 0 clamp(1.5rem,5svh,4rem);gap:3rem}
+  .hero h1{font-size:clamp(5rem,min(8.6vw,16svh),8.6rem)}
+  .hero .sub{font-size:1.08rem}
+  .hero-photo{width:min(100%,calc((100svh - 250px) * 1.108 + 20px));justify-self:center}
+  .polaroid{padding:10px 10px 42px}
+  .sticker{right:-34px;bottom:30px;width:120px;height:120px}
+  .sticker span{font-size:1rem}
+  .pieces{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:2rem;overflow:visible;padding:0;margin:0}
+  .orchids,.heart,.eye{grid-column:auto;grid-row:auto;margin-top:0}
+  #pecas .head{max-width:none}
+  .piece .ph{height:clamp(170px,calc(100svh - 470px),380px)}
+  .mag-body{align-items:center;gap:3rem}
+  .mag-photo img{max-height:calc(100svh - 2 * clamp(40px,8svh,96px) - 10px)}
+  .fish{gap:3.5rem}
+  .fish figure img{max-height:calc(100svh - 2 * clamp(40px,8svh,96px) - 20px)}
+  .order .head{position:static}
+  .steps li{padding:1rem 0}
+  .sign{max-width:min(320px,48svh)}
+  .about{gap:4rem}
+}
 </style>
 </head>
 <body class="no-js">
@@ -340,7 +417,7 @@ footer{background:var(--wood);color:#E9DCC6;padding:3.2rem 0 6.5rem}
         <h2 id="t-pecas">Peças pra usar todo dia</h2>
         <p>A Lia modela e pinta cada uma, então nenhuma sai igual à outra.</p>
       </div>
-      <div class="pieces">
+      <div class="pieces" tabindex="0" role="region" aria-label="Peças da coleção (deslize para o lado para ver todas)">
         <article class="piece orchids rv">
           <span class="price-tag">R$ 30</span>
           <div class="ph">
