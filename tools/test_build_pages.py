@@ -177,6 +177,21 @@ class PagesBuildTests(unittest.TestCase):
                 self.assertTrue(target.is_file(), (rel, href))
                 self.assertIn(target.suffix, MODULE.FOLDERS['modelos'], (rel, href))
 
+    def test_lead_previews_are_unlisted_noindex_and_complete(self):
+        root = Path(__file__).resolve().parent.parent
+        listed = ''.join(p.read_text(encoding='utf-8') for p in root.glob('*.html')) + (root / 'sitemap.xml').read_text(encoding='utf-8')
+        for page in sorted((root / 'p').glob('*/index.html')):
+            rel = page.relative_to(root).as_posix()
+            html = page.read_text(encoding='utf-8')
+            self.assertIn('<meta name="robots" content="noindex">', html, rel)
+            self.assertNotIn(rel[:-len('index.html')], listed, rel)
+            for href in re.findall(r'(?:href|src)="([^"]+)"', html):
+                if re.match(r'(https?:|data:|#|mailto:)', href):
+                    continue
+                target = page.parent / href.split('#')[0].split('?')[0]
+                self.assertTrue(target.is_file(), (rel, href))
+                self.assertIn(target.suffix, MODULE.FOLDERS['p'], (rel, href))
+
     def test_real_work_section_never_ships_empty(self):
         html = (Path(__file__).resolve().parent.parent / 'sites.html').read_text(encoding='utf-8')
         html = re.sub(r'<!--.*?-->', '', html, flags=re.S)
