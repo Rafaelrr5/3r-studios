@@ -186,7 +186,7 @@ class PagesBuildTests(unittest.TestCase):
             self.assertIn('<meta name="robots" content="noindex">', html, rel)
             self.assertNotIn(rel[:-len('index.html')], listed, rel)
             for href in re.findall(r'(?:href|src)="([^"]+)"', html):
-                if re.match(r'(https?:|data:|#|mailto:)', href):
+                if re.match(r'(https?:|data:|#|mailto:|tel:)', href):
                     continue
                 target = page.parent / href.split('#')[0].split('?')[0]
                 self.assertTrue(target.is_file(), (rel, href))
